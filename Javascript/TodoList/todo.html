@@ -1,0 +1,29 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="kr" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>TO DO LIST</title>
+
+  <!-- <link> 태그의 rel 속성은 현재 문서와
+    외부 리소스 사이의 연관 관계를 명시합니다.-->
+  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
+</head>
+
+<body>
+  <h1 id="title">TO DO LIST</h1>
+  <div id = "addList" class="input-group mb-3">
+    <input type="text" class="form-control" placeholder="입력하시오" id="input">
+    <button class="btn btn-outline-secondary" type="button" id="addButton">추가하기</button>
+  </div>
+  <ul class="list-group" id="list">
+    <li class="list-group-item"></li>
+  </ul>
+  <script src="./script.js"></script>
+  <!-- body의 마지막에 있어야 함-->
+</body>
+
+</html>
