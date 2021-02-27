@@ -8,6 +8,7 @@ function loadItems() {
 }
 
 // 주어진 아이템들을 리스트로 변환
+// ++
 function displayItems(items) {
   const container = document.querySelector('.items');
   container.innerHTML = items.map(item => createHTMLString(item)).join('');
