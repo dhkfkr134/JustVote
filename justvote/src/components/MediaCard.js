@@ -32,17 +32,16 @@ export default function MediaCard() {
           title="Contemplative Reptile"
         />
         <CardContent>
+          <Typography>10000명 참여</Typography>
           <Typography gutterBottom variant="h5" component="h2">
             펭수 vs 펭수
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-            Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
-            across all continents except Antarctica
+            2021.04.05 업데이트 완료
           </Typography>
         </CardContent>
       </CardActionArea>
       <CardActions>
-        
         <Button size="small" color="primary">
           Share
         </Button>
