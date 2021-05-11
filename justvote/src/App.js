@@ -1,17 +1,28 @@
 import React, { Component } from 'react';
-import RecipeReviewCard from "./components/RecipeReviewCard.js";
-import FullWidthGrid from "./components/FullWidthGrid.js";
-import Subbar from './components/Subbar';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
+import SignIn from './components/SignIn';
+import SignUp from './components/SignUp';
 
 class App extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      posts: ""
+    }
+  }
+
+  componentWillMount() {
+    fetch('/demo/hello')
+      .then(data => console.log(data));
+  }
+
   render() {
+
     return (
       <div className = "App">
-        <Subbar />
-        <FullWidthGrid></FullWidthGrid>
+        <SignUp></SignUp>
       </div>
     )
   }

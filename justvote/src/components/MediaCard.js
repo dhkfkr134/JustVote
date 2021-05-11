@@ -8,7 +8,6 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
-
 import testImage from '../img/content_img.png';
 
 const useStyles = makeStyles({
@@ -42,6 +41,7 @@ export default function MediaCard() {
         </CardContent>
       </CardActionArea>
       <CardActions>
+        <Typography variant="caption">작성자</Typography>
         <Button size="small" color="primary">
           Share
         </Button>
