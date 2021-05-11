@@ -6,18 +6,6 @@ import SignUp from './components/SignUp';
 
 class App extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      posts: ""
-    }
-  }
-
-  componentWillMount() {
-    fetch('/demo/hello')
-      .then(data => console.log(data));
-  }
-
   render() {
 
     return (
