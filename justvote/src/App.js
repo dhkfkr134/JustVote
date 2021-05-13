@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import SignIn from './components/SignIn';
-import SignUp from './components/SignUp';
+import AppRouter from './components/route/Router';
 
 class App extends Component {
 
@@ -10,7 +9,7 @@ class App extends Component {
 
     return (
       <div className = "App">
-        <SignUp></SignUp>
+        <AppRouter></AppRouter>
       </div>
     )
   }
