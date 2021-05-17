@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const USER_API_BASE_URL = "http://localhost:8080/users";
 
-class ApiService {
+class UserApiService {
 
   fetchUsers(){
     return axios.get(USER_API_BASE_URL);
@@ -15,6 +15,7 @@ class ApiService {
   deleteUser(userID){
     return axios.delete(USER_API_BASE_URL + '/' + userID);
   }
+
   addUser(user){
     return axios.post(USER_API_BASE_URL, user);
   }
@@ -25,4 +26,4 @@ class ApiService {
 
 }
 
-export default new ApiService();
+export default new UserApiService();

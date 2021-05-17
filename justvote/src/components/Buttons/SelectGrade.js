@@ -16,12 +16,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SelectGrade() {
+export default function SelectGrade(props) {
   const classes = useStyles();
   const [grade, setGrade] = React.useState('');
 
-  const handleChange = (event) => {
-    setGrade(event.target.value);
+  const handleChange = (e) => {
+    setGrade(e.target.value);
+    this.props.onChange(this.state.grade)
   };
 
   return (

@@ -46,8 +46,45 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignIn() {
+export default function SignIn(props) {
   const classes = useStyles();
+  const dispatch = useDispatch();
+
+  const [userId, setUserId] = React.useState(" ")
+  const [userPass, setUserPass] = React.useState(" ")
+
+  const onUserIdHandler = (event) => {
+      setUserId(event.currentTarget.value)
+  }
+
+  const onUserPassHandler = (event) => {
+      setUserPass(event.currentTarget.value)
+  }
+
+  const onSubmitHandler = (event) => {
+      event.preventDefault(); //리프레시 방지-> 방지해야 이 아래 라인의 코드들 실행 가능 
+
+      // console.log('userId', userId);
+      // console.log('userPass', userPass);
+
+
+      let body={
+          userId: userId,
+          userPass: userPass
+      }
+
+      //디스패치로 액션 취하기
+      dispatch(loginUser(body))
+      .then(response => {
+          if(response.payload.loginSuccess) {
+              props.history.push('/')
+          //리액트에서 페이지 이동하기 위해서는 props.history.push() 이용.
+          // 로그인 완료된 후 처음 화면(루트 페이지-landingpage로)으로 돌악가게 하기 
+          } else{
+              alert(' Error')
+          }
+      })
+    }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -65,22 +102,24 @@ export default function SignIn() {
             margin="normal"
             required
             fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
+            id="userId"
+            label="UserId"
+            name="userId"
+            autoComplete="userId"
             autoFocus
+            onChange={onUserIdHandler}
           />
           <TextField
             variant="outlined"
             margin="normal"
             required
             fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
+            name="userPass"
+            label="UserPass"
+            type="userPass"
+            id="userPass"
             autoComplete="current-password"
+            onChange={onUserPassHandler}
           />
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
@@ -92,6 +131,7 @@ export default function SignIn() {
             variant="contained"
             color="primary"
             className={classes.submit}
+            onSubmit={onSubmitHandler}
           >
             Sign In
           </Button>

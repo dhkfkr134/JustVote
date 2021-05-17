@@ -15,7 +15,7 @@ export default function RadioButtonsGender() {
   return (
     <FormControl component="fieldset">
       <FormLabel component="legend">Gender</FormLabel>
-      <RadioGroup aria-label="gender" name="gender1" value={value} onChange={handleChange}>
+      <RadioGroup aria-label="gender" name="sex" value={value} onChange={handleChange}>
         <FormControlLabel value="male" control={<Radio />} label="Male" />
         <FormControlLabel value="female" control={<Radio />} label="Female" />
       </RadioGroup>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ApiService from "../../ApiService";
+import UserApiService from "../../UserApiService";
 
 class UserList extends Component{
 
@@ -17,7 +17,7 @@ class UserList extends Component{
   }
 
   reloadUserList = () => {
-    ApiService.fetchUsers()
+    UserApiService.fetchUsers()
       .then( res => {
       this.setState({
         users: res.data
@@ -29,7 +29,7 @@ class UserList extends Component{
   }
 
   deleteUser = (userID) => {
-    ApiService.deleteUser(userID)
+    UserApiService.deleteUser(userID)
     .then( res => {
       this.setState({
       message: 'User Deleted Successfully.'

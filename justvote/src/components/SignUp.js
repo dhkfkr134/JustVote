@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+/* 회원가입 */
+
+import React, { Component } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
@@ -12,8 +13,10 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import RadioButtonsGender from './Buttons/RadioButtonGender';
-import SelectGrade from './Buttons/SelectGrade';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControl from '@material-ui/core/FormControl';
+import FormLabel from '@material-ui/core/FormLabel';
 import axios from "axios";
 
 function Copyright() {
@@ -49,147 +52,206 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignUp() {
-  const classes = useStyles();
+class SignUp extends Component{
 
-  const [name, setName] = useState('');
-  const [age, setAge] = useState('');
+  constructor(props){
+    super(props);
 
-  useEffect(() => { // useEffect 적용!
-    console.log('렌더링이 완료되었습니다!');
-    console.log({
-      name,
-      age
-    });
-  });
+    this.state = {
+      username: '',
+      sex: '',
+      age: '',
+      major: '',
+      grade: '',
+      nickName: '',
+      userId: '',
+      userPass: '',
+      message: null
+    }
 
-  const onChangeName = e => {
-    setName(e.target.value);
-  };
+  }
 
-  const onChangeAge = e => {
-    setAge(e.target.value);
-  };
+  onChange = (e) => {
+    this.setState({
+      [e.target.name] : e.target.value
+    })
+  }
 
-  const submitHandler = (e) => {
+  saveUser = (e) => {
     e.preventDefault();
-    // state에 저장한 값을 가져옵니다.
-    console.log(name);
-    console.log(age);
 
     let user = {
-      name: name,
-      age: age,
-    };
+      username: this.state.username,
+      sex: this.state.sex,
+      age: this.state.age,
+      major: this.state.major,
+      grade: this.state.grade,
+      nickName: this.state.nickName,
+      userId: this.state.userId,
+      userPass: this.state.userPass,
+    }
+
+    console.log(user)
 
     axios
-      .post("http://localhost:8080/register", user)
-      .then((res) => console.log(res));
-  };
+      .post("http://localhost:8080/register", {user})
+      .then((res) => console.log(res))
+      .catch(err => {
+        console.log('에러', err);
+      });
+  }
 
-  return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Sign up
-        </Typography>
-        <form className={classes.form} noValidate>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                autoComplete="name"
-                name="name"
-                variant="outlined"
-                required
-                fullWidth
-                id="name"
-                label="Name"
-                autoFocus
-                onChange={onChangeName}
-              />
+
+  render(){
+    return(
+
+    <div>
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <div className={useStyles.paper}>
+          <Avatar className={useStyles.avatar}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Sign up
+          </Typography>
+          <form className={useStyles.form} noValidate>
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  autoComplete="username"
+                  name="username"
+                  variant="outlined"
+                  required
+                  fullWidth
+                  id="username"
+                  label="Username"
+                  autoFocus
+                  onChange={this.onChange}
+                  value={this.state.username}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  autoComplete="nickName"
+                  name="nickName"
+                  variant="outlined"
+                  required
+                  fullWidth
+                  id="nickName"
+                  label="NickName"
+                  autoFocus
+                  onChange={this.onChange}
+                  value={this.state.nickName}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <FormControl component="fieldset">
+                  <FormLabel component="legend">Gender</FormLabel>
+                  <RadioGroup aria-label="gender" name="sex" value={this.state.sex} onChange={this.onChange}>
+                    <FormControlLabel value="male" control={<Radio />} label="Male" />
+                    <FormControlLabel value="female" control={<Radio />} label="Female" />
+                  </RadioGroup>
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  autoComplete="age"
+                  name="age"
+                  variant="outlined"
+                  required
+                  fullWidth
+                  id="age"
+                  label="Age"
+                  autoFocus
+                  onChange={this.onChange}
+                  value={this.state.age}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  autoComplete="major"
+                  name="major"
+                  variant="outlined"
+                  required
+                  fullWidth
+                  id="major"
+                  label="Major"
+                  autoFocus
+                  onChange={this.onChange}
+                  value={this.state.major}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                    variant="outlined"
+                    required
+                    fullWidth
+                    name="grade"
+                    label="Grade"
+                    type="grade"
+                    id="grade"
+                    autoComplete="grade"
+                    onChange={this.onChange}
+                    value={this.state.grade}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  variant="outlined"
+                  required
+                  fullWidth
+                  name="userId"
+                  label="ID"
+                  type="userId"
+                  id="userId"
+                  autoComplete="userId"
+                  onChange={this.onChange}
+                  value={this.state.userId}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  variant="outlined"
+                  required
+                  fullWidth
+                  name="userPass"
+                  label="Password"
+                  type="password"
+                  id="userPass"
+                  autoComplete="current-userPass"
+                  onChange={this.onChange}
+                  value={this.state.userPass}
+                />
+              </Grid>
             </Grid>
-            <Grid item xs={12} sm={6}>
-              <RadioButtonsGender></RadioButtonsGender>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={useStyles.submit}
+              onClick={this.saveUser}
+            >
+              Sign Up
+            </Button>
+            <Grid container justify="flex-end">
+              <Grid item>
+                <Link href="#" variant="body2">
+                  Already have an account? Sign in
+                </Link>
+              </Grid>
             </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                autoComplete="age"
-                name="age"
-                variant="outlined"
-                required
-                fullWidth
-                id="age"
-                label="Age"
-                autoFocus
-                onChange={onChangeAge}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                autoComplete="major"
-                name="major"
-                variant="outlined"
-                required
-                fullWidth
-                id="major"
-                label="학과"
-                autoFocus
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <SelectGrade></SelectGrade>
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                name="loginId"
-                label="ID"
-                type="loginID"
-                id="loginID"
-                autoComplete="current-loginID"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-              />
-            </Grid>
-          </Grid>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-            onClick={submitHandler}
-          >
-            Sign Up
-          </Button>
-          <Grid container justify="flex-end">
-            <Grid item>
-              <Link href="#" variant="body2">
-                Already have an account? Sign in
-              </Link>
-            </Grid>
-          </Grid>
-        </form>
-      </div>
-      <Box mt={5}>
-        <Copyright />
-      </Box>
-    </Container>
-  );
+          </form>
+        </div>
+        <Box mt={5}>
+          <Copyright />
+        </Box>
+      </Container>
+    </div>
+
+    );
+  }
 }
+
+export default SignUp;
