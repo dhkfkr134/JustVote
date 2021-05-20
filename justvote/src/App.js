@@ -1,20 +1,51 @@
 import './App.css';
-import { Route, Switch } from 'react-router-dom';
-import { BrowserRouter as Router } from 'react-router-dom';
-import { Home, About } from './pages';
-import Header from './components/Header';
+
+import FullWidthGrid from "./components/FullWidthGrid.js";
+import Subbar from './components/Subbar';
+import TopBar from './components/TopBar';
+import VotePage from './components/VotePage';
+import MakeVote from './components/MakeVote';
+import Introduce from './components/Introduce';
+import Ranking from './components/Ranking';
+import SignIn from './components/SignIn';
+import SignUp from './components/SignUp';
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { Home } from './pages';
 
 function App() {
   return (
-    <div className="App">
-      <Router>
-        <Header/>
-        <Route exact path="/" component={Home}/>
+    <BrowserRouter>
+      <div className="App">
+        <TopBar />
         <Switch>
-          <Route path="/about" component={About}/>
+
+          <Route exact path="/" component={Home} />
+          <Route path="/MakeVote">
+            <MakeVote />
+          </Route>
+
+          <Route path="/content/:nam">
+            <VotePage />
+          </Route>
+
+          <Route path="/Introduce">
+            <Introduce />
+          </Route>
+
+          <Route path="/Ranking">
+            <Ranking />
+          </Route>
+
+          <Route path="/SignIn">
+            <SignIn />
+          </Route>
+
+          <Route path="/SignUp">
+            <SignUp />
+          </Route>
         </Switch>
-      </Router>
-    </div>
+      </div>
+    </BrowserRouter>
   );
 }
 

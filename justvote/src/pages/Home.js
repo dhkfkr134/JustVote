@@ -4,17 +4,15 @@ url 에 아무런 path 도 주어지지 않았을 때
 */
 
 import React from 'react';
-import Subscribers from '../components/Subscribers'
-import Display from '../components/Display';
-import Views from '../components/Views';
+import Subbar from '../components/Subbar';
+import FullWidthGrid from '../components/FullWidthGrid';
 
 const Home = () => {
   return (
-    <div>
-      <Subscribers />
-      <Display></Display>
-      <Views></Views>
-    </div>
+    <>
+      <Subbar />
+      <FullWidthGrid />
+    </>
   );
 };
 
