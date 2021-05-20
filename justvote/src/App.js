@@ -1,18 +1,16 @@
-import React, { Component } from 'react';
 import './App.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import SignUp from './components/SignUp';
+import Subscribers from './components/Subscribers'
+import Display from './components/Display';
+import Views from './components/Views';
 
-class App extends Component {
-
-  render() {
-
-    return (
-      <div className = "App">
-        <SignUp></SignUp>
-      </div>
-    )
-  }
+function App() {
+  return (
+    <div className="App">
+      <Subscribers />
+      <Display></Display>
+      <Views></Views>
+    </div>
+  );
 }
 
 export default App;
