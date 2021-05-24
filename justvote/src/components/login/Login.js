@@ -15,6 +15,7 @@ class Login extends Component {
 
         document.cookie = "key=" + btoa(JSON.stringify(loginData));
 
+        // 로그인 성공시 루트 화면으로 돌아감.
         this.props.history.push("/");
         return true;
       } else {

@@ -83,6 +83,7 @@ class Authentication extends Component {
     let pw = this.state.userPass;
 
     this.props.onLogin(id, pw).then((success) => {
+      // 실패하면 비밀번호 재입력 받음
       if (!success) {
         this.setState({
           userPass: "",

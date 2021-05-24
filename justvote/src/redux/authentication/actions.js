@@ -6,13 +6,13 @@ export function loginRequest(userId, userPass) {
   return (dispatch) => {
     // Inform Login API is starting
     dispatch(login());
-    console.log("userId: " + this.userId);
-    console.log("userPass: " + this.userPass);
 
     let body = {
-      userId: this.userId,
-      userPass: this.userPass,
+      userId: userId,
+      userPass: userPass,
     };
+
+    console.log("LoginBody: " + body.userId + " / " + body.userPass);
 
     // API REQUEST
     return axios
