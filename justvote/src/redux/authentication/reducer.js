@@ -43,4 +43,11 @@ export default function authentication(state = initialState, action) {
       console.log("login_failure");
       return {
         ...state,
-     
+        login: {
+          status: "FAILURE",
+        },
+      };
+    default:
+      return state;
+  }
+}

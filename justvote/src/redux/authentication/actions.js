@@ -6,12 +6,17 @@ export function loginRequest(userId, userPass) {
   return (dispatch) => {
     // Inform Login API is starting
     dispatch(login());
-    console.log("userId: " + userId);
-    console.log("userPass: " + userPass);
+    console.log("userId: " + this.userId);
+    console.log("userPass: " + this.userPass);
+
+    let body = {
+      userId: this.userId,
+      userPass: this.userPass,
+    };
 
     // API REQUEST
     return axios
-      .post("http://localhost:8080/signin", { userId, userPass })
+      .post("http://localhost:8080/signin", body)
       .then((response) => {
         // SUCCEED
         dispatch(loginSuccess(userId));
