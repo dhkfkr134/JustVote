@@ -69,7 +69,7 @@ class SignUp extends Component {
 
     this.state = {
       userName: "",
-      sex: "",
+      gender: "",
       age: "",
       major: "",
       grade: "",
@@ -90,12 +90,16 @@ class SignUp extends Component {
     this.setState({ major: e.target.value });
   };
 
+  onChangeGrade = (e) => {
+    this.setState({ grade: e.target.value });
+  };
+
   saveUser = (e) => {
     e.preventDefault();
 
     let body = {
       userName: this.state.userName,
-      sex: this.state.sex,
+      gender: this.state.gender,
       age: this.state.age,
       major: this.state.major,
       grade: this.state.grade,
@@ -162,8 +166,8 @@ class SignUp extends Component {
                     <RadioGroup
                       row
                       aria-label="gender"
-                      name="sex"
-                      value={this.state.sex}
+                      name="gender"
+                      value={this.state.gender}
                       onChange={this.onChange}
                     >
                       <FormControlLabel
@@ -195,6 +199,29 @@ class SignUp extends Component {
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <FormControl
+                    fullWidth
+                    variant="outlined"
+                    className={useStyles.formControl}
+                  >
+                    <InputLabel id="grade">Grade</InputLabel>
+                    <Select
+                      labelId="grade"
+                      id="grade"
+                      value={this.state.grade}
+                      onChange={this.onChangeGrade}
+                      label="Grade"
+                    >
+                      <MenuItem value="1">1학년</MenuItem>
+                      <MenuItem value="2">2학년</MenuItem>
+                      <MenuItem value="3">3학년</MenuItem>
+                      <MenuItem value="4">4학년</MenuItem>
+                      <MenuItem value="5">5학년</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <FormControl
+                    fullWidth
                     variant="outlined"
                     className={useStyles.formControl}
                   >
@@ -210,20 +237,6 @@ class SignUp extends Component {
                       <MenuItem value="compute">컴퓨터공학</MenuItem>
                     </Select>
                   </FormControl>
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    variant="outlined"
-                    required
-                    fullWidth
-                    name="grade"
-                    label="Grade"
-                    type="grade"
-                    id="grade"
-                    autoComplete="grade"
-                    onChange={this.onChange}
-                    value={this.state.grade}
-                  />
                 </Grid>
                 <Grid item xs={12}>
                   <TextField

@@ -49,5 +49,32 @@ export default function authentication(state = initialState, action) {
       };
     default:
       return state;
+    /* CHECK SESSIONS */
+    case types.AUTH_GET_STATUS:
+      return {
+        ...state,
+        status: {
+          ...state.staus,
+          isLoggedIn: true,
+        },
+      };
+    case types.AUTH_GET_STATUS_SUCCESS:
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          valid: true,
+          currentUser: action.username,
+        },
+      };
+    case types.AUTH_GET_STATUS_FAILURE:
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          valid: false,
+          isLoggedIn: false,
+        },
+      };
   }
 }

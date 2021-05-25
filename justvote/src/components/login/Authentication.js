@@ -5,11 +5,8 @@ import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
-import Box from "@material-ui/core/Box";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
@@ -60,24 +57,6 @@ class Authentication extends Component {
     this.setState(nextState);
   };
 
-  /*
-    handleRegister = () => {
-        let id = this.state.userId;
-        let pw = this.state.userPass;
-
-        this.props.onRegister(id, pw).then(
-            (result) => {
-                if(!result) {
-                    this.setState({
-                        userId: '',
-                        userPass: ''
-                    });
-                }
-            }
-        );
-    }
-    */
-
   handleLogin = () => {
     let id = this.state.userId;
     let pw = this.state.userPass;
@@ -93,67 +72,62 @@ class Authentication extends Component {
   };
 
   render() {
-    const inputBoxes = (
-      <div>
-        <div className="input-field col s12 userId">
-          <label>userId</label>
-          <input
-            name="userId"
-            type="text"
-            className="validate"
-            onChange={this.handleChange}
-            value={this.state.userId}
-          />
-        </div>
-        <div className="input-field col s12">
-          <label>userPass</label>
-          <input
-            name="userPass"
-            type="userPass"
-            className="validate"
-            onChange={this.handleChange}
-            value={this.state.userPass}
-          />
-        </div>
-      </div>
-    );
-
-    const loginView = (
-      <div>
-        <div className="card-content">
-          <div className="row">
-            {inputBoxes}
-            <a
-              className="waves-effect waves-light btn"
+    return (
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <div className={useStyles.paper}>
+          <Avatar className={useStyles.avatar}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Sign in
+          </Typography>
+          <form className={useStyles.form} noValidate>
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="userId"
+              label="UserId"
+              name="userId"
+              autoComplete="userId"
+              autoFocus
+              value={this.state.userId}
+              onChange={this.handleChange}
+            />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              name="userPass"
+              label="UserPass"
+              type="Password"
+              id="userPass"
+              autoComplete="current-password"
+              onChange={this.handleChange}
+              value={this.state.userPass}
+            />
+            <Button
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={useStyles.submit}
               onClick={this.handleLogin}
             >
               SUBMIT
-            </a>
-          </div>
+            </Button>
+            <Grid container justify="flex-end">
+              <Grid item>
+                <Link href="/SignUp" variant="body2">
+                  {"Don't have an account? Sign Up"}
+                </Link>
+              </Grid>
+            </Grid>
+          </form>
         </div>
-
-        <div className="footer">
-          <div className="card-content">
-            <div className="right">
-              New Here? <Link to="/SignUp">Create an account</Link>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-
-    return (
-      <div className="container auth">
-        <Link className="logo" to="/">
-          JustVote
-        </Link>
-        <div className="card">
-          <div className="header blue white-text center">
-            <div className="card-content">{"LOGIN"}</div>
-          </div>
-          {loginView}
-        </div>
-      </div>
+      </Container>
     );
   }
 }

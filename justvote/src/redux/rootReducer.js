@@ -2,13 +2,12 @@
 import { combineReducers } from "redux";
 import subscribersReducer from "./subscribers/reducer";
 import viewsReducer from "./views/reducer";
-import authentication from './authentication/reducer';
-
+import authentication from "./authentication/reducer";
 
 const rootReducer = combineReducers({
   views: viewsReducer,
   subscribers: subscribersReducer,
-  authentication
-})
+  authentication: authentication,
+});
 
-export default rootReducer
+export default rootReducer;
