@@ -1,15 +1,15 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import MediaCard from './MediaCard';
-import { Link } from "react-router-dom"
+import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import Grid from "@material-ui/core/Grid";
+import MediaCard from "./MediaCard";
+import { Link } from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
   },
   paper: {
     padding: theme.spacing(2),
-    textAlign: 'center',
+    textAlign: "center",
     color: theme.palette.text.secondary,
   },
 }));
@@ -26,9 +26,7 @@ export default function FullWidthGrid() {
               <MediaCard />
             </Link>
           </Grid>
-
         ))}
-
       </Grid>
     </div>
   );

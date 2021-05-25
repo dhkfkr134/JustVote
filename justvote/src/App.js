@@ -1,6 +1,6 @@
 import "./App.css";
 
-import TopBar from "./components/TopBar";
+import Header from "./components/header/Header";
 import VotePage from "./components/VotePage";
 import MakeVote from "./components/MakeVote";
 import Introduce from "./components/Introduce";
@@ -14,7 +14,7 @@ function App() {
   return (
     <BrowserRouter>
       <div className="App">
-        <TopBar />
+        <Header />
         <Switch>
           <Route exact path="/" component={Home} />
           <Route path="/MakeVote">

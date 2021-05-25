@@ -12,8 +12,8 @@ class Login extends Component {
           isLoggedIn: true,
           userId: id,
         };
-
         document.cookie = "key=" + btoa(JSON.stringify(loginData));
+        console.log("login-cookie : " + document.cookie);
 
         // 로그인 성공시 루트 화면으로 돌아감.
         this.props.history.push("/");

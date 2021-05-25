@@ -6,6 +6,7 @@ import {
   AUTH_GET_STATUS,
   AUTH_GET_STATUS_SUCCESS,
   AUTH_GET_STATUS_FAILURE,
+  AUTH_LOGOUT,
 } from "./types";
 
 /* LOGIN */
@@ -61,9 +62,9 @@ export function getStatusRequest() {
     dispatch(getStatus());
 
     return axios
-      .get("/api/account/getInfo")
+      .get("http://localhost:8080/getInfo")
       .then((response) => {
-        dispatch(getStatusSuccess(response.data.info.username)); //HTTP 틍신을 통해 username을 빋이옴
+        dispatch(getStatusSuccess(response.data.info.userId)); //HTTP 틍신을 통해 userId을 빋이옴
       })
       .catch((error) => {
         dispatch(getStatusFailure());
@@ -77,15 +78,30 @@ export function getStatus() {
   };
 }
 
-export function getStatusSuccess(username) {
+export function getStatusSuccess(userId) {
   return {
     type: AUTH_GET_STATUS_SUCCESS,
-    username,
+    userId,
   };
 }
 
 export function getStatusFailure() {
   return {
     type: AUTH_GET_STATUS_FAILURE,
+  };
+}
+
+/* Logout */
+export function logoutRequest() {
+  return (dispatch) => {
+    return axios.post("http://localhost:8080/logout").then((response) => {
+      dispatch(logout());
+    });
+  };
+}
+
+export function logout() {
+  return {
+    type: AUTH_LOGOUT,
   };
 }

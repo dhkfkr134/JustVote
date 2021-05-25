@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import * as RBS from "react-bootstrap";
+import PropTypes from "prop-types";
 
 class TopBar extends Component {
   render() {
@@ -44,7 +45,7 @@ class TopBar extends Component {
               </RBS.NavDropdown.Item>
             </RBS.NavDropdown>
           </RBS.Nav>
-          {loginButton}
+          {this.props.isLoggedIn ? logoutButton : loginButton}
           <RBS.Form inline>
             <RBS.FormControl
               type="text"
@@ -58,5 +59,13 @@ class TopBar extends Component {
     );
   }
 }
+
+TopBar.propTypes = {
+  isLoggedIn: PropTypes.bool,
+};
+
+TopBar.defaultProps = {
+  isLoggedIn: false,
+};
 
 export default TopBar;

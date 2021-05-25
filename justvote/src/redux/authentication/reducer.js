@@ -64,7 +64,7 @@ export default function authentication(state = initialState, action) {
         status: {
           ...state.status,
           valid: true,
-          currentUser: action.username,
+          currentUser: action.userId,
         },
       };
     case types.AUTH_GET_STATUS_FAILURE:
@@ -74,6 +74,16 @@ export default function authentication(state = initialState, action) {
           ...state.status,
           valid: false,
           isLoggedIn: false,
+        },
+      };
+    /* LOGOUT */
+    case types.AUTH_LOGOUT:
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          isLoggedIn: false,
+          currentUser: "",
         },
       };
   }
