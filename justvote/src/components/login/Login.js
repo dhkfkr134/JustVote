@@ -5,6 +5,7 @@ import { loginRequest } from "../../redux/authentication/actions";
 
 class Login extends Component {
   handleLogin = (id, pw) => {
+    console.log("login_handleLogin!");
     return this.props.loginRequest(id, pw).then(() => {
       if (this.props.status === "SUCCESS") {
         // create session data
@@ -19,6 +20,7 @@ class Login extends Component {
         this.props.history.push("/");
         return true;
       } else {
+        console.log("login-cookie-fail");
         return false;
       }
     });
@@ -42,8 +44,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     loginRequest: (id, pw) => {
-      console.log("id: " + id);
-      console.log("pw: " + pw);
+      console.log("mapDispatchToProps");
       return dispatch(loginRequest(id, pw));
     },
   };
