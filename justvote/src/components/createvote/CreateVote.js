@@ -51,12 +51,10 @@ class CreateVote extends Component {
     e.preventDefault();
 
     console.log(this.state);
-    let body = {
-      voteTitle: this.state.voteTitle,
-      voteContents: this.state.voteContents,
-    };
+    let title = this.state.voteTitle;
+    let contents = this.state.voteContents;
 
-    this.props.onPost(body).then(() => {
+    this.props.onPost(title, contents).then(() => {
       this.setState({
         voteTitle: "",
         voteContents: ["", ""],

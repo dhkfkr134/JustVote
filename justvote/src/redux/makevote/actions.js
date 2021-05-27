@@ -19,6 +19,7 @@ export function votePostRequest(voteTitle, voteContents) {
       voteContents: voteContents,
     };
 
+    console.log(body);
     return axios
       .post("http://localhost:8080/makeVote", body)
       .then((response) => {
