@@ -9,6 +9,7 @@ import Header from "./components/header/Header";
 import SignUp from "./components/signup/SignUp";
 import { Home } from "./pages";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
+import VoteContainer from "./components/createvote/VoteContainer";
 
 function App() {
   return (
@@ -17,7 +18,7 @@ function App() {
         <Route path="/" component={Header} />
         <Switch>
           <Route path="/Home" component={Home} />
-          <Route path="/MakeVote" component={MakeVote} />
+          <Route path="/MakeVote" component={VoteContainer} />
 
           <Route path="/content/:nam">
             <VotePage />
