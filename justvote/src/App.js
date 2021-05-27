@@ -1,25 +1,23 @@
 import "./App.css";
 
-import Header from "./components/header/Header";
 import VotePage from "./components/VotePage";
 import MakeVote from "./components/MakeVote";
 import Introduce from "./components/Introduce";
 import Ranking from "./components/Ranking";
 import Login from "./components/login/Login";
+import Header from "./components/header/Header";
 import SignUp from "./components/signup/SignUp";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { Home } from "./pages";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 function App() {
   return (
     <BrowserRouter>
       <div className="App">
-        <Header />
+        <Route path="/" component={Header} />
         <Switch>
-          <Route exact path="/" component={Home} />
-          <Route path="/MakeVote">
-            <MakeVote />
-          </Route>
+          <Route path="/Home" component={Home} />
+          <Route path="/MakeVote" component={MakeVote} />
 
           <Route path="/content/:nam">
             <VotePage />
@@ -33,9 +31,7 @@ function App() {
             <Ranking />
           </Route>
 
-          <Route path="/SignIn">
-            <Login />
-          </Route>
+          <Route path="/SignIn" component={Login} />
 
           <Route path="/SignUp">
             <SignUp />

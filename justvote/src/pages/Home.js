@@ -7,7 +7,7 @@ import React from "react";
 import Subbar from "../components/Subbar";
 import FullWidthGrid from "../components/FullWidthGrid";
 
-const Home = () => {
+const Home = (props) => {
   return (
     <>
       <Subbar />

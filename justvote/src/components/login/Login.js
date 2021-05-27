@@ -1,12 +1,13 @@
 import React, { Component } from "react";
+import { useSelector } from "react-redux";
 import Authentication from "./Authentication";
 import { connect } from "react-redux";
 import { loginRequest } from "../../redux/authentication/actions";
 
 class Login extends Component {
   handleLogin = (id, pw) => {
-    console.log("login_handleLogin!");
     return this.props.loginRequest(id, pw).then(() => {
+      console.log(this.props.history);
       if (this.props.status === "SUCCESS") {
         // create session data
         let loginData = {
@@ -14,7 +15,8 @@ class Login extends Component {
           userId: id,
         };
         document.cookie = "key=" + btoa(JSON.stringify(loginData));
-        console.log("login-cookie : " + document.cookie);
+        console.log("login-cookie : ");
+        console.log(document.cookie);
 
         // 로그인 성공시 루트 화면으로 돌아감.
         this.props.history.push("/");
@@ -36,10 +38,18 @@ class Login extends Component {
 }
 
 const mapStateToProps = (state) => {
+  console.log(state);
   return {
-    status: state.status,
+    status: state.authentication.login.status,
   };
 };
+
+//  const mapStateToProps = (state) => {
+//    console.log("state.status" + state.status);
+//    return {
+//      status: state.status,
+//    };
+//  };
 
 const mapDispatchToProps = (dispatch) => {
   return {

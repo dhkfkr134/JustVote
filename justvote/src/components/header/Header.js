@@ -1,6 +1,6 @@
 // Header는 Topbar를
 import React, { Component } from "react";
-import TopBar from "../TopBar";
+import TopBar from "./TopBar";
 import { connect } from "react-redux";
 import { getStatusRequest } from "../../redux/authentication/actions";
 
@@ -50,19 +50,29 @@ class Header extends Component {
 
   render() {
     /* Check whether current route is login or register using regex */
-    let re = /(SignIn|SignUp)/;
-    console.log(this.props);
-    let isAuth = re.test(this.set);
+
+    let thisPath = this.props.location.pathname;
+
+    // 현재 경로가 '/'라면 Home으로 이동
+    if (thisPath === "/") {
+      this.props.history.push("/Home");
+    }
 
     return (
       <div>
-        <TopBar isLoggedIn={this.props.status.isLoggedIn} />
+        <div>
+          <TopBar isLoggedIn={this.props.status.isLoggedIn} />
+        </div>
       </div>
     );
   }
 }
 
 const mapStateToProps = (state) => {
+  console.log(
+    "state.authentication.status.isLoggedIn" +
+      state.authentication.status.isLoggedIn
+  );
   return {
     status: state.authentication.status,
   };
