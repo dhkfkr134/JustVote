@@ -1,10 +1,21 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import propTypes from "prop-types";
-//import "../styles/makevote.css";
+import { makeStyles } from "@material-ui/core/styles";
+import TextField from "@material-ui/core/TextField";
+
 // import axios from 'axios';
 
 // import { CreateVotes } from '../redux/makevote/actions';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    "& > *": {
+      margin: theme.spacing(1),
+      width: "25ch",
+    },
+  },
+}));
 
 class CreateVote extends Component {
   state = {
@@ -16,7 +27,6 @@ class CreateVote extends Component {
     let nextState = {};
     nextState[e.target.name] = e.target.value;
     this.setState(nextState);
-    console.log(this.state);
   };
 
   addAnswer = (e) => {
@@ -35,12 +45,12 @@ class CreateVote extends Component {
     const voteContents = [...this.state.voteContents];
     voteContents[index] = e.target.value;
     this.setState({ voteContents });
-    console.log(this.state);
   };
 
-  handleSubmit(e) {
+  handleSubmit = (e) => {
     e.preventDefault();
 
+    console.log(this.state);
     let body = {
       voteTitle: this.state.voteTitle,
       voteContents: this.state.voteContents,
@@ -53,20 +63,27 @@ class CreateVote extends Component {
       });
     });
     // this.props.CreateVotes(this.state);
-  }
+  };
 
   render() {
     const voteContents = this.state.voteContents.map((content, i) => (
       <Fragment key={i}>
-        <label className="form-label">항목</label>
-        <input
+        <label className="form-label"></label>
+        <TextField
+          id="outlined-basic"
+          label="항목"
+          variant="outlined"
           className="form-input"
           type="text"
           value={content}
           key={i}
           onChange={(e) => this.handleAnswer(e, i)}
         />
-        <button className="button" type="button" onClick={this.removeAnswer(i)}>
+        <button
+          className="button"
+          type="button"
+          onClick={(e) => this.removeAnswer(i)}
+        >
           삭제
         </button>
       </Fragment>
@@ -90,7 +107,7 @@ class CreateVote extends Component {
             항목 추가
           </button>
         </div>
-        <button className="button" type="submit">
+        <button className="button" type="submit" onClick={this.handleSubmit}>
           투표 만들기
         </button>
       </form>

@@ -15,8 +15,8 @@ export function votePostRequest(voteTitle, voteContents) {
     dispatch(votePost());
 
     let body = {
-      voteTilte: voteTitle,
-      voteContents: [],
+      voteTitle: voteTitle,
+      voteContents: voteContents,
     };
 
     return axios
@@ -25,7 +25,7 @@ export function votePostRequest(voteTitle, voteContents) {
         dispatch(votePostSuccess());
       })
       .catch((error) => {
-        dispatch(votePostFailure(error.response.data.code));
+        dispatch(votePostFailure());
       });
   };
 }
@@ -37,15 +37,16 @@ export function votePost() {
 }
 
 export function votePostSuccess() {
+  console.log("votePostSuccess");
   return {
     type: VOTE_POST_SUCCESS,
   };
 }
 
-export function votePostFailure(error) {
+export function votePostFailure() {
+  console.log("votePostFail");
   return {
     type: VOTE_POST_FAILURE,
-    error,
   };
 }
 
