@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.justvote.dao.IVotePageDao">
+
+<!-- 투표 등록하는 쿼리문 유저ID 투표이름, 투표내용, 종료일을 입력받는다 -->
+	<insert id="registerVoteDao">
+		insert into votepage(userID, voteTitle, voteContent, voteEndDate)
+		values
+		(#{param1},#{param2}, #{parma3}, #{param4})
+	</insert>
+	
+<!-- 투표 페이지 삭제하는 쿼리 -->
+	<delete id="deleteVoteDao">
+		delete from votepage where voteID = #{_voteID}
+	</delete>
+	
+<!-- 투표의 항목을 추가하는 쿼리 -->
+	<insert id="registeSelecDao">
+		insert into voteselection(voteID, selecContent)
+		values
+		(#{__voteID_FK}, #{_selecContent}) 
+	</insert>
+	
+</mapper>
