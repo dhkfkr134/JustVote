@@ -2,7 +2,10 @@
 import React, { Component } from "react";
 import TopBar from "./TopBar";
 import { connect } from "react-redux";
-import { getStatusRequest } from "../../redux/authentication/actions";
+import {
+  getStatusRequest,
+  logoutRequest,
+} from "../../redux/authentication/actions";
 
 class Header extends Component {
   componentDidMount() {
@@ -48,6 +51,20 @@ class Header extends Component {
     });
   }
 
+  handleLogout = () => {
+    this.props.logoutRequest().then(() => {
+      //Materialize.toast("Good Bye!", 2000);
+
+      // EMPTIES THE SESSION
+      let loginData = {
+        isLoggedIn: false,
+        username: "",
+      };
+
+      document.cookie = "key=" + btoa(JSON.stringify(loginData));
+    });
+  };
+
   render() {
     /* Check whether current route is login or register using regex */
 
@@ -61,7 +78,10 @@ class Header extends Component {
     return (
       <div>
         <div>
-          <TopBar isLoggedIn={this.props.status.isLoggedIn} />
+          <TopBar
+            isLoggedIn={this.props.status.isLoggedIn}
+            onLogout={this.handleLogout}
+          />
         </div>
       </div>
     );
@@ -82,6 +102,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     getStatusRequest: () => {
       return dispatch(getStatusRequest());
+    },
+    logoutRequest: () => {
+      return dispatch(logoutRequest());
     },
   };
 };

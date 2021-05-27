@@ -15,7 +15,7 @@ class TopBar extends Component {
 
     const logoutButton = (
       <RBS.Nav>
-        <RBS.Nav.Link eventKey={2} href="/SignIn">
+        <RBS.Nav.Link eventKey={2} href="/" onClick={this.props.onLogout}>
           Log Out
         </RBS.Nav.Link>
       </RBS.Nav>
@@ -62,10 +62,14 @@ class TopBar extends Component {
 
 TopBar.propTypes = {
   isLoggedIn: PropTypes.bool,
+  onLogout: PropTypes.func,
 };
 
 TopBar.defaultProps = {
   isLoggedIn: false,
+  onLogout: () => {
+    console.error("logout function not defined");
+  },
 };
 
 export default TopBar;
