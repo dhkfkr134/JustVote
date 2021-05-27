@@ -1,11 +1,30 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import * as RBS from "react-bootstrap";
 import { useParams } from "react-router-dom";
+
+import { connect } from 'react-redux';
+import { getVotes } from '../redux';
 
 import testImage from '../img/content_img.png';
 
 
-export default function VotePage() {
+
+function VotePage({ getVotes, loading, votes }) {
+    useEffect(() => {
+        getVotes()
+    }, [])
+
+
+    const voteItems = loading ? (<div>is loading...</div>) : (
+        votes.map(vote => (
+            <div key={vote.id}>
+                <h3>{vote.name}</h3>
+                <p>{vote.email}</p>
+                <p>{vote.body}</p>
+            </div>
+        ))
+    )
+
     class Test {
         constructor(name, date, voter, content) {
             this.name = name;
@@ -28,6 +47,7 @@ export default function VotePage() {
     function VoteTop() {
         return (
             <div className="VotePage">
+
                 <h1>{test.name}{nam}</h1>
                 <h5>{test.date} | {test.voter}명</h5>
                 <RBS.Col xs={6} md={4}>
@@ -72,7 +92,19 @@ export default function VotePage() {
                 </RBS.Row>
             </RBS.Container>
             {contentList()}
+            < div class="votes">
+                {voteItems}
+            </div >
 
         </div>
     )
 }
+const mapStateToProps = ({ votes }) => {
+    return {
+        votes: votes.items
+    }
+}
+const mapDispatchToProps = {
+    getVotes
+}
+export default connect(mapStateToProps, mapDispatchToProps)(VotePage)
