@@ -68,7 +68,7 @@ class SignUp extends Component {
     super(props);
 
     this.state = {
-      userId: "",
+      userName: "",
       gender: "",
       age: "",
       major: "",
@@ -98,7 +98,7 @@ class SignUp extends Component {
     e.preventDefault();
 
     let body = {
-      userId: this.state.userId,
+      userName: this.state.userName,
       gender: this.state.gender,
       age: this.state.age,
       major: this.state.major,
@@ -134,16 +134,16 @@ class SignUp extends Component {
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
                   <TextField
-                    autoComplete="userId"
-                    name="userId"
+                    autoComplete="userName"
+                    name="userName"
                     variant="outlined"
                     required
                     fullWidth
-                    id="userId"
-                    label="userId"
+                    id="userName"
+                    label="userName"
                     autoFocus
                     onChange={this.onChange}
-                    value={this.state.userId}
+                    value={this.state.userName}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>

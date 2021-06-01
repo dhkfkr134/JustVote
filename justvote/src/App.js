@@ -1,7 +1,6 @@
 import "./App.css";
 
 import VotePage from "./components/VotePage";
-import MakeVote from "./components/MakeVote";
 import Introduce from "./components/Introduce";
 import Ranking from "./components/Ranking";
 import Login from "./components/login/Login";

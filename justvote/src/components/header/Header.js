@@ -26,7 +26,7 @@ class Header extends Component {
 
     // decode base64 & parse json
     loginData = JSON.parse(atob(loginData));
-
+    console.log(loginData);
     // if not logged in, do nothing
     if (!loginData.isLoggedIn) return;
 
@@ -34,6 +34,7 @@ class Header extends Component {
     // check whether this cookie is valid or not
     this.props.getStatusRequest().then(() => {
       // if session is not valid
+      console.log(this.props.status.valid);
       if (!this.props.status.valid) {
         // logout the session
         loginData = {

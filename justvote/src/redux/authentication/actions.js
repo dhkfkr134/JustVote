@@ -64,7 +64,8 @@ export function getStatusRequest() {
     return axios
       .get("http://localhost:8080/getInfo")
       .then((response) => {
-        dispatch(getStatusSuccess(response.data.info.userId)); //HTTP 틍신을 통해 userId을 빋이옴
+        console.log(response);
+        dispatch(getStatusSuccess(response.data)); //HTTP 틍신을 통해 userId을 빋이옴
       })
       .catch((error) => {
         dispatch(getStatusFailure());
