@@ -29,7 +29,7 @@ export function getVotes() {
   return (dispatch) => {
     dispatch(getVotesREQUEST());
     return axios
-      .get("https://jsonplaceholder.typicode.com/comments")
+      .get("https://jsonplaceholder.typicode.com/comment")
       .then((response) => dispatch(getVotesSuccess(response.data)))
       .catch((error) => dispatch(getVotesFailure(error)));
     // .then(votes =>
@@ -39,44 +39,44 @@ export function getVotes() {
 }
 
 // 댓글 등록 기능
-export function registerCommentsRequest(body) {
+export function registercommentRequest(body) {
   return (dispatch) => {
-    dispatch(registerComments());
+    dispatch(registercomment());
 
     // let body = {
     //   // ID도 넣어주기
     //   voteTitle: voteTitle,
-    //   comments: comments,
+    //   comment: comment,
     // };
 
     console.log(body);
     return axios
-      .post("http://localhost:8080/registerComments", body)
+      .post("http://localhost:8080/registercomment", body)
       .then((response) => {
-        dispatch(registerCommentsSuccess());
+        dispatch(registercommentSuccess());
       })
       .catch((error) => {
-        dispatch(registerCommentsFailure());
+        dispatch(registercommentFailure());
       });
   };
 }
 
-export function registerComments() {
-  console.log("registerComments");
+export function registercomment() {
+  console.log("registercomment");
   return {
     type: REGISTER_COMMENT,
   };
 }
 
-export function registerCommentsSuccess() {
-  console.log("registerCommentsSuccess");
+export function registercommentSuccess() {
+  console.log("registercommentSuccess");
   return {
     type: REGISTER_COMMENT_SUCCESS,
   };
 }
 
-export function registerCommentsFailure() {
-  console.log("registerCommentsFailure");
+export function registercommentFailure() {
+  console.log("registercommentFailure");
   return {
     type: REGISTER_COMMENT_FAILURE,
   };

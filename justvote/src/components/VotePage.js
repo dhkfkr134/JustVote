@@ -3,7 +3,7 @@ import * as RBS from "react-bootstrap";
 import { useParams } from "react-router-dom";
 
 import { connect } from "react-redux";
-import { getVotes, registerCommentsRequest } from "../redux";
+import { getVotes, registercommentRequest } from "../redux";
 
 import testImage from "../img/content_img.png";
 
@@ -26,7 +26,7 @@ function VotePage({
   loading,
   items,
   userId,
-  registerCommentsRequest,
+  registercommentRequest,
 }) {
   useEffect(() => {
     getVotes();
@@ -99,22 +99,21 @@ function VotePage({
   }
 
   // 댓글 등록
-
-  const [comments, setComments] = useState("");
+  const [comment, setcomment] = useState("");
 
   const handleChange = (e) => {
-    setComments(e.target.value);
+    setcomment(e.target.value);
   };
 
   const handleRegister = (e) => {
     let body = {
       userId: userId,
-      comments: comments,
+      comment: comment,
       //contentTitle: contentTitle,
     };
 
     console.log(body);
-    registerCommentsRequest(body).then(() => {});
+    registercommentRequest(body).then(() => {});
   };
 
   return (
@@ -172,8 +171,8 @@ const mapDispatchToProps = (dispatch) => {
     getVotes: () => {
       return dispatch(getVotes());
     },
-    registerCommentsRequest: (body) => {
-      return dispatch(registerCommentsRequest(body));
+    registercommentRequest: (body) => {
+      return dispatch(registercommentRequest(body));
     },
   };
 };
