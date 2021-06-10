@@ -1,7 +1,7 @@
 package com.justvote;
 
 import java.io.File;
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,8 +20,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.justvote.dao.ICommentDao;
 import com.justvote.dao.IRegisterDao;
+import com.justvote.dao.IVotePageDao;
 import com.justvote.dto.CommentDto;
 import com.justvote.dto.RegisterDto;
+import com.justvote.dto.VotePageDto;
 
 	
 
@@ -33,6 +35,8 @@ public class MyController {
 	IRegisterDao dao;
 	@Autowired
 	ICommentDao dao1;
+	@Autowired
+	IVotePageDao dao2;
 	
 	
 	HttpSession loginId;
@@ -160,8 +164,46 @@ public class MyController {
 		
 		
 	}
+
+	@PostMapping("/registeSelecDao") // 문항 추가
+	public String registeSelec(@RequestBody VotePageDto votePageDto) {
+		dao2.registeSelecDao(votePageDto.getVoteID(), votePageDto.getSelecContent());
+		
+		return votePageDto.toString();
+	}
 	
-	
+	@PostMapping("/registVote") // votepage(테이블) 만들기
+	public String registVote(@RequestBody VotePageDto votePageDto) {
+		dao2.registeVoteDao(votePageDto.getUserID(), votePageDto.getVoteTitle(), votePageDto.getVoteContent(),
+				votePageDto.getVoteEndDate());
+
+		return votePageDto.toString();
+	}
+
+	@PostMapping("/deleteVote") // delete
+	public String deleteVote(@RequestBody VotePageDto votePageDto) {
+		dao2.deleteVoteDao(votePageDto.getVoteID());
+
+		return votePageDto.toString();
+	}
+	// 정원 Get 보내주기
+	@GetMapping("/content/3")
+	public List<VotePageDto> votePageGet(HttpServletRequest request) {
+		
+		// return 해줄 List
+		List<VotePageDto> list = new ArrayList<>();
+		
+		// votePage와 selecList를 list에 넣어줄 것임
+		VotePageDto votePage = dao2.voteGetDao("3");
+		List<VotePageDto> selecList = dao2.selecGetDao("3");
+		
+		list.add(votePage);
+		for (int i = 0; i < selecList.size(); i++) {
+			list.add(selecList.get(i));
+		}
+
+		return list;
+	}
 	
 	
 }
