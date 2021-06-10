@@ -86,7 +86,7 @@ class Authentication extends Component {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            LOGIN
           </Typography>
           <form className={useStyles.form} noValidate>
             <TextField
@@ -95,7 +95,7 @@ class Authentication extends Component {
               required
               fullWidth
               id="userId"
-              label="UserId"
+              label="ID"
               name="userId"
               autoComplete="userId"
               autoFocus
@@ -108,7 +108,7 @@ class Authentication extends Component {
               required
               fullWidth
               name="userPass"
-              label="UserPass"
+              label="PASSWORD"
               type="Password"
               id="userPass"
               autoComplete="current-password"
@@ -122,12 +122,12 @@ class Authentication extends Component {
               className={useStyles.submit}
               onClick={this.handleLogin}
             >
-              SUBMIT
+              로그인
             </Button>
             <Grid container justify="flex-end">
               <Grid item>
                 <Link href="/SignUp" variant="body2">
-                  {"Don't have an account? Sign Up"}
+                  {"계정이 없다면? 회원가입하러 가기"}
                 </Link>
               </Grid>
             </Grid>

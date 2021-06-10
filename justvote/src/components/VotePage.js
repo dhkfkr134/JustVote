@@ -3,7 +3,7 @@ import * as RBS from "react-bootstrap";
 import { useParams } from "react-router-dom";
 
 import { connect } from "react-redux";
-import { getVotes, registercommentRequest } from "../redux";
+import { getVotes, registerCommentRequest } from "../redux";
 
 import testImage from "../img/content_img.png";
 
@@ -26,7 +26,7 @@ function VotePage({
   loading,
   items,
   userId,
-  registercommentRequest,
+  registerCommentRequest,
 }) {
   useEffect(() => {
     getVotes();
@@ -99,10 +99,10 @@ function VotePage({
   }
 
   // 댓글 등록
-  const [comment, setcomment] = useState("");
+  const [comment, setComment] = useState("");
 
   const handleChange = (e) => {
-    setcomment(e.target.value);
+    setComment(e.target.value);
   };
 
   const handleRegister = (e) => {
@@ -113,7 +113,19 @@ function VotePage({
     };
 
     console.log(body);
-    registercommentRequest(body).then(() => {});
+    registerCommentRequest(body).then(() => {
+      // push해줌
+    });
+    // comment 등록하면 빈칸으로
+  };
+
+  // 댓글 삭제
+  const handelDeleteComment = (e) => {
+    let body = {
+      userId: userId,
+      //댓글 번호?
+      //contentTitle: contentTitle,
+    };
   };
 
   return (
@@ -171,8 +183,8 @@ const mapDispatchToProps = (dispatch) => {
     getVotes: () => {
       return dispatch(getVotes());
     },
-    registercommentRequest: (body) => {
-      return dispatch(registercommentRequest(body));
+    registerCommentRequest: (body) => {
+      return dispatch(registerCommentRequest(body));
     },
   };
 };

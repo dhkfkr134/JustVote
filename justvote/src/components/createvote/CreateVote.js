@@ -1,26 +1,33 @@
 import React, { Component, Fragment } from "react";
-import { connect } from "react-redux";
+// import { connect } from "react-redux";
 import propTypes from "prop-types";
-import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
+import { Button } from "@material-ui/core";
+import "./createvote.css";
 
-// import axios from 'axios';
-
-// import { CreateVotes } from '../redux/makevote/actions';
+// 이미지 전송
+import axios from "axios";
+import { makeStyles } from "@material-ui/core/styles";
+import MyDropzone from "./MyDropzone";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     "& > *": {
       margin: theme.spacing(1),
-      width: "25ch",
     },
+  },
+  input: {
+    display: "none",
   },
 }));
 
 class CreateVote extends Component {
   state = {
+    userId: "",
     voteTitle: "",
-    voteContents: ["", ""],
+    voteContents: [""],
+    Images: [],
+    // 이미지
   };
 
   handleChange = (e) => {
@@ -51,16 +58,31 @@ class CreateVote extends Component {
     e.preventDefault();
 
     console.log(this.state);
-    let title = this.state.voteTitle;
-    let contents = this.state.voteContents;
+    let body = {
+      voteId: this.state.voteId,
+      voteTitle: this.state.voteTitle,
+      voteContent: this.state.voteContents,
+    };
 
-    this.props.onPost(title, contents).then(() => {
+    console.log(body);
+
+    this.props.onPost(body).then(() => {
+      // 보내지면 빈칸으로 변경
       this.setState({
+        userId: "",
         voteTitle: "",
-        voteContents: ["", ""],
+        voteContents: [""],
       });
     });
     // this.props.CreateVotes(this.state);
+  };
+
+  // 이미지 전송
+
+  submitImg = (e) => {
+    e.preventDefault();
+
+    console.log(FileReader);
   };
 
   render() {
@@ -71,19 +93,24 @@ class CreateVote extends Component {
           id="outlined-basic"
           label="항목"
           variant="outlined"
-          className="form-input"
+          className="content"
           type="text"
           value={content}
           key={i}
           onChange={(e) => this.handleAnswer(e, i)}
         />
-        <button
-          className="button"
-          type="button"
-          onClick={(e) => this.removeAnswer(i)}
-        >
-          삭제
-        </button>
+        <div className="button-container">
+          <Button
+            className="remove-button"
+            type="button"
+            variant="contained"
+            color="secondary"
+            size="medium"
+            onClick={(e) => this.removeAnswer(i)}
+          >
+            삭제
+          </Button>
+        </div>
       </Fragment>
     ));
 
@@ -96,18 +123,28 @@ class CreateVote extends Component {
           className="form-input"
           type="text"
           name="voteTitle"
-          value={this.state.question}
+          value={this.state.voteTitle}
           onChange={this.handleChange}
         />
-        <div className="container">{voteContents}</div>
+        <div className="conContainer">{voteContents}</div>
         <div className="buttons_center">
-          <button className="button" type="button" onClick={this.addAnswer}>
+          <Button
+            className="button"
+            type="button"
+            variant="contained"
+            color="primary"
+            size="medium"
+            onClick={this.addAnswer}
+          >
             항목 추가
-          </button>
+          </Button>
+          <Button className="button" type="submit" onClick={this.handleSubmit}>
+            투표 만들기
+          </Button>
         </div>
-        <button className="button" type="submit" onClick={this.handleSubmit}>
-          투표 만들기
-        </button>
+        <div>
+          <MyDropzone />
+        </div>
       </form>
     );
   }
@@ -118,7 +155,7 @@ CreateVote.propTypes = {
 };
 
 CreateVote.defaultProps = {
-  onPost: (voteTitle, voteContents) => {
+  onPost: (body) => {
     console.error("post function not defined");
   },
 };

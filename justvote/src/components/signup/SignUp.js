@@ -128,7 +128,10 @@ class SignUp extends Component {
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-              Sign up
+              JUST VOTE
+            </Typography>
+            <Typography component="subtitle2" variant="subtitle2">
+              궁금한 모든 것 투표해보세요
             </Typography>
             <form className={useStyles.form} noValidate>
               <Grid container spacing={2}>

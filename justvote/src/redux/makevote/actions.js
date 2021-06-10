@@ -10,14 +10,9 @@ import {
 // import API from '../../services/api';
 // import { addError, removeError } from '../error/actions';
 
-export function votePostRequest(voteTitle, voteContents) {
+export function votePostRequest(body) {
   return (dispatch) => {
     dispatch(votePost());
-
-    let body = {
-      voteTitle: voteTitle,
-      voteContents: voteContents,
-    };
 
     console.log(body);
     return axios

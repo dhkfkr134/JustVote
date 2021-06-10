@@ -3,4 +3,4 @@
 export { addSubscriber, removeSubscriber } from "./subscribers/actions";
 export { addView } from "./views/actions";
 export { getVotes } from "./getVotes/actions";
-export { registercommentRequest } from "./getVotes/actions";
+export { registerCommentRequest } from "./getVotes/actions";

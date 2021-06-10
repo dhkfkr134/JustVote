@@ -5,6 +5,7 @@ import {
   REGISTER_COMMENT,
   REGISTER_COMMENT_SUCCESS,
   REGISTER_COMMENT_FAILURE,
+  DELETE_COMMENT,
 } from "./types";
 
 const initialState = {
@@ -62,6 +63,10 @@ const getVotesReducer = (state = initialState, action) => {
           status: "FAILURE",
           error: action.error,
         },
+      };
+    case DELETE_COMMENT:
+      return {
+        ...state,
       };
     default:
       return state;

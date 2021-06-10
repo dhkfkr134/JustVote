@@ -19,9 +19,7 @@ function App() {
           <Route path="/Home" component={Home} />
           <Route path="/MakeVote" component={VoteContainer} />
 
-          <Route path="/content/:nam">
-            <VotePage />
-          </Route>
+          <Route path="/content/:nam" component={VotePage} />
 
           <Route path="/Introduce">
             <Introduce />

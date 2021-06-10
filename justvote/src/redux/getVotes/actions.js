@@ -6,6 +6,7 @@ import {
   REGISTER_COMMENT,
   REGISTER_COMMENT_SUCCESS,
   REGISTER_COMMENT_FAILURE,
+  DELETE_COMMENT,
 } from "./types";
 
 export function getVotesSuccess(votes) {
@@ -29,7 +30,7 @@ export function getVotes() {
   return (dispatch) => {
     dispatch(getVotesREQUEST());
     return axios
-      .get("https://jsonplaceholder.typicode.com/comment")
+      .get("https://jsonplaceholder.typicode.com/Comment")
       .then((response) => dispatch(getVotesSuccess(response.data)))
       .catch((error) => dispatch(getVotesFailure(error)));
     // .then(votes =>
@@ -39,45 +40,60 @@ export function getVotes() {
 }
 
 // 댓글 등록 기능
-export function registercommentRequest(body) {
+export function registerCommentRequest(body) {
   return (dispatch) => {
-    dispatch(registercomment());
+    dispatch(registerComment());
 
     // let body = {
     //   // ID도 넣어주기
     //   voteTitle: voteTitle,
-    //   comment: comment,
+    //   Comment: Comment,
     // };
 
     console.log(body);
     return axios
-      .post("http://localhost:8080/registercomment", body)
+      .post("http://localhost:8080/registerComment", body)
       .then((response) => {
-        dispatch(registercommentSuccess());
+        dispatch(registerCommentSuccess());
       })
       .catch((error) => {
-        dispatch(registercommentFailure());
+        dispatch(registerCommentFailure());
       });
   };
 }
 
-export function registercomment() {
-  console.log("registercomment");
+export function registerComment() {
   return {
     type: REGISTER_COMMENT,
   };
 }
 
-export function registercommentSuccess() {
-  console.log("registercommentSuccess");
+export function registerCommentSuccess() {
   return {
     type: REGISTER_COMMENT_SUCCESS,
   };
 }
 
-export function registercommentFailure() {
-  console.log("registercommentFailure");
+export function registerCommentFailure() {
   return {
     type: REGISTER_COMMENT_FAILURE,
+  };
+}
+
+// 댓글 삭제 기능
+export function deleteCommentRequest(body) {
+  return (dispatch) => {
+    console.log(body);
+    return axios
+      .post("http://localhost:8080/deleteComment", body)
+      .then((response) => {
+        dispatch(deleteComment());
+      });
+  };
+}
+
+export function deleteComment() {
+  return {
+    type: DELETE_COMMENT,
   };
 }
