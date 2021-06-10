@@ -3,7 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.justvote.dao.IRegisterDao">
+<mapper namespace="com.justvote.dao.IRegisterDao" >
 <!-- 회원가입 -->
 <insert id="registerDao">
  insert into user2(userName,sex,age,major,grade,nickName,userId,userPass) 
@@ -12,13 +12,28 @@ values (#{param1},#{param2},#{param3},#{param4},#{param5},#{param6},#{param7},#{
 </insert>
 
 <!-- 로그인 -->
-<select id="loginDao" resultType="com.justvote.dto.RegisterDto">
+<select id="loginDao" resultType="String">
 select userId,userPass from user2 where userId = #{_userId} and userPass = #{_userPass}  
 
 </select> 
-<select id="check" resultType="com.justvote.dto.RegisterDto">
-select userId from user2 where userId = #{_userId}
+<select id="check" resultType="com.justvote.dto.RegisterDto" parameterType="String">
+select userId from user2 where userId = #{userId}
+
+</select>
+
+
+<!-- 조회수 높은 순 가져오기 -->
+<select id="hitView">
+select * from justvote order by hit 
+
+</select>
+
+<select id="contentDao" resultType="com.justvote.dto.RegisterDto" >
+select content from test where id = 1
 
 </select>
 
 </mapper>
+
+
+
