@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from "react";
 import * as RBS from "react-bootstrap";
 import { useParams } from "react-router-dom";
-
 import { connect } from "react-redux";
 import { getVotes, registerCommentRequest } from "../redux";
-
 import testImage from "../img/content_img.png";
 
 // material import
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import FormControl from "@material-ui/core/FormControl";
+import FormLabel from "@material-ui/core/FormLabel";
+import Radio from "@material-ui/core/Radio";
+import RadioGroup from "@material-ui/core/RadioGroup";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,44 +34,56 @@ function VotePage({
   useEffect(() => {
     getVotes();
   }, []);
-  //  console.log(items);
+
+  const [gender, setGender] = useState();
+
+  const onChange = ({ target }) => {
+    setGender(gender);
+    target.name = target.value;
+  };
 
   const voteItems = loading ? (
     <div>is loading...</div>
   ) : (
-    items.map((vote) => (
-      <div key={vote.id}>
-        <h3>{vote.name}</h3>
-        <p>{vote.email}</p>
-        <p>{vote.body}</p>
-      </div>
-    ))
+    // items.map(vote => (
+    <div key={items.id}>
+      <h3>{items.name}</h3>
+      <p>{items.email}</p>
+      <p>{items.body}</p>
+    </div>
+    // ))
   );
 
+  //투표객체
   class Test {
-    constructor(name, date, voter, content) {
+    constructor(name, date, voter, content, chosen) {
       this.name = name;
       this.date = date;
       this.voter = voter;
       this.content = content;
+      this.chosen = chosen;
     }
   }
-  let test = new Test("제목", "2021.05.11", 1500, [
-    "추억과 김밥",
-    "밀알 식당",
-    "논두렁 갈비",
-  ]);
-
+  //투표객체 생성
+  let test = new Test(
+    "제목",
+    "날짜",
+    "1500",
+    ["추억과 김밥", "밀알 식당", "논두렁 갈비"],
+    [300, 500, 700]
+  );
+  //파라미터
   const { nam } = useParams();
 
+  //투표화면 상단
   function VoteTop() {
     return (
       <div className="VotePage">
-        <h1>
+        <h1 className="title">
           {test.name}
           {nam}
         </h1>
-        <h5>
+        <h5 className="title">
           {test.date} | {test.voter}명
         </h5>
         <RBS.Col xs={6} md={4}>
@@ -78,23 +93,32 @@ function VotePage({
       </div>
     );
   }
-
+  //Contents에 관한 부분
   function contentList() {
+    var P = [];
+    for (var i = 0; i < test.content.length; i++) {
+      P.push((test.chosen[i] / test.voter) * 100);
+      P[i] = P[i].toFixed(2);
+    }
     return (
-      <ul className="list_content">
-        {test.content.map((item, index) => (
-          <tr key={index}>
-            <td>
-              <input type="checkbox" />
-            </td>
-            <td>
-              <div>
-                Content{index + 1} {item}
-              </div>
-            </td>
-          </tr>
-        ))}
-      </ul>
+      <FormControl component="fieldset">
+        <FormLabel component="legend">Gender</FormLabel>
+        <RadioGroup
+          aria-label="gender"
+          name="gender"
+          value={gender}
+          onChange={(e) => onChange(e)}
+        >
+          {test.content.map((item, index) => (
+            <FormControlLabel
+              key={index}
+              value={item}
+              control={<Radio />}
+              label={item}
+            />
+          ))}
+        </RadioGroup>
+      </FormControl>
     );
   }
 
@@ -135,11 +159,7 @@ function VotePage({
           <RBS.Col>
             <VoteTop></VoteTop>
           </RBS.Col>
-          <RBS.Col>
-            {/* <div style="position: absolute; right: 0px; bottom: 0px;">
-                          안녕하세요!!!
-                        </div> */}
-          </RBS.Col>
+          <RBS.Col></RBS.Col>
         </RBS.Row>
       </RBS.Container>
       {contentList()}
@@ -178,6 +198,7 @@ const mapStateToProps = (state) => {
     items: state.votes.items,
   };
 };
+
 const mapDispatchToProps = (dispatch) => {
   return {
     getVotes: () => {

@@ -12,6 +12,7 @@ export default function MyDropzone(props) {
 
     // 폼데이터 구성
     const formData = new FormData();
+
     const config = {
       header: {
         "content-type": "multipart/form-data",
@@ -26,11 +27,23 @@ export default function MyDropzone(props) {
         if (response.data.success) {
           setImages([...Images, response.data.filePath]);
           console.log(Images);
-          //this.props.refreshFunction([...Images, response.data.filePath]);
         } else {
           alert("파일 저장 실패");
         }
       });
+
+    acceptedFiles.forEach((file) => {
+      const reader = new FileReader();
+
+      reader.onabort = () => console.log("file reading was aborted");
+      reader.onerror = () => console.log("file reading has failed");
+      reader.onload = () => {
+        // Do whatever you want with the file contents
+        const binaryStr = reader.result;
+        console.log(binaryStr);
+      };
+      reader.readAsArrayBuffer(file);
+    });
   }, []);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
@@ -61,7 +74,7 @@ export default function MyDropzone(props) {
           <div style={{ fontSize: "3em", marginBottom: "5px" }}>
             <i className="fas fa-file-upload"></i>
           </div>
-          <div>이미지 드랍 or 클릭</div>
+          <div>이미지 넣기</div>
         </div>
       )}
     </div>
