@@ -1,9 +1,13 @@
 package com.justvote.dao;
 
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+
+import com.justvote.dto.VotePageDto;
 
 @Mapper
 public interface IVotePageDao {
@@ -15,4 +19,13 @@ public interface IVotePageDao {
 	
 	//여기는 다른 테이블인데 안된다면 다른 DAO에 두고 할 것
 	public void registeSelecDao(@Param("_voteID_FK")int voteID, @Param("_selecContent")String selecContent); // 항목 추가하는 쿼리
+	
+	// TEST
+	public void testDao(@Param("_voteID")int voteID); // 테스트 
+	public List<VotePageDto> listDao();
+	
+	public List<Map<String, String>> test2Dao();
+	
+	public VotePageDto voteGetDao(@Param("_index")String index); // 투표 페이지 Get보내기
+	public List<VotePageDto> selecGetDao(@Param("_index")String index); // 투표 페이지 Get보내기
 }

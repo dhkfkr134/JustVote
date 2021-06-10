@@ -1,6 +1,7 @@
 package com.justvote.dto;
 
 import java.util.Date;
+import java.util.List;
 
 import lombok.Data;
 
@@ -19,5 +20,7 @@ public class VotePageDto {
 	// 선택문의 정보
 	private int selecID;
 	private String selecContent;
-	private int Count;
+	private int selecHits;
+	
+	private List<VotePageDto> votePageList;
 }
