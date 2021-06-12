@@ -5,27 +5,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="com.justvote.dao.IVotePageDao">
 
-	<!-- 투표 등록하는 쿼리문 유저ID 투표이름, 투표내용, 종료일을 입력받는다 -->
-	<insert id="registerVoteDao">
-		insert into votepage(userID, voteTitle, voteContent,
-		voteEndDate)
-		values
-		(#{param1},#{param2}, #{parma3}, #{param4})
-	</insert>
 
-	<!-- 투표 페이지 삭제하는 쿼리 -->
-	<delete id="deleteVoteDao">
-		delete from votepage where voteID = #{_voteID}
-	</delete>
-
-	<!-- 투표의 항목을 추가하는 쿼리 -->
-	<insert id="registeSelecDao">
-		insert into voteselection(voteID, selecContent)
-		values
-		(#{_voteID_FK}, #{_selecContent})
-	</insert>
-
-	<!-- TEST -->
 	<select id="testDao" resultType="com.justvote.dto.VotePageDto">
 		select voteTitle from votepage
 		where voteID = #{_voteID}
@@ -35,28 +15,47 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from votepage order by
 		id
 	</select>
-
-	<!-- 우선은 selecContent 부터 여러개 집어넣는 것 이 후에는 외래키도 받아야함 아마 api를 여러번 호출하지 않을까 -->
-	<insert id="test2Dao" parameterType="java.util.HashMap">
-		<if test="selecContentList.size != 0">
-			insert into selectest(selecContent) values
-			<foreach collection="selecContentList" item="item"
-				separator=",">
-				(
-				#{item.voteContents}
-				)
-			</foreach>
-		</if>
-	</insert>
+	
+	
+	<!-- Main페이지에게 DB리스트 전체를 보내주는 쿼리문 -->
+	<select id="voteGetListDao" resultType="com.justvote.dto.VotePageDto">
+		select * from votepage
+	</select>
 
 	<!-- GetMapping에서 사용할 두가지 쿼리문 -->
 	<select id="voteGetDao" resultType="com.justvote.dto.VotePageDto">
-		select * from votepage where voteID=#{_index}
-		
+		select * from votepage where voteID=3
 	</select>
 	<select id="selecGetDao" resultType="com.justvote.dto.VotePageDto">
-		select * from voteselection where voteID=#{_index}
-		
+		select * from voteselection where voteID=3
 	</select>
 
+	
+	<!-- votePage에서 content를 selection 했을 때 hit수 증가 -->
+	<update id="voteContentCount">
+		update voteselction
+		set selecHits = selecHits+1
+		where voteID = #{_voteID} and selecContent = #{_selecContent}
+	</update>
+	
+	
+	<!-- 투표화면 만들기 위한 쿼리문 3개 -->
+	<insert id="registVotePageDao">
+		insert into votepage(voteTitle) values(#{_voteTitle})
+	</insert>
+	
+	<select id="regestVotePageIDReturnDao" resultType="String">
+		select voteID from votepage ORDER BY voteRegDate DESC limit 1;
+	</select>
+	
+	<insert id="registVoteContentDao">
+			insert into voteselection(voteID, selecContent) values
+			
+			<foreach collection="list" item="item" separator="," index="index">
+				(#{_voteID},
+				#{item}
+				)
+			
+			</foreach>
+	</insert>
 </mapper>

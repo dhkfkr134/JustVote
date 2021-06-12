@@ -11,6 +11,6 @@ public class RegisterDto {
 	private String major; // client major
 	private String grade; // client grade
 	private String nickName; // client nickName
-	private String userId; // client
+	private String userID; // client
 	private String userPass; // client PW
 }
