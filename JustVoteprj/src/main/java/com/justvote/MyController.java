@@ -139,10 +139,14 @@ public class MyController {
 	 * 
 	 * return id; }
 	 */
-	/*
-	 * @GetMapping("rank") public String rank(@RequestBody ) { dao.hitView(.gethit);
-	 * }
-	 */
+	
+	  @GetMapping("rank") 
+	  public List<RegisterDto> rank(RegisterDto rankDto) { 
+	  dao.hitView(rankDto.getHit(),rankDto.getUserId());
+	 System.out.println("asdfdfdfdfdfdfdfdf"+dao.hitView(rankDto.getHit(),rankDto.getUserId()));
+		  return dao.hitView(rankDto.getHit(),rankDto.getUserId());
+	  }
+	 
 	@PostMapping("/registerComment")
 	public Object writeComment(@RequestBody CommentDto cd) {
 		//dao1.listDao();
@@ -153,13 +157,13 @@ public class MyController {
 	return cd.toString();
 		
 	}
-	@PostMapping
-	public String fileUpLoad(@RequestParam("fileName") MultipartFile file) throws Exception{
+	@PostMapping("/imgRegister")
+	public String fileUpLoad(@RequestParam MultipartFile file) throws Exception{
 		 String rootPath = FileSystemView.getFileSystemView().getHomeDirectory().toString();
 		    String basePath = rootPath + "/" + "single";
-		    String filePath = basePath + "/" + file.getOriginalFilename();
-		    File dest = new File(filePath);
-		   // files.transferTo(dest); // 파일 업로드 작업 수행
+		    String filePath = basePath + "" + file.getOriginalFilename();
+		    File dest = new File("logo.jpg");
+		    file.transferTo(dest); // 파일 업로드 작업 수행
 		    return "uploaded";
 		
 		

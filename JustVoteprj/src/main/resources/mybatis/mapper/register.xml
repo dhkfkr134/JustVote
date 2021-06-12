@@ -23,8 +23,8 @@ select userId from user2 where userId = #{userId}
 
 
 <!-- 조회수 높은 순 가져오기 -->
-<select id="hitView">
-select * from justvote order by hit 
+<select id="hitView" resultType="String">
+select * from test5 order by hit desc
 
 </select>
 
