@@ -36,7 +36,7 @@ export default function authentication(state = initialState, action) {
         status: {
           ...state.status,
           isLoggedIn: true,
-          currentUser: action.userId,
+          currentUser: action.userID,
         },
       };
     case types.AUTH_LOGIN_FAILURE:
@@ -54,22 +54,20 @@ export default function authentication(state = initialState, action) {
       return {
         ...state,
         status: {
-          ...state.staus,
+          ...state.status,
           isLoggedIn: true,
         },
       };
     case types.AUTH_GET_STATUS_SUCCESS:
-      console.log("login_check_Success");
       return {
         ...state,
         status: {
           ...state.status,
           valid: true,
-          currentUser: action.userId,
+          currentUser: action.userID,
         },
       };
     case types.AUTH_GET_STATUS_FAILURE:
-      console.log("login_check_failure");
       return {
         ...state,
         status: {

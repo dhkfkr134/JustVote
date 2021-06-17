@@ -5,6 +5,10 @@ import { votePostRequest } from "../../redux/makevote/actions";
 
 class VoteContainer extends Component {
   handlePost = (body) => {
+    body = {
+      ...body,
+      userID: this.props.userID,
+    };
     return this.props.votePostRequest(body).then(() => {
       if (this.props.postStatus.status === "SUCCESS") {
         console.log("sR");
@@ -30,7 +34,7 @@ const mapStateToProps = (state) => {
   console.log(state);
   return {
     postStatus: state.vote.post,
-    // currentUser: state.authemtication.status.currentUser,
+    userID: state.authentication.status.currentUser,
     // isLoggedIn: state.authemtication.status.isLoggedIn
   };
 };

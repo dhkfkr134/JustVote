@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import * as RBS from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { connect } from "react-redux";
-import { getVotes, registerCommentRequest } from "../redux";
+import { getVotes, registerCommentRequest, setVotesRequest } from "../redux";
 import testImage from "../img/content_img.png";
 
 // material import
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
@@ -14,15 +14,50 @@ import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
+import LinearProgress from "@material-ui/core/LinearProgress";
+import Card from "@material-ui/core/Card";
+import CardActions from "@material-ui/core/CardActions";
+import CardContent from "@material-ui/core/CardContent";
+import Typography from "@material-ui/core/Typography";
+import Grid from "@material-ui/core/Grid";
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    flexGrow: 1,
+    minWidth: 275,
+
     "& > *": {
       margin: theme.spacing(1),
       width: "25ch",
     },
+    bullet: {
+      display: "inline-block",
+      margin: "0 2px",
+      transform: "scale(0.8)",
+    },
+    title: {
+      fontSize: 14,
+    },
+    pos: {
+      marginBottom: 12,
+    },
   },
 }));
+
+const BorderLinearProgress = withStyles((theme) => ({
+  root: {
+    height: 10,
+    borderRadius: 5,
+  },
+  colorPrimary: {
+    backgroundColor:
+      theme.palette.grey[theme.palette.type === "light" ? 200 : 700],
+  },
+  bar: {
+    borderRadius: 5,
+    backgroundColor: "#1a90ff",
+  },
+}))(LinearProgress);
 
 function VotePage({
   getVotes,
@@ -35,56 +70,81 @@ function VotePage({
     getVotes();
   }, []);
 
-  const [gender, setGender] = useState();
+  const [select, setSelect] = useState();
+  const [voted, setVoted] = useState(false);
+  let contName;
 
   const onChange = ({ target }) => {
-    setGender(gender);
+    setSelect(select);
     target.name = target.value;
+    contName = target.value;
   };
+  console.log(items[0]);
+  // let items_2 = JSON.stringify(items)
+  // console.log(items_2)
+  // let items_3 = JSON.parse(items_2)
+  // console.log(items_3)
 
+  let voteID = [];
+  let voteTitle = [];
+  let voteRegDate = [];
+  let voteHits = [];
+  let selecID = [];
+  let selecContent = [];
+  let selecHits = [];
+
+  //댓글 변수들 
+  let commentContent = [];
+  let commentID = [];
+  let commentUserID = [];
+
+  //데이터 받기
   const voteItems = loading ? (
     <div>is loading...</div>
   ) : (
-    // items.map(vote => (
-    <div key={items.id}>
-      <h3>{items.name}</h3>
-      <p>{items.email}</p>
-      <p>{items.body}</p>
-    </div>
-    // ))
+    items.map((item) => (
+      <div key={item.voteID} style={{ visibility: "hidden" }}>
+        {
+          (selecContent.push(item.selecContent),
+            selecID.push(item.selecID),
+            selecHits.push(item.selecHits),
+            voteID.push(item.voteID),
+            voteTitle.push(item.voteTitle),
+            voteRegDate.push(item.voteRegDate),
+            voteHits.push(item.voteHits),
+            commentContent.push(item.commentContent),
+            commentID.push(item.commentID), 
+            commentUserID.push(item.userId))
+        }
+      </div>
+    ))
   );
 
-  //투표객체
-  class Test {
-    constructor(name, date, voter, content, chosen) {
-      this.name = name;
-      this.date = date;
-      this.voter = voter;
-      this.content = content;
-      this.chosen = chosen;
-    }
-  }
-  //투표객체 생성
-  let test = new Test(
-    "제목",
-    "날짜",
-    "1500",
-    ["추억과 김밥", "밀알 식당", "논두렁 갈비"],
-    [300, 500, 700]
-  );
+        const selcContent = selecContent.filter(selecContent => selecContent !== undefined);
+        const selcHits = selecHits.filter(selecHits => selecHits !== undefined);
+        console.log(selcContent);
+        selcHits.shift();
+
+    console.log()
+        for(var i =0;i<selcHits.length+1;i++){
+          commentContent.shift();
+          commentID.shift();
+          commentUserID.shift();
+        }
+        console.log(commentID);
+
+  
+
   //파라미터
   const { nam } = useParams();
-
-  //투표화면 상단
+  const selectContent = selcContent.shift();
+  // 투표화면 상단
   function VoteTop() {
     return (
       <div className="VotePage">
-        <h1 className="title">
-          {test.name}
-          {nam}
-        </h1>
+        <h1 className="title">{voteTitle}</h1>
         <h5 className="title">
-          {test.date} | {test.voter}명
+          {voteRegDate[0]} | {voteHits}명
         </h5>
         <RBS.Col xs={6} md={4}>
           {/* ../public/content_img.png 이라고 해도 되지만 위치몰라도 고를 수 있는걸 보여주고 싶었음*/}
@@ -93,32 +153,89 @@ function VotePage({
       </div>
     );
   }
+  let indexx = 0;
+  const handleCheck = (e) => {
+    console.log(e.target.key);
+    indexx = e.target.key;
+  };
   //Contents에 관한 부분
   function contentList() {
-    var P = [];
-    for (var i = 0; i < test.content.length; i++) {
-      P.push((test.chosen[i] / test.voter) * 100);
-      P[i] = P[i].toFixed(2);
-    }
+    let P = [];
+    // for (let i = 1; i < selecContent.length; i++) {
+    //   P.push((selecHits[i] / voteHits[0]) * 100);
+    //   P[i] = P[i].toFixed(2);
+    // }
     return (
       <FormControl component="fieldset">
-        <FormLabel component="legend">Gender</FormLabel>
+        <FormLabel component="legend"></FormLabel>
         <RadioGroup
-          aria-label="gender"
-          name="gender"
-          value={gender}
+          aria-label="select"
+          name="select"
+          value={select}
           onChange={(e) => onChange(e)}
         >
-          {test.content.map((item, index) => (
+          {selcContent.map((item, index) => (
             <FormControlLabel
               key={index}
               value={item}
               control={<Radio />}
+              //             onClick={() => handleCheck()}
               label={item}
-            />
+            ></FormControlLabel>
           ))}
         </RadioGroup>
       </FormControl>
+    );
+  }
+
+  function yesContentList() {
+    let P = [];
+    let sum =0;
+    for(let i =0; i<selcHits.length; i++) {
+      sum +=selcHits[i];
+    }
+    for (let i = 0; i < selcHits.length; i++) {
+      P.push((selcHits[i] / sum) * 100);
+      P[i] = P[i].toFixed(1);
+    }
+console.log(selecHits)
+    return (
+      <div>
+        {selcHits.map((item, index) => (
+          <div key={index} style={{display:"block"}}>
+            <>{selcContent[index] + " ("+ selcHits[index] + "명) " + P[index] + "%"}</>
+            <BorderLinearProgress variant="determinate" value={P[index]} />
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  //투표 안한사람 화면
+  function notVote() {
+    return (
+      <div>
+        <RBS.Col>{contentList()}</RBS.Col>
+        <RBS.Col>
+          <Button
+            variant="contained"
+            color="primary"
+            className={useStyles.submit}
+            onClick={handleSet}
+          >
+            투표!
+          </Button>
+        </RBS.Col>
+      </div>
+    );
+  }
+
+  //투표 한사람 화면
+  function yesVote() {
+    return (
+      <div>
+        <RBS.Col>{yesContentList()}</RBS.Col>
+      </div>
     );
   }
 
@@ -131,9 +248,9 @@ function VotePage({
 
   const handleRegister = (e) => {
     let body = {
-      userId: userId,
-      comment: comment,
-      //contentTitle: contentTitle,
+      userID: userId,
+      commentContent: comment,
+      voteID: voteID[0],
     };
 
     console.log(body);
@@ -152,6 +269,44 @@ function VotePage({
     };
   };
 
+  const handleSet = (e) => {
+    let body = {
+      voteID: voteID[0],
+      selecContent: contName,
+      userID: userId,
+    };
+
+    setVotesRequest(body);
+    setVoted(true);
+  };
+
+  // 댓글 가져오기 
+  function getComment() {
+    return (
+      <Grid container spacing={1}>
+        {commentID.map((item, index) => (
+          <Card className={useStyles.root}>
+            <CardContent>
+              <Typography
+                className={useStyles.title}
+                color="textSecondary"
+                gutterBottom
+              >
+                {commentUserID[index]}
+              </Typography>
+              <Typography variant="body2" component="p">
+                {commentContent[index]}
+              </Typography>
+            </CardContent>
+            <CardActions>
+              <Button size="small">Delete</Button>
+            </CardActions>
+          </Card>
+        ))}
+      </Grid>
+    );
+  }
+
   return (
     <div className="VotePage">
       <RBS.Container>
@@ -162,7 +317,9 @@ function VotePage({
           <RBS.Col></RBS.Col>
         </RBS.Row>
       </RBS.Container>
-      {contentList()}
+      {voted ? yesVote() : notVote()}
+
+      
       <div>
         <form className={useStyles.root}>
           <TextField
@@ -187,6 +344,9 @@ function VotePage({
           </Button>
         </form>
       </div>
+      <div>
+       {getComment()}
+      </div>
       <div class="votes">{voteItems}</div>
     </div>
   );
@@ -195,7 +355,7 @@ const mapStateToProps = (state) => {
   console.log(state);
   return {
     userId: state.authentication.status.currentUser,
-    items: state.votes.items,
+    items: state.votes.get.items,
   };
 };
 
@@ -206,6 +366,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     registerCommentRequest: (body) => {
       return dispatch(registerCommentRequest(body));
+    },
+    setVotesRequest: (body) => {
+      return dispatch(setVotesRequest(body));
     },
   };
 };

@@ -5,6 +5,7 @@ import viewsReducer from "./views/reducer";
 import authentication from "./authentication/reducer";
 import vote from "./makevote/reducer";
 import getVoteReducer from "./getVotes/reducer";
+import getMain from "./mainGetvotes/reducer";
 
 const rootReducer = combineReducers({
   views: viewsReducer,
@@ -12,6 +13,7 @@ const rootReducer = combineReducers({
   authentication: authentication,
   vote: vote,
   votes: getVoteReducer,
+  contents: getMain,
 });
 
 export default rootReducer;

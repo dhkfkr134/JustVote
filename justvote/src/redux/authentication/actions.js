@@ -10,24 +10,24 @@ import {
 } from "./types";
 
 /* LOGIN */
-export function loginRequest(userId, userPass) {
+export function loginRequest(userID, userPass) {
   return (dispatch) => {
     // Inform Login API is starting
     dispatch(login());
 
     let body = {
-      userId: userId,
+      userID: userID,
       userPass: userPass,
     };
 
-    console.log("LoginBody: " + body.userId + " / " + body.userPass);
+    console.log("LoginBody: " + body.userID + " / " + body.userPass);
 
     // API REQUEST
     return axios
       .post("http://localhost:8080/signin", body)
       .then((response) => {
         // SUCCEED
-        dispatch(loginSuccess(userId));
+        dispatch(loginSuccess(userID));
       })
       .catch((error) => {
         // FAILED
@@ -42,10 +42,10 @@ export function login() {
   };
 }
 
-export function loginSuccess(userId) {
+export function loginSuccess(userID) {
   return {
     type: AUTH_LOGIN_SUCCESS,
-    userId,
+    userID,
   };
 }
 
@@ -78,10 +78,10 @@ export function getStatus() {
   };
 }
 
-export function getStatusSuccess(userId) {
+export function getStatusSuccess(userID) {
   return {
     type: AUTH_GET_STATUS_SUCCESS,
-    userId,
+    userID,
   };
 }
 

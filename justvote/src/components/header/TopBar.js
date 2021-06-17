@@ -6,9 +6,9 @@ class TopBar extends Component {
   render() {
     const loginButton = (
       <RBS.Nav>
-        <RBS.Nav.Link href="/SignUp">Sign up</RBS.Nav.Link>
+        <RBS.Nav.Link href="/SignUp">JOIN US</RBS.Nav.Link>
         <RBS.Nav.Link eventKey={2} href="/SignIn">
-          Sign in
+          SIGN IN
         </RBS.Nav.Link>
       </RBS.Nav>
     );
@@ -16,7 +16,7 @@ class TopBar extends Component {
     const logoutButton = (
       <RBS.Nav>
         <RBS.Nav.Link eventKey={2} href="/" onClick={this.props.onLogout}>
-          Log Out
+          LOG OUT
         </RBS.Nav.Link>
       </RBS.Nav>
     );
@@ -30,18 +30,15 @@ class TopBar extends Component {
             <RBS.Nav.Link href="/MakeVote">Make Vote</RBS.Nav.Link>
             <RBS.Nav.Link href="/Ranking">Ranking {"&"} rank</RBS.Nav.Link>
             <RBS.NavDropdown title="Introduce" id="collasible-nav-dropdown">
-              <RBS.NavDropdown.Item href="Introduce/3.1">
+              <RBS.NavDropdown.Item href="Introduce/3.1 ">
                 연혁
               </RBS.NavDropdown.Item>
               <RBS.NavDropdown.Item href="Introduce/3.2">
                 목표
               </RBS.NavDropdown.Item>
-              <RBS.NavDropdown.Item href="Introduce/3.3">
-                시부럴 ㅋ
-              </RBS.NavDropdown.Item>
               <RBS.NavDropdown.Divider />
-              <RBS.NavDropdown.Item href="Introduce/3.4">
-                선으로 나눌수 있는거 보여줌
+              <RBS.NavDropdown.Item href="Introduce/3.3">
+                JustVote Team
               </RBS.NavDropdown.Item>
             </RBS.NavDropdown>
           </RBS.Nav>

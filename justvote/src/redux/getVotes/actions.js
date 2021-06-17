@@ -7,12 +7,16 @@ import {
   REGISTER_COMMENT_SUCCESS,
   REGISTER_COMMENT_FAILURE,
   DELETE_COMMENT,
+  SET_VOTES,
+  SET_VOTES_FAILURE,
+  SET_VOTES_SUCCESS,
 } from "./types";
 
+// 화면 구성요소 GET
 export function getVotesSuccess(votes) {
   return {
     type: GET_VOTES_SUCCESS,
-    payload: votes,
+    votes,
   };
 }
 export function getVotesFailure(error) {
@@ -26,16 +30,54 @@ export function getVotesREQUEST() {
     type: GET_VOTES_REQUEST,
   };
 }
+
 export function getVotes() {
   return (dispatch) => {
     dispatch(getVotesREQUEST());
     return axios
-      .get("https://jsonplaceholder.typicode.com/Comment")
-      .then((response) => dispatch(getVotesSuccess(response.data)))
+      .get("http://localhost:8080/content/3", {
+        params: {
+          voteID: 3,
+        },
+      })
+      .then((response) => {
+        dispatch(getVotesSuccess(response.data));
+      })
       .catch((error) => dispatch(getVotesFailure(error)));
-    // .then(votes =>
-    //     dispatch(getVotesSuccess(votes)))
-    // .catch(error => ))
+  };
+  //   return axios
+  //     .get("http://localhost:8080/content/3")
+  //     .then((response) => {
+  //       dispatch(getVotesSuccess())
+  //     })
+  //     .catch((error) => dispatch(getVotesFailure(error)));
+  // };
+}
+
+// 화면 구성요소 SET
+export function setVotesRequest(body) {
+  return (dispatch) => {
+    dispatch(setVotes());
+
+    return axios
+      .post("http://localhost:8080/setVote", body)
+      .then((response) => dispatch(setVotesSuccess()))
+      .catch((error) => dispatch(setVotesFailure()));
+  };
+}
+export function setVotesSuccess() {
+  return {
+    type: SET_VOTES_SUCCESS,
+  };
+}
+export function setVotesFailure() {
+  return {
+    type: SET_VOTES_FAILURE,
+  };
+}
+export function setVotes() {
+  return {
+    type: SET_VOTES,
   };
 }
 
@@ -43,12 +85,6 @@ export function getVotes() {
 export function registerCommentRequest(body) {
   return (dispatch) => {
     dispatch(registerComment());
-
-    // let body = {
-    //   // ID도 넣어주기
-    //   voteTitle: voteTitle,
-    //   Comment: Comment,
-    // };
 
     console.log(body);
     return axios

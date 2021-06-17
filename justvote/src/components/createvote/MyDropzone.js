@@ -5,6 +5,7 @@ import Dropzone from "react-dropzone";
 
 export default function MyDropzone(props) {
   const [Images, setImages] = useState([]);
+  const [files, setFiles] = useState([]);
 
   const onDrop = useCallback(async (acceptedFiles) => {
     // 사용자가 올린 정보를 확인해야 하므로 일단 서버로 전송합니다.
@@ -46,13 +47,26 @@ export default function MyDropzone(props) {
     });
   }, []);
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    accept: "image/*",
+    onDrop: (acceptedFiles) => {
+      setFiles(
+        acceptedFiles.map((file) =>
+          Object.assign(file, {
+            preview: URL.createObjectURL(file),
+          })
+        )
+      );
+    },
+  });
 
-  const InputProps = {
-    ...getInputProps(),
-    multiple: false,
-    accept: "image/gif, image/jpg, image/jpeg",
-  };
+  const images = files.map((file) => (
+    <div key={file.name}>
+      <div>
+        <img src={file.preview} style={{ width: "200px" }} alt="preview" />
+      </div>
+    </div>
+  ));
 
   const RootProps = {
     ...getRootProps(),
@@ -60,9 +74,9 @@ export default function MyDropzone(props) {
 
   return (
     <div {...getRootProps()}>
-      <input {...InputProps} />
+      <input {...getInputProps()} />
       {isDragActive ? (
-        <p>이제 이미지를 놓아주세요</p>
+        <p>Drop files here</p>
       ) : (
         <div
           style={{
@@ -77,6 +91,7 @@ export default function MyDropzone(props) {
           <div>이미지 넣기</div>
         </div>
       )}
+      <div>{images}</div>
     </div>
   );
 }

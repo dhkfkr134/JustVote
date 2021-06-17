@@ -1,11 +1,11 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 // import { connect } from "react-redux";
 import propTypes from "prop-types";
-import TextField from "@material-ui/core/TextField";
-import { Button } from "@material-ui/core";
 import "./createvote.css";
 
-// 이미지 전송
+// import axios from 'axios';
+
+// import { CreateVotes } from '../redux/makevote/actions';
 import { makeStyles } from "@material-ui/core/styles";
 import MyDropzone from "./MyDropzone";
 
@@ -22,11 +22,9 @@ const useStyles = makeStyles((theme) => ({
 
 class CreateVote extends Component {
   state = {
-    userId: "",
     voteTitle: "",
     voteContents: [""],
-    Images: [],
-    // 이미지
+    Image: [],
   };
 
   handleChange = (e) => {
@@ -58,9 +56,8 @@ class CreateVote extends Component {
 
     console.log(this.state);
     let body = {
-      voteId: this.state.voteId,
       voteTitle: this.state.voteTitle,
-      voteContent: this.state.voteContents,
+      selecContentList: this.state.voteContents,
     };
 
     console.log(body);
@@ -68,15 +65,12 @@ class CreateVote extends Component {
     this.props.onPost(body).then(() => {
       // 보내지면 빈칸으로 변경
       this.setState({
-        userId: "",
         voteTitle: "",
         voteContents: [""],
       });
     });
     // this.props.CreateVotes(this.state);
   };
-
-  // 이미지 전송
 
   submitImg = (e) => {
     e.preventDefault();
@@ -86,12 +80,8 @@ class CreateVote extends Component {
 
   render() {
     const voteContents = this.state.voteContents.map((content, i) => (
-      <Fragment key={i}>
-        <label className="form-label"></label>
-        <TextField
-          id="outlined-basic"
-          label="항목"
-          variant="outlined"
+      <div key={i} className="vconContainer">
+        <input
           className="content"
           type="text"
           value={content}
@@ -99,7 +89,13 @@ class CreateVote extends Component {
           onChange={(e) => this.handleAnswer(e, i)}
         />
         <div className="button-container">
-          <Button
+          <button
+            className="remove-button"
+            onClick={(e) => this.removeAnswer(i)}
+          >
+            삭제
+          </button>
+          {/* <Button
             className="remove-button"
             type="button"
             variant="contained"
@@ -108,43 +104,45 @@ class CreateVote extends Component {
             onClick={(e) => this.removeAnswer(i)}
           >
             삭제
-          </Button>
+          </Button> */}
         </div>
-      </Fragment>
+      </div>
     ));
 
     return (
-      <form className="form" onSubmit={this.handleSubmit}>
-        <label className="form-label" htmlFor="voteTitle">
-          투표 제목
-        </label>
-        <input
-          className="form-input"
-          type="text"
-          name="voteTitle"
-          value={this.state.voteTitle}
-          onChange={this.handleChange}
-        />
-        <div className="conContainer">{voteContents}</div>
-        <div className="buttons_center">
-          <Button
-            className="button"
-            type="button"
-            variant="contained"
-            color="primary"
-            size="medium"
-            onClick={this.addAnswer}
-          >
-            항목 추가
-          </Button>
-          <Button className="button" type="submit" onClick={this.handleSubmit}>
-            투표 만들기
-          </Button>
+      <div className="container">
+        <div className="form">
+          <h3 className="header">투표 만들기</h3>
+          <div className="title-holder">
+            <label className="title-name" htmlFor="voteTitle">
+              투표 제목
+            </label>
+            <input
+              className="title"
+              type="text"
+              name="voteTitle"
+              value={this.state.voteTitle}
+              onChange={this.handleChange}
+            />
+          </div>
+
+          <div className="conContainer">
+            <label className="conName">투표 항목</label>
+            {voteContents}
+          </div>
+          <div className="addcontainer">
+            <button className="button" onClick={this.addAnswer}>
+              항목 추가
+            </button>
+          </div>
+          <div className="subcontainer">
+            <button className="button" onClick={this.handleSubmit}>
+              투표 만들기
+            </button>
+            <MyDropzone />
+          </div>
         </div>
-        <div>
-          <MyDropzone />
-        </div>
-      </form>
+      </div>
     );
   }
 }
