@@ -22,36 +22,34 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function MainHome({ getMainRequest, contentList, userId, loading }) {
+function MainHome({ getMainRequest, contentList ,userId, loading }) {
+
   let voteHits = [];
   let voteID = [];
   let voteRegDate = [];
   let voteTitle = [];
 
   let count = 0;
-
   useEffect(() => {
     getMainRequest();
   }, []);
 
-  console.log(contentList);
+  console.log(contentList)
 
   //데이터 받기
-  const contentItems = loading ? (
-    <div>is loading...</div>
-  ) : (
-    contentList.map((content) => (
-      <div key={content.voteID} style={{ visibility: "hidden" }}>
-        {
-          (voteHits.push(content.voteHits),
-          voteID.push(content.voteID),
-          voteRegDate.push(content.voteRegDate),
-          voteTitle.push(content.voteTitle))
-        }
-      </div>
-    ))
-  );
-  console.log(voteTitle);
+  const contentItems = loading? (
+     <div>is loading...</div>
+     ): ( contentList.map((content) => (
+    <div key={content.voteID} style={{ visibility: "hidden" }}>
+      {
+        (voteHits.push(content.voteHits),
+        voteID.push(content.voteID),
+        voteRegDate.push(content.voteRegDate),
+        voteTitle.push(content.voteTitle))
+      }
+    </div>
+  )));
+  console.log(voteTitle)
 
   //Contents에 관한 부분
   return (

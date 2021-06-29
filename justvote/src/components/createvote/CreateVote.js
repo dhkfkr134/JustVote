@@ -24,7 +24,6 @@ class CreateVote extends Component {
   state = {
     voteTitle: "",
     voteContents: [""],
-    Image: [],
   };
 
   handleChange = (e) => {

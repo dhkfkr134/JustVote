@@ -1,22 +1,20 @@
 import React from "react";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
-
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TablePagination from "@material-ui/core/TablePagination";
+import TableRow from "@material-ui/core/TableRow";
 import "./ranking.css";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
+import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Link from "@material-ui/core/Link";
-import Grid from "@material-ui/core/Grid";
-import Box from "@material-ui/core/Box";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import Container from "@material-ui/core/Container";
-import Radio from "@material-ui/core/Radio";
-import FormLabel from "@material-ui/core/FormLabel";
-
+import { Grid } from "@material-ui/core";
 import icon1 from "../../img/icon/1.png";
 import icon2 from "../../img/icon/2.png";
 import icon3 from "../../img/icon/3.png";
@@ -110,120 +108,97 @@ export default function StickyHeadTable() {
   };
 
   return (
-    <div>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <div className={useStyles.paper}>
-          <Typography component="h1" variant="h5">
-            JUST VOTE
-          </Typography>
-
-          <form className={useStyles.form} noValidate>
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <Card className={classes.root}>
-                  <div className={classes.details}>
-                    <CardContent className={classes.content}>
-                      <Typography component="h5" variant="h5">
-                        TOP 1
-                      </Typography>
-                      <Typography variant="subtitle1">whthakd</Typography>
-                      <Typography variant="subtitle2" color="textSecondary">
-                        point : 244
-                      </Typography>
-                    </CardContent>
-                  </div>
-                  <CardMedia
-                    className={classes.cover}
-                    image={icon3}
-                    title="Live from space album cover"
-                  />
-                </Card>
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <Card className={classes.root}>
-                  <div className={classes.details}>
-                    <CardContent className={classes.content}>
-                      <Typography component="h5" variant="h5">
-                        TOP 2
-                      </Typography>
-                      <Typography variant="subtitle1">Siwoo</Typography>
-                      <Typography variant="subtitle2" color="textSecondary">
-                        point : 232
-                      </Typography>
-                    </CardContent>
-                  </div>
-                  <CardMedia
-                    className={classes.cover}
-                    image={icon10}
-                    title="Live from space album cover"
-                  />
-                </Card>
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <Card className={classes.root}>
-                  <div className={classes.details}>
-                    <CardContent className={classes.content}>
-                      <Typography component="h5" variant="h5">
-                        TOP 3
-                      </Typography>
-                      <Typography variant="subtitle1">yanolza</Typography>
-                      <Typography variant="subtitle2" color="textSecondary">
-                        point : 226
-                      </Typography>
-                    </CardContent>
-                  </div>
-                  <CardMedia
-                    className={classes.cover}
-                    image={icon1}
-                    title="Live from space album cover"
-                  />
-                </Card>
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <Card className={classes.root}>
-                  <div className={classes.details}>
-                    <CardContent className={classes.content}>
-                      <Typography component="h5" variant="h5">
-                        TOP 4
-                      </Typography>
-                      <Typography variant="subtitle1">firebird</Typography>
-                      <Typography variant="subtitle2" color="textSecondary">
-                        point : 208
-                      </Typography>
-                    </CardContent>
-                  </div>
-                  <CardMedia
-                    className={classes.cover}
-                    image={icon4}
-                    title="Live from space album cover"
-                  />
-                </Card>
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <Card className={classes.root}>
-                  <div className={classes.details}>
-                    <CardContent className={classes.content}>
-                      <Typography component="h5" variant="h5">
-                        TOP 5
-                      </Typography>
-                      <Typography variant="subtitle1">kingWoo</Typography>
-                      <Typography variant="subtitle2" color="textSecondary">
-                        point : 199
-                      </Typography>
-                    </CardContent>
-                  </div>
-                  <CardMedia
-                    className={classes.cover}
-                    image={icon7}
-                    title="Live from space album cover"
-                  />
-                </Card>
-              </Grid>
-            </Grid>
-          </form>
+    <Grid>
+      <Card className={classes.root}>
+        <div className={classes.details}>
+          <CardContent className={classes.content}>
+            <Typography component="h5" variant="h5">
+              TOP 1
+            </Typography>
+            <Typography variant="subtitle1">whthakd</Typography>
+            <Typography variant="subtitle2" color="textSecondary">
+              point : 244
+            </Typography>
+          </CardContent>
         </div>
-      </Container>
-    </div>
+        <CardMedia
+          className={classes.cover}
+          image={icon3}
+          title="Live from space album cover"
+        />
+      </Card>
+      <Card className={classes.root}>
+        <div className={classes.details}>
+          <CardContent className={classes.content}>
+            <Typography component="h5" variant="h5">
+              TOP 2
+            </Typography>
+            <Typography variant="subtitle1">Siwoo</Typography>
+            <Typography variant="subtitle2" color="textSecondary">
+              point : 232
+            </Typography>
+          </CardContent>
+        </div>
+        <CardMedia
+          className={classes.cover}
+          image={icon10}
+          title="Live from space album cover"
+        />
+      </Card>
+      <Card className={classes.root}>
+        <div className={classes.details}>
+          <CardContent className={classes.content}>
+            <Typography component="h5" variant="h5">
+              TOP 3
+            </Typography>
+            <Typography variant="subtitle1">yanolza</Typography>
+            <Typography variant="subtitle2" color="textSecondary">
+              point : 226
+            </Typography>
+          </CardContent>
+        </div>
+        <CardMedia
+          className={classes.cover}
+          image={icon1}
+          title="Live from space album cover"
+        />
+      </Card>
+      <Card className={classes.root}>
+        <div className={classes.details}>
+          <CardContent className={classes.content}>
+            <Typography component="h5" variant="h5">
+              TOP 4
+            </Typography>
+            <Typography variant="subtitle1">firebird</Typography>
+            <Typography variant="subtitle2" color="textSecondary">
+              point : 208
+            </Typography>
+          </CardContent>
+        </div>
+        <CardMedia
+          className={classes.cover}
+          image={icon4}
+          title="Live from space album cover"
+        />
+      </Card>
+      <Card className={classes.root}>
+        <div className={classes.details}>
+          <CardContent className={classes.content}>
+            <Typography component="h5" variant="h5">
+              TOP 5
+            </Typography>
+            <Typography variant="subtitle1">kingWoo</Typography>
+            <Typography variant="subtitle2" color="textSecondary">
+              point : 199
+            </Typography>
+          </CardContent>
+        </div>
+        <CardMedia
+          className={classes.cover}
+          image={icon7}
+          title="Live from space album cover"
+        />
+      </Card>
+    </Grid>
   );
 }

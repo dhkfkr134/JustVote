@@ -99,12 +99,12 @@ class SignUp extends Component {
 
     let body = {
       userName: this.state.userName,
-      gender: this.state.gender,
+      sex: this.state.gender,
       age: this.state.age,
       major: this.state.major,
       grade: this.state.grade,
       nickName: this.state.nickName,
-      userId: this.state.userId,
+      userID: this.state.userId,
       userPass: this.state.userPass,
     };
 
@@ -112,7 +112,10 @@ class SignUp extends Component {
 
     axios
       .post("http://localhost:8080/register", body)
-      .then((res) => console.log(res))
+      .then((res) => {
+        console.log(res)
+        this.props.history.push("/")
+      })
       .catch((err) => {
         console.log("에러", err);
       });

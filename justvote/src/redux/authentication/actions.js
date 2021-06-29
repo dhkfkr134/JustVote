@@ -20,7 +20,7 @@ export function loginRequest(userID, userPass) {
       userPass: userPass,
     };
 
-    console.log("LoginBody: " + body.userID + " / " + body.userPass);
+    console.log(body);
 
     // API REQUEST
     return axios

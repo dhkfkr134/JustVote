@@ -5,6 +5,14 @@ import { connect } from "react-redux";
 import { getVotes, registerCommentRequest, setVotesRequest } from "../redux";
 import testImage from "../img/content_img.png";
 
+import image1 from "../img/content/1cafe.PNG";
+import image2 from "../img/content/2food.PNG";
+import image3 from "../img/content/3notebook.PNG";
+import image4 from "../img/content/4phone.PNG";
+import image5 from "../img/content/5popsong.PNG";
+import image6 from "../img/content/6stage.PNG";
+import image7 from "../img/content/7dog.png";
+
 // material import
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
@@ -134,9 +142,40 @@ function VotePage({
         console.log(commentID);
 
   
+        
+
 
   //파라미터
   const { nam } = useParams();
+
+  let images = new Image();
+
+        if(nam == 1){
+          images =  image1
+        }
+        else if(nam == 2){
+          images = image2
+        }
+        else if(nam == 3){
+          images = image3
+        }
+        else if(nam == 4){
+          images = image4
+        }
+        else if(nam == 5){
+          images = image5
+        }
+        else if(nam == 6){
+          images = image6
+        }
+        else if(nam == 7){
+          images = image7
+        }
+        else{
+          images = testImage
+        }
+        console.log(images)
+
   const selectContent = selcContent.shift();
   // 투표화면 상단
   function VoteTop() {
@@ -148,7 +187,7 @@ function VotePage({
         </h5>
         <RBS.Col xs={6} md={4}>
           {/* ../public/content_img.png 이라고 해도 되지만 위치몰라도 고를 수 있는걸 보여주고 싶었음*/}
-          <RBS.Image src={testImage} rounded />
+          <RBS.Image src={images} rounded />
         </RBS.Col>
       </div>
     );
@@ -253,7 +292,6 @@ console.log(selecHits)
       voteID: voteID[0],
     };
 
-    console.log(body);
     registerCommentRequest(body).then(() => {
       // push해줌
     });
