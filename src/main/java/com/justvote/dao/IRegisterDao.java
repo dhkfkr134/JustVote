@@ -25,5 +25,7 @@ public interface IRegisterDao {
 	public List<RegisterDto> hitView(int hit, String userID);
 
 	public void contentDao(String id);
+	
+	public void getUserIdDao();
 
 }

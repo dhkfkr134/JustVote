@@ -11,7 +11,8 @@ import com.justvote.dto.CommentDto;
 public interface ICommentDao {
 	public List<CommentDto> listDao();
 	
-	public void writeDao(String comment);
+	public void writeDao(@Param("_commentContent")String commentContent,
+			@Param("_voteID")String voteID, @Param("_userID")String userID);
 	
 	public int delete(@Param("_commentNum") String commentNum);
 	

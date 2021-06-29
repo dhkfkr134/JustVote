@@ -9,8 +9,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		insert into user(userName,sex,age,major,grade,nickName,userID,userPass)
 		values
 		(#{param1},#{param2},#{param3},#{param4},#{param5},#{param6},#{param7},#{param8})
-
-	</insert>
+ 	</insert>
 
 	<!-- 로그인 -->
 	<select id="loginDao" resultType="String">

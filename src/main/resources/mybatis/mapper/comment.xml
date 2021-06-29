@@ -11,7 +11,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select> -->
 
 	<insert id="writeDao">
-		insert into test3(comment) values (#{param1})
+		insert into comment(userID, voteID, commentContent) values 
+		(#{_userID}, #{_voteID}, #{_commentContent})
 	</insert>
 
 	<delete id="deleteDao">

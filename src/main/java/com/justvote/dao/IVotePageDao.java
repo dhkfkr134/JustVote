@@ -20,13 +20,14 @@ public interface IVotePageDao {
 	public List<VotePageDto> selecGetDao(String index); // 투표 페이지 Get보내기
 	public int getVoteID();
 	
+	
 	// TEST// 투표 content를 선택하고 Hit수 증가하는 DAO
 	public void voteContentCount(@Param("_voteID")int voteID, @Param("_selecContent")String contentIndex);
 	
 	// makevote위한 DAO
-	public void registVotePageDao(@Param("_voteTitle")String voteTitle);
-	public String regestVotePageIDReturnDao();
-	public void registVoteContentDao(@Param("_voteID")String voteIDs ,@Param("list")List<String> list);
+	public void registVotePageDao(@Param("_voteTitle")String voteTitle,@Param("_userID")String userID);
+	public String regestVotePageIDReturnDao(); //등록 PAGEid받아오는 문
+	public void registVoteContentDao(@Param("_voteID")String voteID ,@Param("list")List<String> list);
 	
 	
 	// 나중에 끝나는 날짜를 추가해서 받아줘야 한다, 일단 DB에서 테이블을 바꿔서 ENDDATE를 DEFAULT 값으로 넣어야 할 수도 

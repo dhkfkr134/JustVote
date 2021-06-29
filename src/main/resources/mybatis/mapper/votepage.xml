@@ -41,7 +41,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 투표화면 만들기 위한 쿼리문 3개 -->
 	<insert id="registVotePageDao">
-		insert into votepage(voteTitle) values(#{_voteTitle})
+		insert into votepage(voteTitle, userID) values(#{_voteTitle}, #{_userID})
 	</insert>
 	
 	<select id="regestVotePageIDReturnDao" resultType="String">
@@ -50,7 +50,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<insert id="registVoteContentDao">
 			insert into voteselection(voteID, selecContent) values
-			
 			<foreach collection="list" item="item" separator="," index="index">
 				(#{_voteID},
 				#{item}

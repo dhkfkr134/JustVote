@@ -57,8 +57,9 @@ public class MyController {
 	public String login(@RequestBody RegisterDto loginDto, HttpServletRequest req) {
 		String check = dao.loginDao(loginDto.getUserID(), loginDto.getUserPass());
 
+		System.out.println("postman /signin");
 		if (check == null) {
-			System.out.println("데이터가 없습니다");
+			System.out.println("로그인 실패");
 			org.apache.tomcat.jni.Error.osError();
 		} else {
 			System.out.println("성공");
@@ -79,6 +80,7 @@ public class MyController {
 		 * 
 		 * System.out.println(dao.check(checkDto.getUserId()));
 		 */
+		System.out.println("postman 받기 /getInfo");
 		Object a = loginId.getAttribute("userId");
 
 		if (loginId.getAttribute("userId") == null) {
@@ -88,24 +90,19 @@ public class MyController {
 
 		} else {
 			System.out.println("성공33");
-
 		}
-
 		return a;
-
 	}
 	
 	@PostMapping("/registerComment")
 	public Object writeComment(@RequestBody CommentDto cd) {
 		//dao1.listDao();
-		dao1.writeDao(cd.getCommentContent());
+		dao1.writeDao(cd.getCommentContent(), cd.getVoteID(), cd.getUserID());
 		//dao1.delete(cd.getCommentNum());
 	Object a = loginId.getAttribute("userId");
 	
 	return cd.toString();
-		
 	}
-	
 	
 	
 	
@@ -134,6 +131,7 @@ public class MyController {
 	@GetMapping("/getMain")
 	public List<VotePageDto> mainPageGet(HttpServletRequest request) {
 
+		System.out.println("postman 요청받기 성공");
 		// return 해줄 List
 		List<VotePageDto> list = new ArrayList<>();
 
@@ -141,16 +139,21 @@ public class MyController {
 		list = dao2.voteGetListDao();
 
 		return list;
+		
 	}
 
 	// 동우 투표만들기
 	@PostMapping("/makeVote") // votepage(테이블) 만들기
-	public void makevote(@RequestBody VotePageDto votePageDto) {
-
-		dao2.registVotePageDao(votePageDto.getVoteTitle());
-		// voteContent받아올 List 선언 여기서 하나씩 빼서 쿼리문 loop돌릴것
+	public void makevote(@RequestBody VotePageDto votePageDto,HttpServletRequest req,RegisterDto rd
+			) {
+		Object a = loginId.getAttribute("userID");
+		String str = String.valueOf(a);
+		// votepage insert
+		dao2.registVotePageDao(votePageDto.getVoteTitle(),votePageDto.getUserID());
+		System.out.println(votePageDto.getVoteTitle());
+		System.out.println(votePageDto.getUserID());
 		List<String> list = new ArrayList<>();
-		list = votePageDto.getVoteContent();
+		list = votePageDto.getSelecContentList();
 
 		String voteID = dao2.regestVotePageIDReturnDao();
 

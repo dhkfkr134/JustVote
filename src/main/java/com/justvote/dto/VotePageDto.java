@@ -22,5 +22,5 @@ public class VotePageDto {
 	private String selecContent;
 	private int selecHits;
 	
-	private List<String> voteContentList;
+	private List<String> selecContentList;
 }
