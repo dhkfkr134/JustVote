@@ -30,11 +30,11 @@ function App() {
 
           <Route path="/SignIn" component={Login} />
 
-          <Route path="/SignUp" component={SignUp}/>
+          <Route path="/SignUp" component={SignUp} />
         </Switch>
       </div>
     </BrowserRouter>
-  ); 
+  );
 }
 
 export default App;

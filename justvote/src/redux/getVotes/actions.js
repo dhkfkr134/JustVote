@@ -31,13 +31,13 @@ export function getVotesREQUEST() {
   };
 }
 
-export function getVotes() {
+export function getVotes(nam) {
   return (dispatch) => {
     dispatch(getVotesREQUEST());
     return axios
-      .get("http://localhost:8080/content/3", {
+      .get("http://localhost:8080/content", {
         params: {
-          voteID: 3,
+          voteID: nam,
         },
       })
       .then((response) => {

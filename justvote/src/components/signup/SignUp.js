@@ -74,7 +74,7 @@ class SignUp extends Component {
       major: "",
       grade: "",
       nickName: "",
-      userId: "",
+      userID: "",
       userPass: "",
       message: null,
     };
@@ -113,8 +113,8 @@ class SignUp extends Component {
     axios
       .post("http://localhost:8080/register", body)
       .then((res) => {
-        console.log(res)
-        this.props.history.push("/")
+        console.log(res);
+        this.props.history.push("/");
       })
       .catch((err) => {
         console.log("에러", err);

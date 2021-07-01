@@ -75,12 +75,14 @@ function VotePage({
   registerCommentRequest,
 }) {
   useEffect(() => {
-    getVotes();
+    getVotes(nam);
   }, []);
 
   const [select, setSelect] = useState();
   const [voted, setVoted] = useState(false);
   let contName;
+
+  const { nam } = useParams();
 
   const onChange = ({ target }) => {
     setSelect(select);
@@ -101,7 +103,7 @@ function VotePage({
   let selecContent = [];
   let selecHits = [];
 
-  //댓글 변수들 
+  //댓글 변수들
   let commentContent = [];
   let commentID = [];
   let commentUserID = [];
@@ -114,67 +116,57 @@ function VotePage({
       <div key={item.voteID} style={{ visibility: "hidden" }}>
         {
           (selecContent.push(item.selecContent),
-            selecID.push(item.selecID),
-            selecHits.push(item.selecHits),
-            voteID.push(item.voteID),
-            voteTitle.push(item.voteTitle),
-            voteRegDate.push(item.voteRegDate),
-            voteHits.push(item.voteHits),
-            commentContent.push(item.commentContent),
-            commentID.push(item.commentID), 
-            commentUserID.push(item.userId))
+          selecID.push(item.selecID),
+          selecHits.push(item.selecHits),
+          voteID.push(item.voteID),
+          voteTitle.push(item.voteTitle),
+          voteRegDate.push(item.voteRegDate),
+          voteHits.push(item.voteHits),
+          commentContent.push(item.commentContent),
+          commentID.push(item.commentID),
+          commentUserID.push(item.userId))
         }
       </div>
     ))
   );
 
-        const selcContent = selecContent.filter(selecContent => selecContent !== undefined);
-        const selcHits = selecHits.filter(selecHits => selecHits !== undefined);
-        console.log(selcContent);
-        selcHits.shift();
+  const selcContent = selecContent.filter(
+    (selecContent) => selecContent !== undefined
+  );
+  const selcHits = selecHits.filter((selecHits) => selecHits !== undefined);
+  console.log(selcContent);
+  selcHits.shift();
 
-    console.log()
-        for(var i =0;i<selcHits.length+1;i++){
-          commentContent.shift();
-          commentID.shift();
-          commentUserID.shift();
-        }
-        console.log(commentID);
-
-  
-        
-
+  console.log();
+  for (var i = 0; i < selcHits.length + 1; i++) {
+    commentContent.shift();
+    commentID.shift();
+    commentUserID.shift();
+  }
+  console.log(commentID);
 
   //파라미터
-  const { nam } = useParams();
 
   let images = new Image();
 
-        if(nam == 1){
-          images =  image1
-        }
-        else if(nam == 2){
-          images = image2
-        }
-        else if(nam == 3){
-          images = image3
-        }
-        else if(nam == 4){
-          images = image4
-        }
-        else if(nam == 5){
-          images = image5
-        }
-        else if(nam == 6){
-          images = image6
-        }
-        else if(nam == 7){
-          images = image7
-        }
-        else{
-          images = testImage
-        }
-        console.log(images)
+  if (nam == 1) {
+    images = image1;
+  } else if (nam == 2) {
+    images = image2;
+  } else if (nam == 3) {
+    images = image3;
+  } else if (nam == 4) {
+    images = image4;
+  } else if (nam == 5) {
+    images = image5;
+  } else if (nam == 6) {
+    images = image6;
+  } else if (nam == 7) {
+    images = image7;
+  } else {
+    images = testImage;
+  }
+  console.log(images);
 
   const selectContent = selcContent.shift();
   // 투표화면 상단
@@ -229,20 +221,27 @@ function VotePage({
 
   function yesContentList() {
     let P = [];
-    let sum =0;
-    for(let i =0; i<selcHits.length; i++) {
-      sum +=selcHits[i];
+    let sum = 0;
+    for (let i = 0; i < selcHits.length; i++) {
+      sum += selcHits[i];
     }
     for (let i = 0; i < selcHits.length; i++) {
       P.push((selcHits[i] / sum) * 100);
       P[i] = P[i].toFixed(1);
     }
-console.log(selecHits)
+    console.log(selecHits);
     return (
       <div>
         {selcHits.map((item, index) => (
-          <div key={index} style={{display:"block"}}>
-            <>{selcContent[index] + " ("+ selcHits[index] + "명) " + P[index] + "%"}</>
+          <div key={index} style={{ display: "block" }}>
+            <>
+              {selcContent[index] +
+                " (" +
+                selcHits[index] +
+                "명) " +
+                P[index] +
+                "%"}
+            </>
             <BorderLinearProgress variant="determinate" value={P[index]} />
           </div>
         ))}
@@ -318,7 +317,7 @@ console.log(selecHits)
     setVoted(true);
   };
 
-  // 댓글 가져오기 
+  // 댓글 가져오기
   function getComment() {
     return (
       <Grid container spacing={1}>
@@ -357,7 +356,6 @@ console.log(selecHits)
       </RBS.Container>
       {voted ? yesVote() : notVote()}
 
-      
       <div>
         <form className={useStyles.root}>
           <TextField
@@ -382,9 +380,7 @@ console.log(selecHits)
           </Button>
         </form>
       </div>
-      <div>
-       {getComment()}
-      </div>
+      <div>{getComment()}</div>
       <div class="votes">{voteItems}</div>
     </div>
   );
@@ -399,8 +395,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getVotes: () => {
-      return dispatch(getVotes());
+    getVotes: (nam) => {
+      return dispatch(getVotes(nam));
     },
     registerCommentRequest: (body) => {
       return dispatch(registerCommentRequest(body));
