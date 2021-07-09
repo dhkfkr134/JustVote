@@ -59,7 +59,7 @@ function MainHome({ getMainRequest, contentList, userId, loading }) {
       <Grid container spacing={2}>
         {contentList.map((content, index) => (
           <Grid item xs={6} sm={3}>
-            <Link key={index} to={`/content/${index + 1}`}>
+            <Link key={index} to={`/content/${voteID[index]}`}>
               <MediaCard
                 voteHits={content.voteHits}
                 userID={content.userID}

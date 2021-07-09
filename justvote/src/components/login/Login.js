@@ -44,13 +44,6 @@ const mapStateToProps = (state) => {
   };
 };
 
-//  const mapStateToProps = (state) => {
-//    console.log("state.status" + state.status);
-//    return {
-//      status: state.status,
-//    };
-//  };
-
 const mapDispatchToProps = (dispatch) => {
   return {
     loginRequest: (id, pw) => {
