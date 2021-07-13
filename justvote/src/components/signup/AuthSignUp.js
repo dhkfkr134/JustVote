@@ -23,6 +23,12 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 
+import {
+  ToastsContainer,
+  ToastsStore,
+  ToastsContainerPosition,
+} from "react-toasts";
+
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -94,8 +100,36 @@ class AuthSignUp extends Component {
     this.setState({ grade: e.target.value });
   };
 
+  toastCheckID_Able() {
+    ToastsStore.success("사용 가능한 아이디입니다.");
+  }
+
+  toastCheckID_Unable() {
+    ToastsStore.error("다른 아이디를 사용해주세요.");
+  }
+
+  toastRegister_NotEnoughInfo() {
+    ToastsStore.error("모든 항목을 입력하세요.");
+  }
+
   handleRegister = (e) => {
     e.preventDefault();
+
+    if (
+      // 정보가 부족하면 오류 메시지 출력
+      this.state.userName === "" ||
+      this.state.gender === "" ||
+      this.state.age === "" ||
+      this.state.major === "" ||
+      this.state.grade === "" ||
+      this.state.nickName === "" ||
+      this.state.nickName === "" ||
+      this.state.userID === "" ||
+      this.state.userPass === ""
+    ) {
+      this.toastRegister_NotEnoughInfo();
+      return false;
+    }
 
     let body = {
       userName: this.state.userName,
@@ -128,15 +162,20 @@ class AuthSignUp extends Component {
   handleCheckID = (e) => {
     e.preventDefault();
 
-    this.props.onCheckID(this.state.userID).then((success) => {
+    let body = {
+      userID: this.state.userID,
+    };
+
+    this.props.onCheckID(body).then((success) => {
       if (!success) {
         //실패하면 아이디 재입력 받음
         this.setState({
           userID: "",
         });
+        this.toastCheckID_Unable();
       } else {
         // 성공하면 아이디 사용가능 메시지 출력
-        console.log("ID useable");
+        this.toastCheckID_Able();
       }
     });
   };
@@ -328,6 +367,13 @@ class AuthSignUp extends Component {
             <Copyright />
           </Box>
         </Container>
+        <div>
+          <ToastsContainer
+            store={ToastsStore}
+            position={ToastsContainerPosition.TOP_CENTER}
+            lightBackground
+          />
+        </div>
       </div>
     );
   }

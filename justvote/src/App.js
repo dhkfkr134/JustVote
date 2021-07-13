@@ -6,7 +6,6 @@ import Ranking from "./components/ranking/Ranking";
 import Login from "./components/login/Login";
 import Header from "./components/header/Header";
 import SignUp from "./components/signup/SignUp";
-import { Home } from "./pages";
 import MainHome from "./components/mainHome/MainHome";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import VoteContainer from "./components/createvote/VoteContainer";
@@ -17,7 +16,7 @@ function App() {
       <div className="App">
         <Route path="/" component={Header} />
         <Switch>
-          <Route path="/Home" component={MainHome} />
+          <Route path="/Home/:category" component={MainHome} />
           <Route path="/MakeVote" component={VoteContainer} />
 
           <Route path="/content/:nam" component={VotePage} />

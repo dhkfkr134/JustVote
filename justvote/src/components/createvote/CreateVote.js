@@ -2,6 +2,10 @@ import React, { Component } from "react";
 // import { connect } from "react-redux";
 import propTypes from "prop-types";
 import "./createvote.css";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
+import InputLabel from "@material-ui/core/InputLabel";
 
 // import axios from 'axios';
 
@@ -24,6 +28,7 @@ class CreateVote extends Component {
   state = {
     voteTitle: "",
     voteContents: [""],
+    category: "",
   };
 
   handleChange = (e) => {
@@ -31,7 +36,9 @@ class CreateVote extends Component {
     nextState[e.target.name] = e.target.value;
     this.setState(nextState);
   };
-
+  selectChange = (e) => {
+    this.setState({ category: e.target.value});
+  }
   addAnswer = (e) => {
     this.setState({ voteContents: [...this.state.voteContents, ""] });
   };
@@ -57,6 +64,7 @@ class CreateVote extends Component {
     let body = {
       voteTitle: this.state.voteTitle,
       selecContentList: this.state.voteContents,
+      category: this.state.category,
     };
 
     console.log(body);
@@ -66,10 +74,12 @@ class CreateVote extends Component {
       this.setState({
         voteTitle: "",
         voteContents: [""],
+        category: "",
       });
     });
     // this.props.CreateVotes(this.state);
   };
+
 
   submitImg = (e) => {
     e.preventDefault();
@@ -124,7 +134,28 @@ class CreateVote extends Component {
               onChange={this.handleChange}
             />
           </div>
-
+          <div className="category">
+            <FormControl
+                    fullWidth
+                    variant="outlined"
+            >
+              <InputLabel id="grade">Category</InputLabel>
+                <Select
+                  labelId="grade"
+                  id="grade"
+                  value={this.state.select}
+                  onChange={this.selectChange}
+                  label="Grade"
+                >
+                  <MenuItem value="연예">연예</MenuItem>
+                  <MenuItem value="시사">시사</MenuItem>
+                  <MenuItem value="TV">TV</MenuItem>
+                  <MenuItem value="학교">학교</MenuItem>
+                  <MenuItem value="썰">썰</MenuItem>
+                  <MenuItem value="기타">기타</MenuItem>
+                </Select>
+              </FormControl>
+          </div>
           <div className="conContainer">
             <label className="conName">투표 항목</label>
             {voteContents}

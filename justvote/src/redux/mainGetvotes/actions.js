@@ -3,13 +3,17 @@ import { GET_MAIN_FAILURE, GET_MAIN_SUCCESS, GET_MAIN } from "./types";
 
 // 화면 구성요소 GET
 /* GET Main */
-export function getMainRequest() {
+export function getMainRequest(category) {
   return (dispatch) => {
     // inform Get Status API is starting
     dispatch(getMainStatus());
 
     return axios
-      .get("http://localhost:8080/getMain")
+      .get("http://localhost:8080/main", {
+        params: {
+          category: category,
+        },
+      })
       .then((response) => {
         dispatch(getMainSuccess(response.data));
         console.log(response.data);

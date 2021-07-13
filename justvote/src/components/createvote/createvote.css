@@ -59,6 +59,11 @@
   border: 1px solid;
   border-color: rgb(195, 198, 204);
 }
+.category {
+  width: 90%;
+  padding-left: 2rem;
+  padding-bottom: 2rem;
+}
 .conContainer {
   padding-left: 2rem;
 }

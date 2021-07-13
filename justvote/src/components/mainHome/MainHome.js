@@ -30,10 +30,11 @@ function MainHome({ getMainRequest, contentList, userId, loading }) {
 
   let count = 0;
   useEffect(() => {
-    getMainRequest();
+    getMainRequest(category);
   }, []);
 
   console.log(contentList);
+  const { category } = useParams();
 
   //데이터 받기
   const contentItems = loading ? (
@@ -61,6 +62,7 @@ function MainHome({ getMainRequest, contentList, userId, loading }) {
           <Grid item xs={6} sm={3}>
             <Link key={index} to={`/content/${voteID[index]}`}>
               <MediaCard
+                voteID={content.voteID}
                 voteHits={content.voteHits}
                 userID={content.userID}
                 voteRegDate={content.voteRegDate}

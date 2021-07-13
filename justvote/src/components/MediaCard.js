@@ -18,8 +18,7 @@ import image5 from "../img/content/5popsong.PNG";
 import image6 from "../img/content/6stage.PNG";
 import image7 from "../img/content/7dog.png";
 
-
-console.log(image1.type)
+console.log(image1.type);
 const useStyles = makeStyles({
   root: {
     maxWidth: 345,
@@ -30,43 +29,35 @@ const useStyles = makeStyles({
 });
 
 export default function MediaCard({
+  voteID,
   voteHits,
   userID,
   voteRegDate,
   voteTitle,
-  count
+  count,
 }) {
   const classes = useStyles();
 
-console.log(count) 
- let images = new Image();
+  console.log(count);
+  let images = new Image();
 
-  if(count === 0){
-    images =  image1
+  if (count === 0) {
+    images = image1;
+  } else if (count === 1) {
+    images = image2;
+  } else if (count === 2) {
+    images = image3;
+  } else if (count === 3) {
+    images = image4;
+  } else if (count === 4) {
+    images = image5;
+  } else if (count === 5) {
+    images = image6;
+  } else if (count === 6) {
+    images = image7;
+  } else {
+    images = testImage;
   }
-  else if(count === 1){
-    images = image2
-  }
-  else if(count === 2){
-    images = image3
-  }
-  else if(count === 3){
-    images = image4
-  }
-  else if(count === 4){
-    images = image5
-  }
-  else if(count === 5){
-    images = image6
-  }
-  else if(count === 6){
-    images = image7
-  }
-  else{
-    images = testImage
-  }
-  
-
 
   return (
     <Card className={classes.root}>

@@ -73,7 +73,7 @@ class Header extends Component {
 
     // 현재 경로가 '/'라면 Home으로 이동
     if (thisPath === "/") {
-      this.props.history.push("/Home");
+      this.props.history.push("/Home/all");
     }
 
     return (
