@@ -1,0 +1,139 @@
+.container {
+  text-align: none;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 4rem;
+  margin-bottom: 4rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+@media (min-width: 768px) {
+  .container {
+    margin-top: 8rem;
+    margin-bottom: 8rem;
+  }
+}
+
+.form {
+  width: 100%;
+  max-width: 48rem;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 0.25rem;
+  --tw-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
+    var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+  --tw-bg-opacity: 1;
+  background-color: rgba(255, 255, 255, var(--tw-bg-opacity));
+}
+.header {
+  border-bottom: solid 1px;
+  border-color: rgba(156, 163, 175);
+  padding-left: 2rem;
+  padding-right: 2rem;
+  padding-top: 1.25rem;
+  padding-bottom: 1.25rem;
+  color: rgba(31, 41, 55);
+}
+.title-holder {
+  margin-bottom: 1.5rem;
+  display: block;
+  padding-left: 2rem;
+}
+.title-name {
+  font-size: 1rem;
+  font-weight: normal;
+  line-height: 1.25rem;
+  padding-right: 2rem;
+  padding-top: 0.9rem;
+  padding-bottom: 0.5rem;
+  display: inline-block;
+}
+.title {
+  width: 90%;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  border: 1px solid;
+  border-color: rgb(195, 198, 204);
+}
+.category {
+  width: 90%;
+  padding-left: 2rem;
+  padding-bottom: 2rem;
+}
+.conContainer {
+  padding-left: 2rem;
+}
+.conName {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  padding-right: 2rem;
+  padding-bottom: 0.5rem;
+  display: inline-block;
+}
+.vconContainer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin: 0.5rem;
+}
+.content {
+  width: 80%;
+  padding: 0.5rem;
+  border: 1px solid;
+  border-color: rgb(195, 198, 204);
+  padding-right: 1rem;
+}
+@media screen and (max-width: 960px) {
+  .content {
+    width: 75%;
+  }
+}
+.button-container {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+.remove-button {
+  padding: 0.5rem;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  background-color: rgba(239, 68, 68);
+  border: 1px solid red;
+  color: white;
+  border-radius: 0.25rem;
+}
+.remove-button:hover {
+  background-color: rgba(220, 38, 38);
+}
+.addcontainer {
+  padding-left: 2rem;
+  padding-right: 2rem;
+  padding-top: 1.25rem;
+}
+.button {
+  background-color: rgba(37, 99, 235);
+  color: white;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  border: 1px solid blue;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  border-radius: 0.25rem;
+}
+.button:active {
+  border-color: rgba(29, 78, 216);
+}
+.button:hover {
+  border-color: rgba(29, 78, 216);
+}
+.subcontainer {
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  text-align: center;
+}
