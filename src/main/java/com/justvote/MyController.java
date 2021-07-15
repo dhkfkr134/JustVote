@@ -37,7 +37,7 @@ public class MyController {
 	IVotePageDao dao2;
 
 	HttpSession loginId;
-	
+
 	@RequestMapping("/")
 	public String root() throws Exception {
 
@@ -50,7 +50,6 @@ public class MyController {
 				registerDto.getGrade(), registerDto.getNickName(), registerDto.getUserID(), registerDto.getUserPass());
 
 		return registerDto.toString();
-
 	}
 
 	@PostMapping("/signin")
@@ -67,9 +66,18 @@ public class MyController {
 			loginId.setAttribute("userId", loginDto.getUserID());
 		}
 		return loginDto.toString();
-
 	}
-	
+
+	@PostMapping("/logout")
+	public Object logout(HttpServletRequest req) {
+
+		loginId.setAttribute("userId", null);
+
+		Object a = loginId.getAttribute("userId");
+
+		return a;
+	}
+
 	@GetMapping("/getInfo")
 	public Object getInfo() {
 		/*
@@ -93,19 +101,17 @@ public class MyController {
 		}
 		return a;
 	}
-	
+
 	@PostMapping("/registerComment")
 	public Object writeComment(@RequestBody CommentDto cd) {
-		//dao1.listDao();
+		// dao1.listDao();
 		dao1.writeDao(cd.getCommentContent(), cd.getVoteID(), cd.getUserID());
-		//dao1.delete(cd.getCommentNum());
-	Object a = loginId.getAttribute("userId");
-	
-	return cd.toString();
+		// dao1.delete(cd.getCommentNum());
+		Object a = loginId.getAttribute("userId");
+
+		return cd.toString();
 	}
-	
-	
-	
+
 	@PostMapping("/deleteVote") // delete
 	public String deleteVote(@RequestBody VotePageDto votePageDto) {
 		dao2.deleteVoteDao(votePageDto.getVoteID());
@@ -128,78 +134,119 @@ public class MyController {
 	}
 
 	// Main페이지 Get요청 보내주기
-	@GetMapping("/getMain")
-	public List<VotePageDto> mainPageGet(HttpServletRequest request) {
 
-		System.out.println("postman 요청받기 성공");
-		// return 해줄 List
+	/*
+	 * @GetMapping("/main") public List<VotePageDto> mainPageGet(HttpServletRequest
+	 * request) {
+	 * 
+	 * // return 해줄 List List<VotePageDto> list = new ArrayList<>();
+	 * 
+	 * // votePage와 selecList를 list에 넣어줄 것임 list = dao2.voteGetListDao();
+	 * System.out.println("Get) Main");
+	 * 
+	 * return list; }
+	 */
+/*
+	// 카테고리 Get요청 보내주기
+	@GetMapping("/상의 후 설정")
+	public List<VotePageDto> categoryPageGet(@RequestParam String category) {
+
+		System.out.println("Get) Category");
 		List<VotePageDto> list = new ArrayList<>();
 
-		// votePage와 selecList를 list에 넣어줄 것임
-		list = dao2.voteGetListDao();
+		list = dao2.voteGetCategoryDao(category);
 
 		return list;
-		
 	}
-
+*/
+	
 	// 동우 투표만들기
 	@PostMapping("/makeVote") // votepage(테이블) 만들기
-	public void makevote(@RequestBody VotePageDto votePageDto,HttpServletRequest req,RegisterDto rd
-			) {
-		Object a = loginId.getAttribute("userID");
+	public void makevote(@RequestBody VotePageDto votePageDto, HttpServletRequest req, RegisterDto rd) {
+		
+		Object a = loginId.getAttribute("userId");
 		String str = String.valueOf(a);
-		// votepage insert
-		dao2.registVotePageDao(votePageDto.getVoteTitle(),votePageDto.getUserID());
+		dao2.registVotePageDao(votePageDto.getVoteTitle(), votePageDto.getUserID(), votePageDto.getCategory());
+		
 		System.out.println(votePageDto.getVoteTitle());
 		System.out.println(votePageDto.getUserID());
+		System.out.println(votePageDto.getCategory());
+		
 		List<String> list = new ArrayList<>();
 		list = votePageDto.getSelecContentList();
 
 		String voteID = dao2.regestVotePageIDReturnDao();
 
 		dao2.registVoteContentDao(voteID, list);
+		System.out.println("makeVote");
 	}
 
-	// 정원 Get 보내주기
-	@GetMapping("/content/{index}")
-	public List<Object> votePageGet(HttpServletRequest request, @PathVariable("index") String index) {
+	// 투표페이지 Content의 Post요청
+	@GetMapping("/voteCount")
+	public List<Object> voteCount(@RequestParam(value="voteID", required=false) String voteID, @RequestParam(value="selecID", required=false) String selecID) {
+		System.out.println("1");
+		// voteCount를 늘려주는 쿼리문
+		/*
+		 * dao2.voteContentCount(voteID, selecID);
+		 * 
+		 * // 쿼리문을 늘려주고 투표 화면을 다시 리턴해주는 값 List<Object> list = new ArrayList<>();
+		 * 
+		 * VotePageDto votePage = dao2.voteGetDao(voteID); List<VotePageDto> selecList =
+		 * dao2.selecGetDao(voteID); List<CommentDto> commentList =
+		 * dao1.listDao2(voteID);
+		 * 
+		 * list.add(votePage); for (int i = 0; i < selecList.size(); i++) {
+		 * list.add(selecList.get(i)); } for (int i = 0; i < commentList.size(); i++) {
+		 * list.add(commentList.get(i)); }
+		 */
+
+		System.out.println("voteID : " + voteID + ", selecID : " + selecID + " voteCount 테스트 성공");
+		return null;
+	}
+	
+//	@GetMappint()
+
+	// 투표의 화면을 띄워준다
+	@GetMapping("/content")
+	public List<Object> votepageGet(@RequestParam String voteID) {
 
 		// return 해줄 List
 		List<Object> list = new ArrayList<>();
-	//	int index = dao2.selecGetDao("3");
+		// int index = dao2.selecGetDao("3");
 
 		// votePage와 selecList를 list에 넣어줄 것임
-		VotePageDto votePage = dao2.voteGetDao("3");
-		List<VotePageDto> selecList = dao2.selecGetDao("3");
-		List<CommentDto> commentList = dao1.listDao2("3");
-				
+		VotePageDto votePage = dao2.voteGetDao(voteID);
+		List<VotePageDto> selecList = dao2.selecGetDao(voteID);
+		List<CommentDto> commentList = dao1.listDao2(voteID);
+
 		list.add(votePage);
 		for (int i = 0; i < selecList.size(); i++) {
 			list.add(selecList.get(i));
 		}
-		for(int i = 0; i < commentList.size(); i++) {
+		for (int i = 0; i < commentList.size(); i++) {
 			list.add(commentList.get(i));
 		}
-		
+
+		System.out.println(voteID + "content 테스트 성공");
 		return list;
 	}
+	
+	// 투표 화면을 카테고리별로 띄워준다
+	@GetMapping("/main")
+	public List<VotePageDto> votepageGetCategory(@RequestParam String category){
+		
+		List<VotePageDto> list = new ArrayList<>();
 
-	// 투표페이지 Content의 Post요청
-	//
-	@PostMapping("/setVote")
-	public void voteContentCount(@RequestBody VotePageDto votePageDto) {
-		System.out.println("111");
-		dao2.voteContentCount(votePageDto.getVoteID(), votePageDto.getSelecContent());
-		System.out.println("222");
+		if (category.equals("all")) {
+			list = dao2.voteGetListDao();
+			System.out.println(category + "   11");
+			return list;
+		}
+		else {
+			list = dao2.voteGetCategoryDao(category);
+			System.out.println(category + "   22");
+			return list;
+		}
+		
 	}
-
-//	@GetMapping("/content")
-//	public List<VotePageDto> 
-
-	/*
-	 * @GetMapping("/") public String list(@RequestBody VotePageDto votePageDto) {
-	 * dao2.listDao();
-	 * 
-	 * return votePageDto.toString(); }
-	 */
 }

@@ -12,20 +12,24 @@ import com.justvote.dto.VotePageDto;
 @Mapper
 public interface IVotePageDao {
 
+// 투표 종류 띄워주기
 	// Main화면 띄워주기 위한 DAO
 	public List<VotePageDto> voteGetListDao(); // 투표 페이지 Get보내기
 	
+	// Main화면에서 카테고리 선택시 띄워주기 위한 DAO
+	public List<VotePageDto> voteGetCategoryDao(@Param("_category")String category);
+	
+// 투표 내용 띄워주기
 	// 투표화면 선택했을 때위한 DAO
-	public VotePageDto voteGetDao(String index); // 투표 페이지 Get보내기
+	public VotePageDto voteGetDao(@Param("_index")String voteID); // 투표 페이지 Get보내기
 	public List<VotePageDto> selecGetDao(String index); // 투표 페이지 Get보내기
 	public int getVoteID();
 	
-	
 	// TEST// 투표 content를 선택하고 Hit수 증가하는 DAO
-	public void voteContentCount(@Param("_voteID")int voteID, @Param("_selecContent")String contentIndex);
+	public void voteContentCount(@Param("_voteID")String voteID, @Param("_selecID")String selecID);
 	
 	// makevote위한 DAO
-	public void registVotePageDao(@Param("_voteTitle")String voteTitle,@Param("_userID")String userID);
+	public void registVotePageDao(@Param("_voteTitle")String voteTitle, @Param("_userID")String userID, @Param("_category")String category);
 	public String regestVotePageIDReturnDao(); //등록 PAGEid받아오는 문
 	public void registVoteContentDao(@Param("_voteID")String voteID ,@Param("list")List<String> list);
 	
@@ -41,6 +45,7 @@ public interface IVotePageDao {
 	public List<VotePageDto> listDao();
 	
 	public List<Map<String, String>> test2Dao();
+
 	
 
 	

@@ -21,27 +21,32 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="voteGetListDao" resultType="com.justvote.dto.VotePageDto">
 		select * from votepage
 	</select>
-
+	
+	<!-- Main페이지에서 카테고리 선택시 보내줄 DB 쿼리문 -->
+	<select id="voteGetCategoryDao" resultType="com.justvote.dto.VotePageDto">
+		select * from votepage where category = #{_category}
+	</select>
+	
 	<!-- GetMapping에서 사용할 두가지 쿼리문 -->
 	<select id="voteGetDao" resultType="com.justvote.dto.VotePageDto">
-		select * from votepage where voteID=3
+		select * from votepage where voteID = #{_index}
 	</select>
 	<select id="selecGetDao" resultType="com.justvote.dto.VotePageDto">
-		select * from voteselection where voteID=3
+		select * from voteselection where voteID = #{_index}
 	</select>
 
 	
 	<!-- votePage에서 content를 selection 했을 때 hit수 증가 -->
 	<update id="voteContentCount">
-		update voteselction
+		update voteselection
 		set selecHits = selecHits+1
-		where voteID = #{_voteID} and selecContent = #{_selecContent}
+		where voteID = #{_voteID} and selecID = #{_selecID }
 	</update>
 	
 	
 	<!-- 투표화면 만들기 위한 쿼리문 3개 -->
 	<insert id="registVotePageDao">
-		insert into votepage(voteTitle, userID) values(#{_voteTitle}, #{_userID})
+		insert into votepage(voteTitle, userID, category) values(#{_voteTitle}, #{_userID}, #{_category});
 	</insert>
 	
 	<select id="regestVotePageIDReturnDao" resultType="String">
