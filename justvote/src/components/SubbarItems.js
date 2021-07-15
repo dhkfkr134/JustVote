@@ -6,32 +6,32 @@ export const SubbarItems = [
   },
   {
     title: "연예",
-    url: "/Home/entertain",
+    url: "/Home/연예",
     cName: "sub-links",
   },
   {
     title: "시사",
-    url: "jernour",
+    url: "/Home/시사",
     cName: "sub-links",
   },
   {
     title: "TV",
-    url: "#",
+    url: "/Home/TV",
     cName: "sub-links",
   },
   {
     title: "학교",
-    url: "#",
+    url: "/Home/학교",
     cName: "sub-links",
   },
   {
     title: "썰",
-    url: "#",
+    url: "/Home/썰",
     cName: "sub-links",
   },
   {
     title: "기타",
-    url: "#",
+    url: "/Home/기타",
     cName: "sub-links",
   },
 ];

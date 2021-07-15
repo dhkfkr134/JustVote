@@ -1,9 +1,16 @@
 import axios from "axios";
-import { GET_MAIN_FAILURE, GET_MAIN_SUCCESS, GET_MAIN } from "./types";
+import {
+  GET_MAIN_FAILURE,
+  GET_MAIN_SUCCESS,
+  GET_MAIN,
+  PUSH_LIKE_BT_FAILURE,
+  PUSH_LIKE_BT_SUCCESS,
+  PUSH_LIKE_BT,
+} from "./types";
 
 // 화면 구성요소 GET
 /* GET Main */
-export function getMainRequest(category) {
+export function getMainRequest(category, userID) {
   return (dispatch) => {
     // inform Get Status API is starting
     dispatch(getMainStatus());
@@ -12,6 +19,7 @@ export function getMainRequest(category) {
       .get("http://localhost:8080/main", {
         params: {
           category: category,
+          userID: userID,
         },
       })
       .then((response) => {

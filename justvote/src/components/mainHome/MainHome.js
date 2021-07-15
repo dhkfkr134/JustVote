@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import * as RBS from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { connect } from "react-redux";
-import { getMainRequest } from "../../redux";
+import { getMainRequest, pushLikeBtRequest } from "../../redux";
 import Subbar from "../Subbar";
 import MediaCard from "../MediaCard";
 
@@ -22,18 +22,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function MainHome({ getMainRequest, contentList, userId, loading }) {
+function MainHome({ getMainRequest, contentList, userID, loading }) {
   let voteHits = [];
   let voteID = [];
   let voteRegDate = [];
   let voteTitle = [];
-
+  let isLikeContent = []; // 0이면 notLike, 1이면 Like
   let count = 0;
+
   useEffect(() => {
-    getMainRequest(category);
+    getMainRequest(category, userID);
   }, []);
 
-  console.log(contentList);
   const { category } = useParams();
 
   //데이터 받기
@@ -46,12 +46,17 @@ function MainHome({ getMainRequest, contentList, userId, loading }) {
           (voteHits.push(content.voteHits),
           voteID.push(content.voteID),
           voteRegDate.push(content.voteRegDate),
-          voteTitle.push(content.voteTitle))
+          voteTitle.push(content.voteTitle),
+          isLikeContent.push(content.isLikeContent))
         }
       </div>
     ))
   );
-  console.log(voteTitle);
+
+  // Like 버튼을 눌렀을 때
+  function handlePushLikeBt(body) {
+    pushLikeBtRequest(body).then();
+  }
 
   //Contents에 관한 부분
   return (
@@ -64,10 +69,11 @@ function MainHome({ getMainRequest, contentList, userId, loading }) {
               <MediaCard
                 voteID={content.voteID}
                 voteHits={content.voteHits}
-                userID={content.userID}
+                userID={userID}
                 voteRegDate={content.voteRegDate}
                 voteTitle={content.voteTitle}
                 count={count++}
+                isLikeContent={content.isLikeContent}
               ></MediaCard>
             </Link>
           </Grid>
@@ -80,15 +86,18 @@ function MainHome({ getMainRequest, contentList, userId, loading }) {
 const mapStateToProps = (state) => {
   console.log(state);
   return {
-    userId: state.authentication.status.currentUser,
+    userID: state.authentication.status.currentUser,
     contentList: state.contents.status.voteContents,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getMainRequest: () => {
-      return dispatch(getMainRequest());
+    getMainRequest: (category, userID) => {
+      return dispatch(getMainRequest(category, userID));
+    },
+    pushLikeBtRequest: (body) => {
+      return dispatch(pushLikeBtRequest(body));
     },
   };
 };

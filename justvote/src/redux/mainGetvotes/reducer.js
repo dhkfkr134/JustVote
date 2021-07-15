@@ -1,4 +1,3 @@
-/* LOGIN */
 import * as types from "./types";
 
 const initialState = {
@@ -6,6 +5,12 @@ const initialState = {
     valid: false,
     loading: false,
     voteContents: [],
+  },
+  addLike: {
+    status: "INIT",
+  },
+  disLike: {
+    statue: "INIT",
   },
 };
 
@@ -37,6 +42,28 @@ export default function getMain(state = initialState, action) {
           ...state.status,
           loading: false,
           valid: false,
+        },
+      };
+
+    case types.PUSH_LIKE_BT:
+      return {
+        ...state,
+        addLike: {
+          status: "WAITING",
+        },
+      };
+    case types.PUSH_LIKE_BT_SUCCESS:
+      return {
+        ...state,
+        addLike: {
+          status: "SUCCESS",
+        },
+      };
+    case types.PUSH_LIKE_BT_FAILURE:
+      return {
+        ...state,
+        addLike: {
+          status: "FAILURE",
         },
       };
     default:
