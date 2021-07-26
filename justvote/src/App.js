@@ -19,7 +19,7 @@ function App() {
           <Route path="/Home/:category" component={MainHome} />
           <Route path="/MakeVote" component={VoteContainer} />
 
-          <Route path="/content/:nam" component={VotePage} />
+          <Route path="/content/:voteID" component={VotePage} />
 
           <Route path="/Introduce">
             <Introduce />

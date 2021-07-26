@@ -6,4 +6,9 @@ export {
   registerCommentRequest,
 } from "./getVotes/actions";
 
-export { getMainRequest } from "./mainGetvotes/actions";
+export {
+  getMainRequest,
+  getLikeRequest,
+  pushLikeBtRequest,
+  pushDislikeBtRequest,
+} from "./mainGetvotes/actions";

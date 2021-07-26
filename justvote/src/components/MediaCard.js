@@ -22,7 +22,7 @@ import image5 from "../img/content/5popsong.PNG";
 import image6 from "../img/content/6stage.PNG";
 import image7 from "../img/content/7dog.png";
 
-import { handlePushLikeBt } from "./mainHome/MainHome";
+import PropTypes from "prop-types";
 
 console.log(image1.type);
 const useStyles = makeStyles({
@@ -34,19 +34,23 @@ const useStyles = makeStyles({
   },
 });
 
-export default function MediaCard({
+function MediaCard({
   voteID,
   voteHits,
+  makerID,
   userID,
   voteRegDate,
   voteTitle,
   count,
   isLikeContent,
   handlePushLikeBt,
+  handlePushDislikeBt,
 }) {
   const classes = useStyles();
 
-  console.log(count);
+  console.log(voteID);
+  console.log(userID);
+  console.log(isLikeContent);
   let images = new Image();
 
   if (count === 0) {
@@ -76,6 +80,25 @@ export default function MediaCard({
     handlePushLikeBt(body);
   };
 
+  const handleDislikeBt = (e) => {
+    let body = {
+      voteID: voteID,
+      userID: userID,
+    };
+
+    handlePushDislikeBt(body);
+  };
+
+  let checkCurrentUser = 0;
+
+  // 0이면 로그인X
+  // 1이면 로그인O
+  if (userID === "NONE") {
+    checkCurrentUser = 0;
+  } else {
+    checkCurrentUser = 1;
+  }
+
   // 좋아요 안눌려 있다면 빈 하트
   const isNotLikeContentBt = (
     <div>
@@ -88,8 +111,18 @@ export default function MediaCard({
   // 좋아요 눌려 있으면 채운 하트
   const isLikeContentBt = (
     <div>
-      <IconButton aria-label="cancel to favorites">
+      <IconButton aria-label="cancel to favorites" onClick={handleDislikeBt}>
         <FavoriteIcon />
+      </IconButton>
+    </div>
+  );
+
+  // 로그인 안되어 있을 때 빈 하트
+  const likeBT = (
+    <div>
+      <IconButton aria-label="need to login">
+        <FavoriteBorderIcon />
+        <a href="/SignIn"></a>
       </IconButton>
     </div>
   );
@@ -97,17 +130,13 @@ export default function MediaCard({
   return (
     <Card className={classes.root}>
       <CardActionArea>
-        <CardMedia
-          className={classes.media}
-          image={images}
-          title="Contemplative Reptile"
-        />
+        <CardMedia className={classes.media} image={images} title={voteTitle} />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
             {voteTitle}
           </Typography>
           <Typography variant="caption" display="block" color="textSecondary">
-            작성자 : {userID}
+            작성자 : {makerID}
           </Typography>
           <Typography variant="caption" display="block" color="textSecondary">
             등록일 : {voteRegDate}
@@ -115,7 +144,13 @@ export default function MediaCard({
         </CardContent>
       </CardActionArea>
       <CardActions>
-        {isLikeContent ? isLikeContentBt : isNotLikeContentBt}
+        <div>
+          {checkCurrentUser ? (
+            <div> {isLikeContent ? isLikeContentBt : isNotLikeContentBt}</div>
+          ) : (
+            <div>{likeBT}</div>
+          )}
+        </div>
         <IconButton aria-label="share">
           <ShareIcon />
         </IconButton>
@@ -123,3 +158,19 @@ export default function MediaCard({
     </Card>
   );
 }
+
+MediaCard.propTypes = {
+  handlePushLikeBt: PropTypes.func,
+  handlePushDislikeBt: PropTypes.func,
+};
+
+MediaCard.defaultProps = {
+  handlePushLikeBt: () => {
+    console.error("handlePushLikeBt function not defined");
+  },
+  handlePushDislikeBt: () => {
+    console.error("handlePushDislikeBt function not defined");
+  },
+};
+
+export default MediaCard;

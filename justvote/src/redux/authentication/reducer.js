@@ -12,7 +12,7 @@ const initialState = {
   status: {
     valid: false,
     isLoggedIn: false,
-    currentUser: "",
+    currentUser: "NONE",
   },
 };
 

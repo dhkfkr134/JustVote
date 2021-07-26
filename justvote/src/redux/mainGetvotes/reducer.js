@@ -6,11 +6,16 @@ const initialState = {
     loading: false,
     voteContents: [],
   },
+  getLikeStatus: {
+    valid: false,
+    loading: false,
+    isLikeContents: [],
+  },
   addLike: {
     status: "INIT",
   },
   disLike: {
-    statue: "INIT",
+    status: "INIT",
   },
 };
 
@@ -45,6 +50,36 @@ export default function getMain(state = initialState, action) {
         },
       };
 
+    // like 확인
+    case types.GET_LIKE:
+      return {
+        ...state,
+        getLikeStatus: {
+          ...state.getLikeStatus,
+          loading: true,
+        },
+      };
+    case types.GET_LIKE_SUCCESS:
+      console.log("getMain_Success");
+      return {
+        ...state,
+        getLikeStatus: {
+          ...state.getLikeStatus,
+          valid: true,
+          loading: false,
+          isLikeContents: action.isLikeContent,
+        },
+      };
+    case types.GET_LIKE_FAILURE:
+      return {
+        ...state,
+        getLikeStatus: {
+          ...state.getLikeStatus,
+          loading: false,
+          valid: false,
+        },
+      };
+    // 게시글 좋아요 기능
     case types.PUSH_LIKE_BT:
       return {
         ...state,
@@ -60,6 +95,29 @@ export default function getMain(state = initialState, action) {
         },
       };
     case types.PUSH_LIKE_BT_FAILURE:
+      return {
+        ...state,
+        addLike: {
+          status: "FAILURE",
+        },
+      };
+
+    // 게시글 좋아요 취소 기능
+    case types.PUSH_DISLIKE_BT:
+      return {
+        ...state,
+        addLike: {
+          status: "WAITING",
+        },
+      };
+    case types.PUSH_DISLIKE_BT_SUCCESS:
+      return {
+        ...state,
+        addLike: {
+          status: "SUCCESS",
+        },
+      };
+    case types.PUSH_DISLIKE_BT_FAILURE:
       return {
         ...state,
         addLike: {

@@ -71,7 +71,7 @@ function VotePage({
   getVotes,
   loading,
   items,
-  userId,
+  userID,
   registerCommentRequest,
 }) {
   useEffect(() => {
@@ -124,7 +124,7 @@ function VotePage({
           voteHits.push(item.voteHits),
           commentContent.push(item.commentContent),
           commentID.push(item.commentID),
-          commentUserID.push(item.userId))
+          commentUserID.push(item.userID))
         }
       </div>
     ))
@@ -286,7 +286,7 @@ function VotePage({
 
   const handleRegister = (e) => {
     let body = {
-      userID: userId,
+      userID: userID,
       commentContent: comment,
       voteID: voteID[0],
     };
@@ -300,7 +300,7 @@ function VotePage({
   // 댓글 삭제
   const handelDeleteComment = (e) => {
     let body = {
-      userId: userId,
+      userID: userID,
       //댓글 번호?
       //contentTitle: contentTitle,
     };
@@ -310,7 +310,7 @@ function VotePage({
     let body = {
       voteID: voteID[0],
       selecContent: contName,
-      userID: userId,
+      userID: userID,
     };
 
     setVotesRequest(body);
@@ -360,7 +360,7 @@ function VotePage({
         <form className={useStyles.root}>
           <TextField
             id="standard-full-width"
-            label="userId"
+            label="userID"
             style={{ margin: 8 }}
             placeholder="댓글을 입력하세요."
             fullWidth
@@ -388,7 +388,7 @@ function VotePage({
 const mapStateToProps = (state) => {
   console.log(state);
   return {
-    userId: state.authentication.status.currentUser,
+    userID: state.authentication.status.currentUser,
     items: state.votes.get.items,
   };
 };
