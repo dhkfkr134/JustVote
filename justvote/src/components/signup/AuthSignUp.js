@@ -23,11 +23,8 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 
-import {
-  ToastsContainer,
-  ToastsStore,
-  ToastsContainerPosition,
-} from "react-toasts";
+import { ToastContainer, toast, Flip } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Copyright() {
   return (
@@ -100,17 +97,11 @@ class AuthSignUp extends Component {
     this.setState({ grade: e.target.value });
   };
 
-  toastCheckID_Able() {
-    ToastsStore.success("사용 가능한 아이디입니다.");
-  }
-
-  toastCheckID_Unable() {
-    ToastsStore.error("다른 아이디를 사용해주세요.");
-  }
-
-  toastRegister_NotEnoughInfo() {
-    ToastsStore.error("모든 항목을 입력하세요.");
-  }
+  toastCheckID_Able = () => toast("사용 가능한 아이디입니다.");
+  toastCheckID_Unable = () => toast.error("다른 아이디를 사용해주세요.");
+  toastRegister_NotEnoughInfo = () => toast.error("모든 항목을 입력하세요.");
+  toastCheckID_NotCheckID = () =>
+    toast.error("아이디 사용가능 여부를 확인해주세요.");
 
   handleRegister = (e) => {
     e.preventDefault();
@@ -128,6 +119,12 @@ class AuthSignUp extends Component {
       this.state.userPass === ""
     ) {
       this.toastRegister_NotEnoughInfo();
+      return false;
+    }
+
+    console.log(this.props.statusID);
+    if (this.props.statusID !== "ABLE") {
+      this.toastCheckID_NotCheckID();
       return false;
     }
 
@@ -368,10 +365,17 @@ class AuthSignUp extends Component {
           </Box>
         </Container>
         <div>
-          <ToastsContainer
-            store={ToastsStore}
-            position={ToastsContainerPosition.TOP_CENTER}
-            lightBackground
+          <ToastContainer
+            position="top-center"
+            autoClose={2000}
+            hideProgressBar
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            transition={Flip}
           />
         </div>
       </div>

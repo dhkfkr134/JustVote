@@ -41,6 +41,7 @@ class SignUp extends Component {
         <AuthSignUp
           onRegister={this.handleRegister}
           onCheckID={this.handleCheckID}
+          statusID={this.props.statusID}
         />
       </div>
     );

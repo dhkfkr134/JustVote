@@ -20,12 +20,13 @@ export function getMainRequest(category, userID) {
   return (dispatch) => {
     // inform Get Status API is starting
     dispatch(getMainStatus());
+    console.log(userID)
 
     return axios
       .get("http://localhost:8080/main", {
         params: {
           category: category,
-          userID: userID,
+         
         },
       })
       .then((response) => {
@@ -62,12 +63,14 @@ export function getLikeRequest(category, userID) {
   return (dispatch) => {
     // inform Get Status API is starting
     dispatch(getLikeStatus());
-
+    console.log(category)
+    console.log(userID)
+    
     return axios
       .get("http://localhost:8080/getLike", {
         params: {
           category: category,
-          userID: userID,
+          
         },
       })
       .then((response) => {
@@ -104,9 +107,9 @@ export function pushLikeBtRequest(body) {
   return (dispatch) => {
     // inform Get Status API is starting
     dispatch(pushLikeBtStatus());
-
+    console.log(body)
     return axios
-      .post("http://localhost:8080/like", body)
+      .post("http://localhost:8080/pushLikeBT", body)
       .then((response) => {
         dispatch(pushLikeBtSuccess());
       })
@@ -139,9 +142,10 @@ export function pushDislikeBtRequest(body) {
   return (dispatch) => {
     // inform Get Status API is starting
     dispatch(pushDislikeBtStatus());
+    console.log(body)
 
     return axios
-      .post("http://localhost:8080/dislike", body)
+      .post("http://localhost:8080/pushDislikeBT", body)
       .then((response) => {
         dispatch(pushDislikeBtSuccess());
       })

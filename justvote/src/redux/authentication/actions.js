@@ -64,6 +64,7 @@ export function getStatusRequest() {
     return axios
       .get("http://localhost:8080/getInfo")
       .then((response) => {
+        console.log("currentuser:" + response.data)
         dispatch(getStatusSuccess(response.data)); //HTTP 틍신을 통해 userId을 빋이옴
       })
       .catch((error) => {

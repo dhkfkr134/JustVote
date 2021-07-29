@@ -11,6 +11,7 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import IconButton from "@material-ui/core/IconButton";
 import ShareIcon from "@material-ui/icons/Share";
+import { Link } from "react-router-dom";
 
 import testImage from "../img/content_img.png";
 
@@ -74,7 +75,7 @@ function MediaCard({
   const handleLikeBt = (e) => {
     let body = {
       voteID: voteID,
-      userID: userID,
+      //userID: userID,
     };
 
     handlePushLikeBt(body);
@@ -83,7 +84,7 @@ function MediaCard({
   const handleDislikeBt = (e) => {
     let body = {
       voteID: voteID,
-      userID: userID,
+      //userID: userID,
     };
 
     handlePushDislikeBt(body);
@@ -129,20 +130,26 @@ function MediaCard({
 
   return (
     <Card className={classes.root}>
-      <CardActionArea>
-        <CardMedia className={classes.media} image={images} title={voteTitle} />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="h2">
-            {voteTitle}
-          </Typography>
-          <Typography variant="caption" display="block" color="textSecondary">
-            작성자 : {makerID}
-          </Typography>
-          <Typography variant="caption" display="block" color="textSecondary">
-            등록일 : {voteRegDate}
-          </Typography>
-        </CardContent>
-      </CardActionArea>
+      <Link to={`/content/${voteID}`}>
+        <CardActionArea>
+          <CardMedia
+            className={classes.media}
+            image={images}
+            title={voteTitle}
+          />
+          <CardContent>
+            <Typography gutterBottom variant="h5" component="h2">
+              {voteTitle}
+            </Typography>
+            <Typography variant="caption" display="block" color="textSecondary">
+              작성자 : {makerID}
+            </Typography>
+            <Typography variant="caption" display="block" color="textSecondary">
+              등록일 : {voteRegDate}
+            </Typography>
+          </CardContent>
+        </CardActionArea>
+      </Link>
       <CardActions>
         <div>
           {checkCurrentUser ? (

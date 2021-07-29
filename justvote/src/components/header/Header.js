@@ -9,26 +9,26 @@ import {
 
 class Header extends Component {
   componentDidMount() {
-    //컴포넌트 렌더링이 맨 처음 완료된 이후에 바로 세션확인
-    // get cookie by name
-    console.log("header-cookie : " + document.cookie);
-    function getCookie(name) {
-      var value = "; " + document.cookie;
-      var parts = value.split("; " + name + "=");
-      if (parts.length == 2) return parts.pop().split(";").shift();
-    }
+    // //컴포넌트 렌더링이 맨 처음 완료된 이후에 바로 세션확인
+    // // get cookie by name
+    // console.log("header-cookie : " + document.cookie);
+    // function getCookie(name) {
+    //   var value = "; " + document.cookie;
+    //   var parts = value.split("; " + name + "=");
+    //   if (parts.length == 2) return parts.pop().split(";").shift();
+    // }
 
-    // get loginData from cookie
-    let loginData = getCookie("key");
+    // // get loginData from cookie
+    // let loginData = getCookie("key");
 
-    // if loginData is undefined, do nothing
-    if (typeof loginData === "undefined") return;
+    // // if loginData is undefined, do nothing
+    // if (typeof loginData === "undefined") return;
 
-    // decode base64 & parse json
-    loginData = JSON.parse(atob(loginData));
-    console.log(loginData);
-    // if not logged in, do nothing
-    if (!loginData.isLoggedIn) return;
+    // // decode base64 & parse json
+    // loginData = JSON.parse(atob(loginData));
+    // console.log(loginData);
+    // // if not logged in, do nothing
+    // if (!loginData.isLoggedIn) return;
 
     // page refreshed & has a session in cookie,
     // check whether this cookie is valid or not
@@ -37,12 +37,12 @@ class Header extends Component {
       console.log(this.props.status.valid);
       if (!this.props.status.valid) {
         // logout the session
-        loginData = {
-          isLoggedIn: false,
-          userId: "",
-        };
+        // loginData = {
+        //   isLoggedIn: false,
+        //   userId: "",
+        // };
 
-        document.cookie = "key=" + btoa(JSON.stringify(loginData));
+        // document.cookie = "key=" + btoa(JSON.stringify(loginData));
 
         // and notify
         //let $toastContent = $();
@@ -90,10 +90,6 @@ class Header extends Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log(
-    "state.authentication.status.isLoggedIn" +
-      state.authentication.status.isLoggedIn
-  );
   return {
     status: state.authentication.status,
   };

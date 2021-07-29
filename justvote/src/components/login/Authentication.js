@@ -12,6 +12,9 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 
+import { ToastContainer, toast, Flip } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -61,19 +64,36 @@ class Authentication extends Component {
     let id = this.state.userId;
     let pw = this.state.userPass;
 
+    // 정보가 부족하면 오류 메시지 출력
+    if (this.state.userId === "") {
+      this.toastCheckInfo_NotInfoID();
+      return false;
+    } else if (this.state.userPass === "") {
+      this.toastCheckInfo_NotInfoPassword();
+      return false;
+    }
+
     this.props.onLogin(id, pw).then((success) => {
       // 실패하면 비밀번호 재입력 받음
       console.log("Auth_handleLogin");
       if (!success) {
         console.log(this.props);
-        console.log("Auth_handleLogin_fail");
+        this.toastCheckInfo_Fail();
         this.setState({
           userPass: "",
         });
       } else {
+        this.toastCheckInfo_Complete();
       }
     });
   };
+
+  toastCheckInfo_Complete = () => toast(this.state.userId + "님 반갑습니다.");
+  toastCheckInfo_NotInfoID = () => toast.error("아이디를 입력해주세요.");
+  toastCheckInfo_NotInfoPassword = () =>
+    toast.error("비밀번호를 입력해주세요.");
+  toastCheckInfo_Fail = () =>
+    toast.error("아이디 또는 패스워드가 잘못 입력되었습니다.");
 
   render() {
     const button = {};
@@ -132,6 +152,20 @@ class Authentication extends Component {
               </Grid>
             </Grid>
           </form>
+        </div>
+        <div>
+          <ToastContainer
+            position="top-center"
+            autoClose={2000}
+            hideProgressBar
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            transition={Flip}
+          />
         </div>
       </Container>
     );

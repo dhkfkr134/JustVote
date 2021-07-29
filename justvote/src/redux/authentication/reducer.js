@@ -55,7 +55,6 @@ export default function authentication(state = initialState, action) {
         ...state,
         status: {
           ...state.status,
-          isLoggedIn: true,
         },
       };
     case types.AUTH_GET_STATUS_SUCCESS:
@@ -64,6 +63,7 @@ export default function authentication(state = initialState, action) {
         status: {
           ...state.status,
           valid: true,
+          isLoggedIn: true,
           currentUser: action.userID,
         },
       };
@@ -82,8 +82,9 @@ export default function authentication(state = initialState, action) {
         ...state,
         status: {
           ...state.status,
+          valid: false,
           isLoggedIn: false,
-          currentUser: "",
+          currentUser: "NONE",
         },
       };
   }

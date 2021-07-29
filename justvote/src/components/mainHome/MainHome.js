@@ -39,6 +39,7 @@ function MainHome({
   likeBtState,
   dislikeBtState,
   getLike,
+  history,
 }) {
   let voteHits = [];
   let voteID = [];
@@ -48,9 +49,11 @@ function MainHome({
   let makerID = [];
   let count = 0;
 
+  console.log(userID)
+
   useEffect(() => {
-    getMainRequest(category, userID);
     getLikeRequest(category, userID);
+    getMainRequest(category, userID);
   }, []);
 
   const { category } = useParams();
@@ -73,6 +76,7 @@ function MainHome({
     ))
   );
 
+  console.log(userID)
   // 데이터 받기
   const getLikeItems = loading ? (
     <div>is loading...</div>
@@ -88,7 +92,8 @@ function MainHome({
   function handlePushLikeBt(body) {
     pushLikeBtRequest(body).then(() => {
       if (likeBtState === "SUCCESS") {
-        this.props.history.push("/Home/:category");
+
+        history.push("/");
       }
     });
   }
@@ -97,7 +102,7 @@ function MainHome({
   function handlePushDislikeBt(body) {
     pushDislikeBtRequest(body).then(() => {
       if (dislikeBtState === "SUCCESS") {
-        this.props.history.push("/Home/:category");
+        history.push("/");
       }
     });
   }
@@ -109,18 +114,18 @@ function MainHome({
       <Grid container spacing={2}>
         {contentList.map((content, index) => (
           <Grid item xs={6} sm={3}>
-            <Link key={index} to={`/content/${voteID[index]}`}>
-              <MediaCard
-                voteID={content.voteID}
-                voteHits={content.voteHits}
-                userID={userID}
-                voteRegDate={content.voteRegDate}
-                voteTitle={content.voteTitle}
-                count={count++}
-                isLikeContent={isLikeContent[index]}
-                makerID={content.userID}
-              ></MediaCard>
-            </Link>
+            <MediaCard
+              voteID={content.voteID}
+              voteHits={content.voteHits}
+              userID={userID}
+              voteRegDate={content.voteRegDate}
+              voteTitle={content.voteTitle}
+              count={count++}
+              isLikeContent={isLikeContent[index]}
+              makerID={content.userID}
+              handlePushLikeBt={handlePushLikeBt}
+              handlePushDislikeBt={handlePushDislikeBt}
+            ></MediaCard>
           </Grid>
         ))}
       </Grid>
