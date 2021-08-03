@@ -48,12 +48,11 @@ function MainHome({
   let isLikeContent = []; // 0이면 notLike, 1이면 Like
   let makerID = [];
   let count = 0;
-
-  console.log(userID)
+  let like = [];
 
   useEffect(() => {
-    getLikeRequest(category, userID);
-    getMainRequest(category, userID);
+    getLikeRequest(category);
+    getMainRequest(category);
   }, []);
 
   const { category } = useParams();
@@ -69,14 +68,14 @@ function MainHome({
           voteID.push(content.voteID),
           voteRegDate.push(content.voteRegDate),
           voteTitle.push(content.voteTitle),
-          //isLikeContent.push(content.TF),
-          makerID.push(content.userID))
+          makerID.push(content.userID),
+          like.push(content.like))
         }
       </div>
     ))
   );
 
-  console.log(userID)
+  console.log(userID);
   // 데이터 받기
   const getLikeItems = loading ? (
     <div>is loading...</div>
@@ -91,25 +90,21 @@ function MainHome({
   // Like 버튼을 눌렀을 때
   function handlePushLikeBt(body) {
     pushLikeBtRequest(body).then(() => {
-      if (likeBtState === "SUCCESS") {
-
-        history.push("/");
-      }
+      window.location.replace("/Home/" + category);
     });
   }
 
   // Like 취소 버튼 눌렀을 때
   function handlePushDislikeBt(body) {
     pushDislikeBtRequest(body).then(() => {
-      if (dislikeBtState === "SUCCESS") {
-        history.push("/");
-      }
+      window.location.replace("/Home/" + category);
     });
   }
 
   //Contents에 관한 부분
   return (
     <div className={useStyles.root}>
+      <button onClick={handlePushDislikeBt}>1</button>
       <Subbar></Subbar>
       <Grid container spacing={2}>
         {contentList.map((content, index) => (
@@ -123,6 +118,7 @@ function MainHome({
               count={count++}
               isLikeContent={isLikeContent[index]}
               makerID={content.userID}
+              like={content.like}
               handlePushLikeBt={handlePushLikeBt}
               handlePushDislikeBt={handlePushDislikeBt}
             ></MediaCard>
@@ -147,11 +143,11 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getMainRequest: (category, userID) => {
-      return dispatch(getMainRequest(category, userID));
+    getMainRequest: (category) => {
+      return dispatch(getMainRequest(category));
     },
-    getLikeRequest: (category, userID) => {
-      return dispatch(getLikeRequest(category, userID));
+    getLikeRequest: (category) => {
+      return dispatch(getLikeRequest(category));
     },
     pushLikeBtRequest: (body) => {
       return dispatch(pushLikeBtRequest(body));

@@ -102,6 +102,8 @@ class AuthSignUp extends Component {
   toastRegister_NotEnoughInfo = () => toast.error("모든 항목을 입력하세요.");
   toastCheckID_NotCheckID = () =>
     toast.error("아이디 사용가능 여부를 확인해주세요.");
+  toastRegister_Complete = () => toast("회원가입 되었습니다.");
+  toastRegister_Failure = () => toast.error("회원가입 실패하였습니다.");
 
   handleRegister = (e) => {
     e.preventDefault();
@@ -145,13 +147,13 @@ class AuthSignUp extends Component {
       console.log("Auth Sign Up");
       if (!success) {
         //실패하면 아이디 재입력 받음
-        console.log(this.props);
-        console.log("회원가입 오류");
+        this.toastRegister_Failure();
         this.setState({
           userID: "",
           userPass: "",
         });
       } else {
+        this.toastRegister_Complete();
       }
     });
   };

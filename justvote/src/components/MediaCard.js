@@ -43,6 +43,7 @@ function MediaCard({
   voteRegDate,
   voteTitle,
   count,
+  like,
   isLikeContent,
   handlePushLikeBt,
   handlePushDislikeBt,
@@ -75,7 +76,6 @@ function MediaCard({
   const handleLikeBt = (e) => {
     let body = {
       voteID: voteID,
-      //userID: userID,
     };
 
     handlePushLikeBt(body);
@@ -84,7 +84,6 @@ function MediaCard({
   const handleDislikeBt = (e) => {
     let body = {
       voteID: voteID,
-      //userID: userID,
     };
 
     handlePushDislikeBt(body);
@@ -105,6 +104,9 @@ function MediaCard({
     <div>
       <IconButton aria-label="add to favorites" onClick={handleLikeBt}>
         <FavoriteBorderIcon />
+        <Typography gutterBottom variant="subtitle1">
+          {like}
+        </Typography>
       </IconButton>
     </div>
   );
@@ -114,6 +116,9 @@ function MediaCard({
     <div>
       <IconButton aria-label="cancel to favorites" onClick={handleDislikeBt}>
         <FavoriteIcon />
+        <Typography gutterBottom variant="subtitle1">
+          {like}
+        </Typography>
       </IconButton>
     </div>
   );
@@ -124,6 +129,9 @@ function MediaCard({
       <IconButton aria-label="need to login">
         <FavoriteBorderIcon />
         <a href="/SignIn"></a>
+        <Typography gutterBottom variant="subtitle1">
+          {like}
+        </Typography>
       </IconButton>
     </div>
   );
