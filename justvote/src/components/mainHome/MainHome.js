@@ -9,7 +9,7 @@ import {
   getLikeRequest,
 } from "../../redux";
 import Subbar from "../Subbar";
-import MediaCard from "../MediaCard";
+import MediaCard from "./MediaCard";
 
 // material import
 import { makeStyles } from "@material-ui/core/styles";
@@ -104,7 +104,6 @@ function MainHome({
   //Contents에 관한 부분
   return (
     <div className={useStyles.root}>
-      <button onClick={handlePushDislikeBt}>1</button>
       <Subbar></Subbar>
       <Grid container spacing={2}>
         {contentList.map((content, index) => (
