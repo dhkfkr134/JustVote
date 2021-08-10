@@ -12,6 +12,7 @@ import {
   PUSH_DISLIKE_BT_FAILURE,
   PUSH_DISLIKE_BT_SUCCESS,
   PUSH_DISLIKE_BT,
+  GET_MAIN_SEARCH_FAILURE, GET_MAIN_SEARCH_REQUEST, GET_MAIN_SEARCH_SUCCESS
 } from "./types";
 
 // 화면 구성요소 GET
@@ -26,7 +27,7 @@ export function getMainRequest(category, userID) {
       .get("http://localhost:8080/main", {
         params: {
           category: category,
-         
+          
         },
       })
       .then((response) => {
@@ -170,5 +171,45 @@ export function pushDislikeBtSuccess() {
 export function pushDislikeBtFailure() {
   return {
     type: PUSH_DISLIKE_BT_FAILURE,
+  };
+}
+
+export function getMainSearch(search) {
+  return (dispatch) => {
+    // inform Get Status API is starting
+    dispatch(getMainSearchRequest());
+
+    return axios
+      .get("http://localhost:8080/mainSearch", {
+        params: {
+          search: search,
+        },
+      })
+      .then((response) => {
+        dispatch(getMainSearchSuccess(response.data));
+        console.log(response.data);
+      })
+      .catch((error) => {
+        dispatch(getMainSearchFailure());
+      });
+  };
+}
+
+export function getMainSearchRequest() {
+  return {
+    type: GET_MAIN_SEARCH_REQUEST,
+  };
+}
+
+export function getMainSearchSuccess(contents) {
+  return {
+    type: GET_MAIN_SEARCH_SUCCESS,
+    contents,
+  };
+}
+
+export function getMainSearchFailure() {
+  return {
+    type: GET_MAIN_SEARCH_FAILURE,
   };
 }

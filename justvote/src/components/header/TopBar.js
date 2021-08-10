@@ -3,6 +3,24 @@ import * as RBS from "react-bootstrap";
 import PropTypes from "prop-types";
 
 class TopBar extends Component {
+  
+    constructor(props) {
+      super(props);
+
+
+      this.state = {
+        search : {}
+      }
+    }
+      //class형의 state 알아보기
+     handleChange = (e) => {
+      // search[e.target.placeholder] = e.target.value;
+      this.setState({search: e.target.value});
+    }
+    handleSearch2 = () =>{
+      this.props.handleSearch(this.state.search);
+      console.log(this.state.search)
+    }
   render() {
     const loginButton = (
       <RBS.Nav>
@@ -20,6 +38,7 @@ class TopBar extends Component {
         </RBS.Nav.Link>
       </RBS.Nav>
     );
+
 
     return (
       <RBS.Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
@@ -48,8 +67,9 @@ class TopBar extends Component {
               type="text"
               placeholder="Search"
               className="mr-sm-2"
+              onChange={this.handleChange}
             />
-            <RBS.Button variant="outline-info">Search</RBS.Button>
+            <RBS.Button variant="outline-info" onClick={this.handleSearch2}>Search</RBS.Button>
           </RBS.Form>
         </RBS.Navbar.Collapse>
       </RBS.Navbar>
@@ -58,6 +78,7 @@ class TopBar extends Component {
 }
 
 TopBar.propTypes = {
+  handleSearch: PropTypes.func,
   isLoggedIn: PropTypes.bool,
   onLogout: PropTypes.func,
 };
@@ -67,6 +88,9 @@ TopBar.defaultProps = {
   onLogout: () => {
     console.error("logout function not defined");
   },
+  handleSearch: (search) => {
+    
+  }
 };
 
 export default TopBar;

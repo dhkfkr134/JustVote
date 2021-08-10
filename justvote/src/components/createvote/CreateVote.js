@@ -97,7 +97,7 @@ class CreateVote extends Component {
   handlePostImg() {
     const formData = new FormData();
     formData.append('file', this.state.selectedFile);
-    console.log(formData);
+    console.log(formData[0]);
     console.log(this.state.selectedFile);
     const config = {
       headers: {
@@ -109,6 +109,7 @@ class CreateVote extends Component {
     .then(response => {
       console.log(response.data);
     }).catch(err => {
+      console.log('안나와 씌이벌~');
     })
   }
   submitImg = (e) => {

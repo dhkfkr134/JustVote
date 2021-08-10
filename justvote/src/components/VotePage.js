@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import * as RBS from "react-bootstrap";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import { connect } from "react-redux";
-import { getVotes, registerCommentRequest, setVotesRequest } from "../redux";
+import { getVotes, getCommentRequest, getVoted, getFirst, deleteComment } from "../redux";
 import testImage from "../img/content_img.png";
+import CommentCard from "./CommentCard";
 
 import image1 from "../img/content/1cafe.PNG";
 import image2 from "../img/content/2food.PNG";
@@ -23,12 +24,10 @@ import FormLabel from "@material-ui/core/FormLabel";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import LinearProgress from "@material-ui/core/LinearProgress";
-import Card from "@material-ui/core/Card";
-import CardActions from "@material-ui/core/CardActions";
-import CardContent from "@material-ui/core/CardContent";
-import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 
+///// css /////
+//댓글 및 버튼 css
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -51,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
-
+//프로그래스 바 css
 const BorderLinearProgress = withStyles((theme) => ({
   root: {
     height: 10,
@@ -67,48 +66,56 @@ const BorderLinearProgress = withStyles((theme) => ({
   },
 }))(LinearProgress);
 
+///// VotePage 전체 ////////////////////////////////////////////////////
+/* 기본 params - url요청 : getVoted, getVotes, getFirst, getCommentRequest
+              - store저장된 items : items, first, userId
+   useParams  - nam(voteID)
+   useState   - voted, comment, commented
+
+*//////////////////////////////////////////////////////////////////////
 function VotePage({
+  getVoted,
   getVotes,
+  getFirst,
+  getCommentRequest,
+  deleteComment,
   loading,
   items,
-  userID,
-  registerCommentRequest,
+  first,
+  userId,
 }) {
   useEffect(() => {
+    getFirst(nam, userId)
     getVotes(nam);
   }, []);
 
-  const [select, setSelect] = useState();
-  const [voted, setVoted] = useState(false);
-  let contName;
-
+  //states
   const { nam } = useParams();
-
-  const onChange = ({ target }) => {
-    setSelect(select);
-    target.name = target.value;
-    contName = target.value;
-  };
-  console.log(items[0]);
-  // let items_2 = JSON.stringify(items)
-  // console.log(items_2)
-  // let items_3 = JSON.parse(items_2)
-  // console.log(items_3)
-
+  const [voted, setVoted] = useState(false);
+  const [comment, setComment] = useState("");
+  const [commented, setCommented] = useState(false);
+  let contName;
+  let sid;
+  let indexx = 0;
+  //votePage관련 변수
   let voteID = [];
   let voteTitle = [];
   let voteRegDate = [];
   let voteHits = [];
+  //contents 관련 변수
   let selecID = [];
   let selecContent = [];
   let selecHits = [];
-
-  //댓글 변수들
+  //댓글 변수
   let commentContent = [];
+  let commentNickName = [];
   let commentID = [];
   let commentUserID = [];
-
-  //데이터 받기
+  //console test
+  console.log(items)
+  /////// Data loading /////////////////////////////////////
+  //items을 변수에 담는 과정
+  //items를 바로 사용할 수 없는 현상때문에 옮겨 담음
   const voteItems = loading ? (
     <div>is loading...</div>
   ) : (
@@ -116,37 +123,38 @@ function VotePage({
       <div key={item.voteID} style={{ visibility: "hidden" }}>
         {
           (selecContent.push(item.selecContent),
-          selecID.push(item.selecID),
-          selecHits.push(item.selecHits),
-          voteID.push(item.voteID),
-          voteTitle.push(item.voteTitle),
-          voteRegDate.push(item.voteRegDate),
-          voteHits.push(item.voteHits),
-          commentContent.push(item.commentContent),
-          commentID.push(item.commentID),
-          commentUserID.push(item.userID))
+            selecID.push(item.selecID),
+            selecHits.push(item.selecHits),
+            voteID.push(item.voteID),
+            voteTitle.push(item.voteTitle),
+            voteRegDate.push(item.voteRegDate),
+            voteHits.push(item.voteHits),
+            commentContent.push(item.commentContent),
+            commentNickName.push(item.nickName),
+            commentID.push(item.commentID),
+            commentUserID.push(item.userID))
         }
       </div>
     ))
   );
-
-  const selcContent = selecContent.filter(
-    (selecContent) => selecContent !== undefined
-  );
+  /////// 데이터 처리 ///////////////////////////////
+  //contents관련
+  const selcContent = selecContent.filter((selecContent) => selecContent !== undefined);
+  selcContent.shift();
   const selcHits = selecHits.filter((selecHits) => selecHits !== undefined);
-  console.log(selcContent);
   selcHits.shift();
-
-  console.log();
+  const selcId = selecID.filter((selecID) => selecID !== undefined);
+  selcId.shift();
+  //comment관련
   for (var i = 0; i < selcHits.length + 1; i++) {
     commentContent.shift();
+    commentNickName.shift();
     commentID.shift();
     commentUserID.shift();
   }
-  console.log(commentID);
 
-  //파라미터
-
+  /////// 이미지 임시 저장 ////////////////////////////
+  //이미지 저장과 호출이 가능하게 변경해야 함
   let images = new Image();
 
   if (nam == 1) {
@@ -166,10 +174,39 @@ function VotePage({
   } else {
     images = testImage;
   }
-  console.log(images);
 
-  const selectContent = selcContent.shift();
-  // 투표화면 상단
+  ///// 이벤트 //////////////////////////////////////
+  //contents 선택
+  const handleCheck = ({ target }) => {
+    indexx = target.name;
+    sid = selcId[indexx];
+  };
+  //투표 버튼 클릭
+  const handleSet = (e) => {
+    getVoted(nam, sid, userId);
+    setVoted(true);
+  };
+  //comment 어떤거 선택했는지
+  const onChange = ({ target }) => {
+    target.name = target.value;
+    contName = target.value;
+  };
+  //comment 입력
+  const handleChange = (e) => {
+    setComment(e.target.value);
+  };
+  //comment 버튼 클릭
+  const handleRegister = (e) => {
+    getCommentRequest(comment, nam, userId);
+  };
+  // 댓글 삭제 
+  const handleDeleteComment = (data) => {
+    deleteComment(nam, data);
+    
+    };
+
+  /////// 화면 구성 /////////////////////////////////////////////////////////////////////////
+  ///// votepage 상단 /////
   function VoteTop() {
     return (
       <div className="VotePage">
@@ -184,72 +221,33 @@ function VotePage({
       </div>
     );
   }
-  let indexx = 0;
-  const handleCheck = (e) => {
-    console.log(e.target.key);
-    indexx = e.target.key;
-  };
-  //Contents에 관한 부분
+
+  ///// Contents /////
+  //투표 안한사람 화면
   function contentList() {
-    let P = [];
-    // for (let i = 1; i < selecContent.length; i++) {
-    //   P.push((selecHits[i] / voteHits[0]) * 100);
-    //   P[i] = P[i].toFixed(2);
-    // }
     return (
       <FormControl component="fieldset">
         <FormLabel component="legend"></FormLabel>
         <RadioGroup
           aria-label="select"
           name="select"
-          value={select}
           onChange={(e) => onChange(e)}
         >
           {selcContent.map((item, index) => (
             <FormControlLabel
-              key={index}
+              name={index}
               value={item}
               control={<Radio />}
-              //             onClick={() => handleCheck()}
+              onClick={(e) => handleCheck(e)}
               label={item}
             ></FormControlLabel>
-          ))}
+          ))
+          }
         </RadioGroup>
       </FormControl>
     );
   }
 
-  function yesContentList() {
-    let P = [];
-    let sum = 0;
-    for (let i = 0; i < selcHits.length; i++) {
-      sum += selcHits[i];
-    }
-    for (let i = 0; i < selcHits.length; i++) {
-      P.push((selcHits[i] / sum) * 100);
-      P[i] = P[i].toFixed(1);
-    }
-    console.log(selecHits);
-    return (
-      <div>
-        {selcHits.map((item, index) => (
-          <div key={index} style={{ display: "block" }}>
-            <>
-              {selcContent[index] +
-                " (" +
-                selcHits[index] +
-                "명) " +
-                P[index] +
-                "%"}
-            </>
-            <BorderLinearProgress variant="determinate" value={P[index]} />
-          </div>
-        ))}
-      </div>
-    );
-  }
-
-  //투표 안한사람 화면
   function notVote() {
     return (
       <div>
@@ -269,6 +267,37 @@ function VotePage({
   }
 
   //투표 한사람 화면
+
+  function yesContentList() {
+    let P = [];
+    let sum = 0;
+    for (let i = 0; i < selcHits.length; i++) {
+      sum += selcHits[i];
+    }
+    for (let i = 0; i < selcHits.length; i++) {
+      P.push((selcHits[i] / sum) * 100);
+      P[i] = P[i].toFixed(1);
+    }
+
+    return (
+      <div>
+        {selcHits.map((item, index) => (
+          <div key={index} style={{ display: "block" }}>
+            <>
+              {selcContent[index] +
+                " (" +
+                selcHits[index] +
+                "명) " +
+                P[index] +
+                "%"}
+            </>
+            <BorderLinearProgress variant="determinate" value={P[index]} />
+          </div>
+        ))}
+      </div>
+    );
+  }
+
   function yesVote() {
     return (
       <div>
@@ -277,90 +306,31 @@ function VotePage({
     );
   }
 
-  // 댓글 등록
-  const [comment, setComment] = useState("");
-
-  const handleChange = (e) => {
-    setComment(e.target.value);
-  };
-
-  const handleRegister = (e) => {
-    let body = {
-      userID: userID,
-      commentContent: comment,
-      voteID: voteID[0],
-    };
-
-    registerCommentRequest(body).then(() => {
-      // push해줌
-    });
-    // comment 등록하면 빈칸으로
-  };
-
-  // 댓글 삭제
-  const handelDeleteComment = (e) => {
-    let body = {
-      userID: userID,
-      //댓글 번호?
-      //contentTitle: contentTitle,
-    };
-  };
-
-  const handleSet = (e) => {
-    let body = {
-      voteID: voteID[0],
-      selecContent: contName,
-      userID: userID,
-    };
-
-    setVotesRequest(body);
-    setVoted(true);
-  };
-
-  // 댓글 가져오기
-  function getComment() {
-    return (
-      <Grid container spacing={1}>
-        {commentID.map((item, index) => (
-          <Card className={useStyles.root}>
-            <CardContent>
-              <Typography
-                className={useStyles.title}
-                color="textSecondary"
-                gutterBottom
-              >
-                {commentUserID[index]}
-              </Typography>
-              <Typography variant="body2" component="p">
-                {commentContent[index]}
-              </Typography>
-            </CardContent>
-            <CardActions>
-              <Button size="small">Delete</Button>
-            </CardActions>
-          </Card>
-        ))}
-      </Grid>
-    );
+  //투표 화면 최종본
+  function Votefinal() {
+    if (first == 1 || voted) {
+      return (
+        <div>
+          {yesVote()}
+        </div>
+      )
+    }
+    else {
+      return (
+        <div>
+          {notVote()}
+        </div>
+      )
+    }
   }
-
-  return (
-    <div className="VotePage">
-      <RBS.Container>
-        <RBS.Row>
-          <RBS.Col>
-            <VoteTop></VoteTop>
-          </RBS.Col>
-          <RBS.Col></RBS.Col>
-        </RBS.Row>
-      </RBS.Container>
-      {voted ? yesVote() : notVote()}
-
+  ///// Comment /////
+  function InputComment() {
+    return (
       <div>
         <form className={useStyles.root}>
           <TextField
             id="standard-full-width"
-            label="userID"
+            label="userId"
             style={{ margin: 8 }}
             placeholder="댓글을 입력하세요."
             fullWidth
@@ -380,16 +350,56 @@ function VotePage({
           </Button>
         </form>
       </div>
-      <div>{getComment()}</div>
-      <div class="votes">{voteItems}</div>
-    </div>
+    )
+  }
+  function getComment() {
+    return (
+      <Grid container spacing={1}>
+        {commentID.map((item, index) => (
+          <div key={index}>
+            {item}
+            <CommentCard
+              commentNickName={commentNickName[index]}
+              commentContent={commentContent[index]}
+              commentID={commentID[index]}
+              userId={userId}
+              commentUserID={commentUserID[index]}
+              deleteComment={handleDeleteComment} />
+          </div>
+        ))}
+      </Grid>
+    );
+  }
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  return (
+    <div className="VotePage">
+
+      <RBS.Container>
+        <RBS.Row>
+          <RBS.Col>
+            <VoteTop></VoteTop>
+            <Votefinal></Votefinal>
+            <InputComment></InputComment>
+            <div>{commented ? getComment() : getComment()}</div>{/* 삼항연산없이 getComment써도 그냥 뜰거 같은데 확인해보자 */}
+          </RBS.Col>
+          <RBS.Col>
+            <></>
+          </RBS.Col>
+        </RBS.Row>
+      </RBS.Container>
+
+      <div class="votes">{voteItems}</div> {/* 이부분이 없을때 어떻게 되는지 확인필요 */}
+
+    </div >
   );
-}
+};
+
 const mapStateToProps = (state) => {
   console.log(state);
   return {
-    userID: state.authentication.status.currentUser,
+    userId: state.authentication.status.currentUser,
     items: state.votes.get.items,
+    first: state.votes.get.first,
   };
 };
 
@@ -398,12 +408,18 @@ const mapDispatchToProps = (dispatch) => {
     getVotes: (nam) => {
       return dispatch(getVotes(nam));
     },
-    registerCommentRequest: (body) => {
-      return dispatch(registerCommentRequest(body));
+    getVoted: (nam, sid, userId) => {
+      return dispatch(getVoted(nam, sid, userId));
     },
-    setVotesRequest: (body) => {
-      return dispatch(setVotesRequest(body));
+    getCommentRequest: (comment, nam, userId) => {
+      return dispatch(getCommentRequest(comment, nam, userId));
     },
-  };
+    getFirst: (nam, userId) => {
+      return dispatch(getFirst(nam, userId));
+    },
+    deleteComment: (nam, data) => {
+      return dispatch(deleteComment(nam, data))
+    }
+  };  
 };
 export default connect(mapStateToProps, mapDispatchToProps)(VotePage);

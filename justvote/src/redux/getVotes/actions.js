@@ -3,14 +3,23 @@ import {
   GET_VOTES_FAILURE,
   GET_VOTES_REQUEST,
   GET_VOTES_SUCCESS,
+  GET_VOTED_FAILURE,
+  GET_VOTED_REQUEST,
+  GET_VOTED_SUCCESS,
+  GET_COMMENT,
+  GET_COMMENT_FAILURE,
+  GET_COMMENT_SUCCESS,
   REGISTER_COMMENT,
   REGISTER_COMMENT_SUCCESS,
   REGISTER_COMMENT_FAILURE,
-  DELETE_COMMENT,
-  SET_VOTES,
-  SET_VOTES_FAILURE,
-  SET_VOTES_SUCCESS,
+  GET_FIRST_REQUEST,
+  GET_FIRST_FAILURE,
+  GET_FIRST_SUCCESS,
+  DELETE_COMMENT_REQUEST,
+  DELETE_COMMENT_SUCCESS,
+  DELETE_COMMENT_FAILURE,
 } from "./types";
+
 
 // 화면 구성요소 GET
 export function getVotesSuccess(votes) {
@@ -53,83 +62,177 @@ export function getVotes(nam) {
   //     .catch((error) => dispatch(getVotesFailure(error)));
   // };
 }
-
-// 화면 구성요소 SET
-export function setVotesRequest(body) {
+// 투표된 목록 불러오기
+export function getVotedSuccess(votes) {
+  return {
+    type: GET_VOTED_SUCCESS,
+    votes,
+  };
+}
+export function getVotedFailure(error) {
+  return {
+    type: GET_VOTED_FAILURE,
+    payload: error,
+  };
+}
+export function getVotedREQUEST() {
+  return {
+    type: GET_VOTED_REQUEST,
+  };
+}
+export function getVoted(nam, sid, userId) {
   return (dispatch) => {
-    dispatch(setVotes());
-
+    dispatch(getVotedREQUEST());
     return axios
-      .post("http://localhost:8080/setVote", body)
-      .then((response) => dispatch(setVotesSuccess()))
-      .catch((error) => dispatch(setVotesFailure()));
-  };
-}
-export function setVotesSuccess() {
-  return {
-    type: SET_VOTES_SUCCESS,
-  };
-}
-export function setVotesFailure() {
-  return {
-    type: SET_VOTES_FAILURE,
-  };
-}
-export function setVotes() {
-  return {
-    type: SET_VOTES,
-  };
-}
-
-// 댓글 등록 기능
-export function registerCommentRequest(body) {
-  return (dispatch) => {
-    dispatch(registerComment());
-
-    console.log(body);
-    return axios
-      .post("http://localhost:8080/registerComment", body)
-      .then((response) => {
-        dispatch(registerCommentSuccess());
+      .get("http://localhost:8080/voteCount", {
+        params: {
+          voteID: nam,
+          selecID: sid,
+          userID: userId,
+        },
       })
-      .catch((error) => {
-        dispatch(registerCommentFailure());
-      });
-  };
-}
-
-export function registerComment() {
-  return {
-    type: REGISTER_COMMENT,
-  };
-}
-
-export function registerCommentSuccess() {
-  return {
-    type: REGISTER_COMMENT_SUCCESS,
-  };
-}
-
-export function registerCommentFailure() {
-  return {
-    type: REGISTER_COMMENT_FAILURE,
-  };
-}
-
-// 댓글 삭제 기능
-export function deleteCommentRequest(body) {
-  return (dispatch) => {
-    console.log(body);
-    return axios
-      .post("http://localhost:8080/deleteComment", body)
       .then((response) => {
-        dispatch(deleteComment());
-      });
+        dispatch(getVotedSuccess(response.data));
+      })
+      .catch((error) => dispatch(getVotedFailure(error)));
+  };
+}
+// 댓글 등록 기능
+// export function registerCommentRequest(body) {
+//   return (dispatch) => {
+//     dispatch(registerComment());
+
+//     return axios
+//       .post("http://localhost:8080/registerComment", body)
+//       .then((response) => {
+//         dispatch(registerCommentSuccess());
+//       })
+//       .catch((error) => {
+//         dispatch(registerCommentFailure());
+//       });
+//   };
+// }
+
+// export function registerComment() {
+//   return {
+//     type: REGISTER_COMMENT,
+//   };
+// }
+
+// export function registerCommentSuccess() {
+//   return {
+//     type: REGISTER_COMMENT_SUCCESS,
+//   };
+// }
+
+// export function registerCommentFailure() {
+//   return {
+//     type: REGISTER_COMMENT_FAILURE,
+//   };
+// }
+// 댓글 입력 및 불러오기
+export function getCommentRequest(comment, nam, userId) {
+  return (dispatch) => {
+    dispatch(getComment());
+    return axios
+      .get("http://localhost:8080/showComment", {
+        params: {
+          commentContent: comment,
+          voteID: nam,
+          userID: userId,
+        },
+      })
+      .then((response) => {
+        dispatch(getCommentSuccess(response.data));
+      })
+      .catch((error) => dispatch(getCommentFailure(error)));
+  };
+}
+export function getComment() {
+  return {
+    type: GET_COMMENT,
   };
 }
 
-export function deleteComment() {
+export function getCommentSuccess(votes) {
   return {
-    type: DELETE_COMMENT,
+
+    type: GET_COMMENT_SUCCESS,
+    votes,
+  };
+}
+
+export function getCommentFailure() {
+  return {
+    type: GET_COMMENT_FAILURE,
+  };
+}
+//투표했는지 확인
+export function getFirstSuccess(voted) {
+  return {
+    type: GET_FIRST_SUCCESS,
+    voted,
+  };
+}
+export function getFirstFailure(error) {
+  return {
+    type: GET_FIRST_FAILURE,
+    payload: error,
+  };
+}
+export function getFirstRequest() {
+  return {
+    type: GET_FIRST_REQUEST,
+  };
+}
+export function getFirst(nam, userId) {
+  return (dispatch) => {
+    dispatch(getFirstRequest());
+    return axios
+      .get("http://localhost:8080/contentVoted", {
+        params: {
+          voteID: nam,
+          userID: userId,
+        },
+      })
+      .then((response) => {
+        dispatch(getFirstSuccess(response.data));
+      })
+      .catch((error) => dispatch(getFirstFailure(error)));
+  };
+}
+// 댓글 삭제 기능
+export function deleteCommentRequest() {
+  return {
+    type: DELETE_COMMENT_REQUEST,
+  };
+}
+export function deleteCommentSuccess(commentID) {
+  return {
+    type: DELETE_COMMENT_SUCCESS,
+    commentID
+  };
+}
+export function deleteCommentFailure(error) {
+  return {
+    type: DELETE_COMMENT_FAILURE,
+    payload: error,
+  };
+}
+export function deleteComment(nam, commentID) {
+
+  return (dispatch) => {
+    dispatch(deleteCommentRequest());
+    return axios
+      .get("http://localhost:8080/deleteComment", {
+        params: {
+          voteID: nam,
+          commentID: commentID,
+        },
+      })
+      .then((response) => {
+        dispatch(deleteCommentSuccess(response.data));
+      })
+      .catch((error) => dispatch(getCommentFailure(error)));
   };
 }

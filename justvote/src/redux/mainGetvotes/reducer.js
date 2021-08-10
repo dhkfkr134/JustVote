@@ -124,6 +124,33 @@ export default function getMain(state = initialState, action) {
           status: "FAILURE",
         },
       };
+    case types.GET_MAIN_SEARCH_SUCCESS:
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          valid: true,
+          loading: false,
+          voteContents: action.contents,
+        },
+      };
+    case types.GET_MAIN_SEARCH_FAILURE:
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          loading: false,
+          valid: false,
+        },
+      };
+    case types.GET_MAIN_SEARCH_REQUEST:
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          loading: true,
+        },
+      };
     default:
       return state;
   }

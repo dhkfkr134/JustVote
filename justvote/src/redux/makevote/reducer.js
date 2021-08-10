@@ -56,21 +56,3 @@ export default function vote(state = initialState, action) {
       return state;
   }
 }
-
-// export const votes = (state = [], action) => {
-//     switch(action.type) {
-//         case SET_VOTES:
-//             return action.votes;
-//         default:
-//             return state;
-//     }
-// };
-
-// export const currentVote = (state = {}, action) => {
-//     switch (action.type) {
-//         case SET_CURRENT_VOTES:
-//             return action.vote;
-//         default:
-//             return state;
-//     }
-// }
