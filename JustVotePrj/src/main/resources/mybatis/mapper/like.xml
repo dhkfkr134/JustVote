@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.justvote.dao.ILikeDao">
+	<select id="checkDao" resultType="com.justvote.dto.LikeDto">
+		select userID from user where
+		userID = #{_userID}
+	</select>
+
+	<select id="checkLikeDao" resultType="com.justvote.dto.LikeDto">
+		select * from `like` where userID = #{_userID} order by voteID
+
+	</select>
+
+
+
+
+
+	<update id="insertLikeDao">
+		update `like` set TF = 1 WHERE userID = #{_userID} and
+		voteID = #{_voteID}
+	</update>
+	<update id="disLikeDao">
+		update `like` set TF = 0 WHERE userID = #{_userID} and
+		voteID = #{_voteID}
+	</update>
+	<insert id="makeLikeDao">
+	insert into `like`(userID,voteID,TF) values 
+<foreach collection="list" item="item" separator=",">
+	(#{item},#{_voteID}, '0')
+	</foreach>
+	</insert>
+	<insert id="makeLikeDao2">
+	insert into `like`(userID,voteID,TF) values 
+<foreach collection="list" item="item" separator=",">
+	(#{_userID},#{item}, '0')
+	</foreach>
+	</insert>
+
+
+</mapper>
