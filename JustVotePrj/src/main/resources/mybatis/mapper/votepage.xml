@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.justvote.dao.IVotePageDao">
+
+
+	<select id="testDao" resultType="com.justvote.dto.VotePageDto">
+		select voteTitle from votepage
+		where voteID = #{_voteID}
+	</select>
+
+	<select id="listDao" resultType="com.justvote.dto.VotePageDto">
+		select * from votepage order by
+		id
+	</select>
+	
+	
+	<!-- Main페이지에게 DB리스트 전체를 보내주는 쿼리문 -->
+	<select id="voteGetListDao" resultType="com.justvote.dto.VotePageDto">
+		select * from votepage order by voteID
+	</select>
+	
+	<!-- Main페이지에서 카테고리 선택시 보내줄 DB 쿼리문 -->
+	<select id="voteGetCategoryDao" resultType="com.justvote.dto.VotePageDto">
+		select * from votepage where category = #{_category} order by voteID
+	</select>
+	
+	<!--  Main화면에서 패턴 받아서 띄워주기 위한 쿼리문 -->
+	<select id="voteGetSearchDao" resultType="com.justvote.dto.VotePageDto">
+		select * from votepage where voteTitle like CONCAT('%', #{_search}, '%')
+	</select>
+	
+	<!-- GetMapping에서 사용할 두가지 쿼리문 -->
+	<select id="voteGetDao" resultType="com.justvote.dto.VotePageDto">
+		select * from votepage where voteID = #{_index}
+	</select>
+	<select id="selecGetDao" resultType="com.justvote.dto.VotePageDto">
+		select * from voteselection where voteID = #{_index}
+	</select>
+
+	
+	<!-- votePage에서 content를 selection 했을 때 hit수 증가 -->
+	<update id="voteContentCount">
+		update voteselection
+		set selecHits = selecHits+1
+		where voteID = #{_voteID} and selecID = #{_selecID}
+	</update>
+	
+	
+	<!-- 투표화면 만들기 위한 쿼리문 3개 -->
+	<insert id="registVotePageDao">
+		insert into votepage(voteTitle, userID, category) values(#{_voteTitle}, #{_userID}, #{_category});
+	</insert>
+	
+	<select id="regestVotePageIDReturnDao" resultType="String">
+		select voteID from votepage ORDER BY voteRegDate DESC limit 1;
+	</select>
+	
+	<insert id="registVoteContentDao">
+			insert into voteselection(voteID, selecContent) values
+			<foreach collection="list" item="item" separator="," index="index">
+				(#{_voteID},
+				#{item}
+				)
+			
+			</foreach>
+	</insert>
+	<update id="countDao">
+		update votepage set `like` = `like`+1 WHERE voteID = #{_voteID}
+	</update>
+	<update id="countDao2">
+		update votepage set `like` = `like`-1 WHERE voteID = #{_voteID}
+	</update>
+	  <select id="voteIDList" resultType="String">
+      select voteID from votePage 
+   </select>
+</mapper>
