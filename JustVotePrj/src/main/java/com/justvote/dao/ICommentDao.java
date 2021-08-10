@@ -10,12 +10,10 @@ import com.justvote.dto.CommentDto;
 @Mapper
 public interface ICommentDao {
 	public List<CommentDto> listDao();
+	
+	public void writeDao(String comment);
+	
+	public int delete(@Param("_commentNum") String commentNum);
 
-	public void writeDao(@Param("_commentContent") String commentContent, @Param("_voteID") int voteID,
-			@Param("_nickName") String nickName, @Param("_userID") String userID);
-
-	public int deleteDao(@Param("_commentID") int commentID);
-
-	public List<CommentDto> listDao2(@Param("_voteID") int voteID);
 
 }

@@ -1,13 +1,13 @@
 plugins {
-	id 'org.springframework.boot' version '2.5.2'
+	id 'org.springframework.boot' version '2.4.5'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
 	id 'war'
 }
 
-group = 'com.justvote'
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
+group = 'com.study'
+version = '1.0'
+sourceCompatibility = '1.8'
 
 configurations {
 	compileOnly {
@@ -22,14 +22,14 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.0'
+	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.4'
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'mysql:mysql-connector-java'
 	annotationProcessor 'org.projectlombok:lombok'
 	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	implementation 'commons-io:commons-io:2.6'
-	implementation fileTree(dir:'libs', include:['*.jar'])
+
+	
 }
 
 test {

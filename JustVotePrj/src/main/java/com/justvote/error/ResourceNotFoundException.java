@@ -1,4 +1,3 @@
-
 package com.justvote.error;
 
 public class ResourceNotFoundException extends RuntimeException {

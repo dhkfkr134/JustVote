@@ -3,39 +3,37 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.justvote.dao.IRegisterDao">
-   <!-- 회원가입 -->
-   <insert id="registerDao">
-      insert into user(userName,sex,age,major,grade,nickName,userID,userPass)
-      values
-      (#{param1},#{param2},#{param3},#{param4},#{param5},#{param6},#{param7},#{param8})
-    </insert>
+<mapper namespace="com.justvote.dao.IRegisterDao" >
+<!-- 회원가입 -->
+<insert id="registerDao">
+ insert into user2(userName,sex,age,major,grade,nickName,userId,userPass) 
+values (#{param1},#{param2},#{param3},#{param4},#{param5},#{param6},#{param7},#{param8}) 
 
-   <!-- 로그인 -->
-   <select id="loginDao" resultType="String">
-      select userID,userPass from user where userID = #{_userID} and userPass =
-      #{_userPass}
+</insert>
 
-   </select>
-   <select id="check" resultType="int">
-      select count(*) from user where userID = #{_userID}
+<!-- 로그인 -->
+<select id="loginDao" resultType="String">
+select userId,userPass from user2 where userId = #{_userId} and userPass = #{_userPass}  
 
-   </select>
+</select> 
+<select id="check" resultType="com.justvote.dto.RegisterDto" parameterType="String">
+select userId from user2 where userId = #{userId}
 
-<!-- 유저의 닉네임 가져오기 -->
-	<select id="getUserNickNameDao" resultType="String">
-		select nickName from user where userID = #{_userID}
-	</select>
-  
+</select>
 
-   <select id="contentDao"
-      resultType="com.justvote.dto.RegisterDto">
-      select content from test where id = 1
 
-   </select>
-   <select id="userIDList" resultType="String">
-      select userID from user 
-   </select>
-   
+<!-- 조회수 높은 순 가져오기 -->
+<select id="hitView" resultType="String">
+select * from test5 order by hit desc
+
+</select>
+
+<select id="contentDao" resultType="com.justvote.dto.RegisterDto" >
+select content from test where id = 1
+
+</select>
 
 </mapper>
+
+
+
