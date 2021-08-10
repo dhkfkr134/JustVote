@@ -12,6 +12,7 @@ import InputLabel from "@material-ui/core/InputLabel";
 // import { CreateVotes } from '../redux/makevote/actions';
 import { makeStyles } from "@material-ui/core/styles";
 import MyDropzone from "./MyDropzone";
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,7 +26,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 class CreateVote extends Component {
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {
+  //     selectedFile : null,
+  //   }
+  // }
   state = {
+    selectedFile: null,
     voteTitle: "",
     voteContents: [""],
     category: "",
@@ -80,7 +88,29 @@ class CreateVote extends Component {
     // this.props.CreateVotes(this.state);
   };
 
+  handleFileInput(e){
+    this.setState({
+      selectedFile: e.target.files[0],
+    })
+  }
 
+  handlePostImg() {
+    const formData = new FormData();
+    formData.append('file', this.state.selectedFile);
+    console.log(formData);
+    console.log(this.state.selectedFile);
+    const config = {
+      headers: {
+        'content-type' : 'multipart/form-data'
+      }
+    }
+    return axios
+    .post("http://localhost:8080/test", formData, config)
+    .then(response => {
+      console.log(response.data);
+    }).catch(err => {
+    })
+  }
   submitImg = (e) => {
     e.preventDefault();
 
@@ -165,11 +195,15 @@ class CreateVote extends Component {
               항목 추가
             </button>
           </div>
+          <div>
+            <input type="file" name="file" onChange={e => this.handleFileInput(e)}/>
+            <button type="button" onClick={this.handlePostImg()}/>
+          </div>
           <div className="subcontainer">
             <button className="button" onClick={this.handleSubmit}>
               투표 만들기
             </button>
-            <MyDropzone />
+            <MyDropzone/>
           </div>
         </div>
       </div>

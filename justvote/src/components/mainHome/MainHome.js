@@ -9,7 +9,7 @@ import {
   getLikeRequest,
 } from "../../redux";
 import Subbar from "../Subbar";
-import MediaCard from "./MediaCard";
+import MediaCard from "../MediaCard";
 
 // material import
 import { makeStyles } from "@material-ui/core/styles";

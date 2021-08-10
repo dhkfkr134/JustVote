@@ -13,15 +13,15 @@ import IconButton from "@material-ui/core/IconButton";
 import ShareIcon from "@material-ui/icons/Share";
 import { Link } from "react-router-dom";
 
-import testImage from "../../img/content_img.png";
+import testImage from "../img/content_img.png";
 
-import image1 from "../../img/content/1cafe.PNG";
-import image2 from "../../img/content/2food.PNG";
-import image3 from "../../img/content/3notebook.PNG";
-import image4 from "../../img/content/4phone.PNG";
-import image5 from "../../img/content/5popsong.PNG";
-import image6 from "../../img/content/6stage.PNG";
-import image7 from "../../img/content/7dog.png";
+import image1 from "../img/content/1cafe.PNG";
+import image2 from "../img/content/2food.PNG";
+import image3 from "../img/content/3notebook.PNG";
+import image4 from "../img/content/4phone.PNG";
+import image5 from "../img/content/5popsong.PNG";
+import image6 from "../img/content/6stage.PNG";
+import image7 from "../img/content/7dog.png";
 
 import PropTypes from "prop-types";
 
