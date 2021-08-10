@@ -15,18 +15,19 @@ public interface IVotePageDao {
 // 투표 종류 띄워주기
 	// Main화면 띄워주기 위한 DAO
 	public List<VotePageDto> voteGetListDao(); // 투표 페이지 Get보내기
-	
 	// Main화면에서 카테고리 선택시 띄워주기 위한 DAO
 	public List<VotePageDto> voteGetCategoryDao(@Param("_category")String category);
+	// Main화면에서 패턴 받아서 띄워주기 위한 DAO
+	public List<VotePageDto> voteGetSearchDao(@Param("_search")String search);
 	
 // 투표 내용 띄워주기
 	// 투표화면 선택했을 때위한 DAO
-	public VotePageDto voteGetDao(@Param("_index")String voteID); // 투표 페이지 Get보내기
-	public List<VotePageDto> selecGetDao(String index); // 투표 페이지 Get보내기
+	public VotePageDto voteGetDao(@Param("_index")int voteID); // 투표 페이지 Get보내기
+	public List<VotePageDto> selecGetDao(int index); // 투표 페이지 Get보내기
 	public int getVoteID();
 	
 	// TEST// 투표 content를 선택하고 Hit수 증가하는 DAO
-	public void voteContentCount(@Param("_voteID")String voteID, @Param("_selecID")String selecID);
+	public void voteContentCount(@Param("_voteID")int voteID, @Param("_selecID")String selecID);
 	
 	// makevote위한 DAO
 	public void registVotePageDao(@Param("_voteTitle")String voteTitle, @Param("_userID")String userID, @Param("_category")String category);
@@ -40,11 +41,13 @@ public interface IVotePageDao {
 	//여기는 다른 테이블인데 안된다면 다른 DAO에 두고 할 것
 	public void registeSelecDao(@Param("_voteID_FK")int voteID, @Param("_selecContent")String selecContent); // 항목 추가하는 쿼리
 	
+	
+	
 	// TEST
 	public void testDao(@Param("_voteID")int voteID); // 테스트 
 	public List<VotePageDto> listDao();
-	
 	public List<Map<String, String>> test2Dao();
+
 
 	
 

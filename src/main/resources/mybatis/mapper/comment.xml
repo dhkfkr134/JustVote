@@ -11,12 +11,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select> -->
 
 	<insert id="writeDao">
-		insert into comment(userID, voteID, commentContent) values 
-		(#{_userID}, #{_voteID}, #{_commentContent})
+		insert into comment(userID, voteID, nickName, commentContent) values 
+		(#{_userID}, #{_voteID}, #{_nickName}, #{_commentContent})
 	</insert>
 
 	<delete id="deleteDao">
-		delete from test3 where commentNum = #{_commentNum}
+		delete from comment where commentID = #{_commentID}
 	</delete>
 
 

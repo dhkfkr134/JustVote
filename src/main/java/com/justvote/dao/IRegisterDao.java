@@ -27,5 +27,7 @@ public interface IRegisterDao {
 	public void contentDao(String id);
 	
 	public void getUserIdDao();
+	
+	public String getUserNickNameDao(@Param("_userID") String userID);
 
 }

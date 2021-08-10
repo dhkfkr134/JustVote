@@ -27,6 +27,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from votepage where category = #{_category}
 	</select>
 	
+	<!--  Main화면에서 패턴 받아서 띄워주기 위한 쿼리문 -->
+	<select id="voteGetSearchDao" resultType="com.justvote.dto.VotePageDto">
+		select * from votepage where voteTitle like CONCAT('%', #{_search}, '%')
+	</select>
+	
+	
 	<!-- GetMapping에서 사용할 두가지 쿼리문 -->
 	<select id="voteGetDao" resultType="com.justvote.dto.VotePageDto">
 		select * from votepage where voteID = #{_index}

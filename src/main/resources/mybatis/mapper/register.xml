@@ -22,8 +22,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select userID from user where userID = #{userID}
 
 	</select>
-
-
+	
+	<!-- 유저의 닉네임 가져오기 -->
+	<select id="getUserNickNameDao" resultType="String">
+		select nickName from user where userID = #{_userID}
+	</select>
+		
 	<!-- 조회수 높은 순 가져오기 -->
 	<select id="hitView" resultType="String">
 		select * from test5 order by hit desc

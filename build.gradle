@@ -30,6 +30,8 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation 'javax.servlet:jstl'
 	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
+	implementation fileTree(dir: 'libs', include: ['*.jar'])
+	implementation group: 'commons-io', name: 'commons-io', version: '2.11.0'
 }
 
 test {

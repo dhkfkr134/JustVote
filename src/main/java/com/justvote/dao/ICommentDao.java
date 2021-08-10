@@ -11,12 +11,14 @@ import com.justvote.dto.CommentDto;
 public interface ICommentDao {
 	public List<CommentDto> listDao();
 	
+	// µ°±€ µÓ∑œ
 	public void writeDao(@Param("_commentContent")String commentContent,
-			@Param("_voteID")String voteID, @Param("_userID")String userID);
+			@Param("_voteID")int voteID, @Param("_nickName")String nickName, @Param("_userID")String userID);
 	
-	public int delete(@Param("_commentNum") String commentNum);
+	// µ°±€ ªË¡¶
+	public int deleteDao(@Param("_commentID") int commentID);
 	
-	public List<CommentDto> listDao2(@Param("_voteID")String voteID);
+	public List<CommentDto> listDao2(@Param("_voteID")int voteID);
 
 
 }
