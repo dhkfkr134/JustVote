@@ -6,44 +6,19 @@ import {
   getStatusRequest,
   logoutRequest,
 } from "../../redux/authentication/actions";
+import {
+  getMainSearch,
+} from "../../redux";
 
 class Header extends Component {
   componentDidMount() {
     //컴포넌트 렌더링이 맨 처음 완료된 이후에 바로 세션확인
-    // get cookie by name
-    console.log("header-cookie : " + document.cookie);
-    function getCookie(name) {
-      var value = "; " + document.cookie;
-      var parts = value.split("; " + name + "=");
-      if (parts.length == 2) return parts.pop().split(";").shift();
-    }
 
-    // get loginData from cookie
-    let loginData = getCookie("key");
-
-    // if loginData is undefined, do nothing
-    if (typeof loginData === "undefined") return;
-
-    // decode base64 & parse json
-    loginData = JSON.parse(atob(loginData));
-    console.log(loginData);
-    // if not logged in, do nothing
-    if (!loginData.isLoggedIn) return;
-
-    // page refreshed & has a session in cookie,
     // check whether this cookie is valid or not
     this.props.getStatusRequest().then(() => {
       // if session is not valid
       console.log(this.props.status.valid);
       if (!this.props.status.valid) {
-        // logout the session
-        loginData = {
-          isLoggedIn: false,
-          userId: "",
-        };
-
-        document.cookie = "key=" + btoa(JSON.stringify(loginData));
-
         // and notify
         //let $toastContent = $();
         //'<span style="color: #FFB4BA">Your session is expired, please log in again</span>'
@@ -66,6 +41,11 @@ class Header extends Component {
     });
   };
 
+  handleSearch = (search) => {
+    this.props.getMainSearch(search)
+
+  }
+
   render() {
     /* Check whether current route is login or register using regex */
 
@@ -82,6 +62,7 @@ class Header extends Component {
           <TopBar
             isLoggedIn={this.props.status.isLoggedIn}
             onLogout={this.handleLogout}
+            handleSearch={this.handleSearch}
           />
         </div>
       </div>
@@ -90,10 +71,6 @@ class Header extends Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log(
-    "state.authentication.status.isLoggedIn" +
-      state.authentication.status.isLoggedIn
-  );
   return {
     status: state.authentication.status,
   };
@@ -101,6 +78,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    getMainSearch: (search) => {
+      return dispatch(getMainSearch(search));
+    },
     getStatusRequest: () => {
       return dispatch(getStatusRequest());
     },

@@ -26,9 +26,16 @@ const useStyles = makeStyles({
     },
 });
 
+
+
 export default function CommentCard(comment) {
     const classes = useStyles();
-
+    let canDelete = false;
+    if (comment.commentUserID == comment.userId)
+        canDelete = true;
+    const sendCommentId = () => {
+        comment.deleteComment(comment.commentID)
+    }
     return (
         <Card className={classes.root} variant="outlined">
             <CardContent>
@@ -40,7 +47,10 @@ export default function CommentCard(comment) {
                 </Typography>
             </CardContent>
             <CardActions>
-                <Button size="small" variant="outlined">x</Button>
+                {canDelete?(
+                     <Button size="small" variant="outlined" onClick={sendCommentId} index={comment.commentID}>x</Button>
+                ): null}
+                
             </CardActions>
         </Card>
     );
