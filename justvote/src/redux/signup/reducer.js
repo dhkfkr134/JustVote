@@ -8,6 +8,9 @@ const initialState = {
   duplicate: {
     status: "INIT",
   },
+  duplicateNickname: {
+    status: "INIT",
+  },
 };
 
 export default function register(state = initialState, action) {
@@ -36,7 +39,7 @@ export default function register(state = initialState, action) {
         },
       };
 
-    /* DUPLICATE CHECK */
+    /* DUPLICATE CHECK USER_ID */
     case types.DUPLICATE:
       return {
         ...state,
@@ -55,6 +58,29 @@ export default function register(state = initialState, action) {
       return {
         ...state,
         duplicate: {
+          status: "UNABLE",
+        },
+      };
+
+    /* DUPLICATE CHECK NICKNAME */
+    case types.DUPLICATE_NICKNAME:
+      return {
+        ...state,
+        duplicateNickname: {
+          status: "WAITING",
+        },
+      };
+    case types.DUPLICATE_NICKNAME_NOT:
+      return {
+        ...state,
+        duplicateNickname: {
+          status: "ABLE",
+        },
+      };
+    case types.DUPLICATE_NICKNAME_YES:
+      return {
+        ...state,
+        duplicateNickname: {
           status: "UNABLE",
         },
       };

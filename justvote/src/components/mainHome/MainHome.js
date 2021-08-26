@@ -7,6 +7,7 @@ import {
   pushLikeBtRequest,
   pushDislikeBtRequest,
   getLikeRequest,
+  getVoteDeleted,
 } from "../../redux";
 import Subbar from "../Subbar";
 import MediaCard from "../MediaCard";
@@ -32,6 +33,7 @@ function MainHome({
   getLikeRequest,
   pushLikeBtRequest,
   pushDislikeBtRequest,
+  getVoteDeleted,
   contentList,
   checkGetMain,
   userID,
@@ -49,6 +51,7 @@ function MainHome({
   let makerID = [];
   let count = 0;
   let like = [];
+  const [created, setCreated] = useState(false);
 
   useEffect(() => {
     getLikeRequest(category);
@@ -56,6 +59,7 @@ function MainHome({
   }, []);
 
   const { category } = useParams();
+  
 
   //데이터 받기
   const contentItems = loading ? (
@@ -74,8 +78,13 @@ function MainHome({
       </div>
     ))
   );
+  const handleDeleteVote = (VID) => {
+     getVoteDeleted(VID);
+     console.log(VID);
+   }
 
   console.log(userID);
+  console.log(makerID);
   // 데이터 받기
   const getLikeItems = loading ? (
     <div>is loading...</div>
@@ -86,7 +95,7 @@ function MainHome({
       </div>
     ))
   );
-
+    
   // Like 버튼을 눌렀을 때
   function handlePushLikeBt(body) {
     pushLikeBtRequest(body).then(() => {
@@ -120,6 +129,7 @@ function MainHome({
               like={content.like}
               handlePushLikeBt={handlePushLikeBt}
               handlePushDislikeBt={handlePushDislikeBt}
+              deleteVote = {handleDeleteVote}
             ></MediaCard>
           </Grid>
         ))}
@@ -154,6 +164,9 @@ const mapDispatchToProps = (dispatch) => {
     pushDislikeBtRequest: (body) => {
       return dispatch(pushDislikeBtRequest(body));
     },
+    getVoteDeleted: (nam) => {
+      return dispatch(getVoteDeleted(nam));
+    }
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(MainHome);

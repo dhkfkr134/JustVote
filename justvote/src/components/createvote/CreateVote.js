@@ -88,35 +88,35 @@ class CreateVote extends Component {
     // this.props.CreateVotes(this.state);
   };
 
-  handleFileInput(e){
-    this.setState({
-      selectedFile: e.target.files[0],
-    })
-  }
+  // handleFileInput(e){
+  //   this.setState({
+  //     selectedFile: e.target.files[0],
+  //   })
+  // }
 
-  handlePostImg() {
-    const formData = new FormData();
-    formData.append('file', this.state.selectedFile);
-    console.log(formData[0]);
-    console.log(this.state.selectedFile);
-    const config = {
-      headers: {
-        'content-type' : 'multipart/form-data'
-      }
-    }
-    return axios
-    .post("http://localhost:8080/test", formData, config)
-    .then(response => {
-      console.log(response.data);
-    }).catch(err => {
-      console.log('안나와 씌이벌~');
-    })
-  }
-  submitImg = (e) => {
-    e.preventDefault();
+  // handlePostImg() {
+  //   const formData = new FormData();
+  //   formData.append('file', this.state.selectedFile);
+  //   console.log(formData[0]);
+  //   console.log(this.state.selectedFile);
+  //   const config = {
+  //     headers: {
+  //       'content-type' : 'multipart/form-data'
+  //     }
+  //   }
+  //   return axios
+  //   .post("http://localhost:8080/test", formData, config)
+  //   .then(response => {
+  //     console.log(response.data);
+  //   }).catch(err => {
+  //     console.log('안나와 씌이벌~');
+  //   })
+  // }
+  // submitImg = (e) => {
+  //   e.preventDefault();
 
-    console.log(FileReader);
-  };
+  //   console.log(FileReader);
+  // };
 
   render() {
     const voteContents = this.state.voteContents.map((content, i) => (
@@ -196,10 +196,10 @@ class CreateVote extends Component {
               항목 추가
             </button>
           </div>
-          <div>
+          {/* <div>
             <input type="file" name="file" onChange={e => this.handleFileInput(e)}/>
             <button type="button" onClick={this.handlePostImg()}/>
-          </div>
+          </div> */}
           <div className="subcontainer">
             <button className="button" onClick={this.handleSubmit}>
               투표 만들기

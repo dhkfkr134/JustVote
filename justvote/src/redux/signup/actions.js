@@ -6,9 +6,12 @@ import {
   DUPLICATE,
   DUPLICATE_NOT,
   DUPLICATE_YES,
+  DUPLICATE_NICKNAME,
+  DUPLICATE_NICKNAME_NOT,
+  DUPLICATE_NICKNAME_YES,
 } from "./types";
 
-/* DUPLICATE */
+/* DUPLICATE USER ID */
 
 export function duplicateCheckRequest(userID) {
   return (dispatch) => {
@@ -43,6 +46,43 @@ export function duplicateNot() {
 export function duplicateYes() {
   return {
     type: DUPLICATE_YES,
+  };
+}
+
+/* DUPLICATE NICKNAME */
+
+export function duplicateCheckNicknameRequest(nickName) {
+  return (dispatch) => {
+    dispatch(duplicateNicknameCheck());
+
+    return axios
+      .post("http://localhost:8080/nickNameCheck", nickName)
+      .then((response) => {
+        // useable this Nickname
+        dispatch(duplicateNicknameNot());
+      })
+      .catch((error) => {
+        // request change Nickname
+        dispatch(duplicateNicknameYes());
+      });
+  };
+}
+
+export function duplicateNicknameCheck() {
+  return {
+    type: DUPLICATE_NICKNAME,
+  };
+}
+
+export function duplicateNicknameNot() {
+  return {
+    type: DUPLICATE_NICKNAME_NOT,
+  };
+}
+
+export function duplicateNicknameYes() {
+  return {
+    type: DUPLICATE_NICKNAME_YES,
   };
 }
 

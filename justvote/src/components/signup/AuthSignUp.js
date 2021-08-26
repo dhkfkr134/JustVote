@@ -97,6 +97,11 @@ class AuthSignUp extends Component {
     this.setState({ grade: e.target.value });
   };
 
+  toastCheckNickname_Able = () => toast("사용 가능한 닉네임입니다.");
+  toastCheckNickname_Unable = () => toast.error("다른 닉네임을 사용해주세요.");
+  toastCheckNickname_NotCheck = () =>
+    toast.error("닉네임 사용가능 여부를 확인해주세요.");
+
   toastCheckID_Able = () => toast("사용 가능한 아이디입니다.");
   toastCheckID_Unable = () => toast.error("다른 아이디를 사용해주세요.");
   toastRegister_NotEnoughInfo = () => toast.error("모든 항목을 입력하세요.");
@@ -116,7 +121,6 @@ class AuthSignUp extends Component {
       this.state.major === "" ||
       this.state.grade === "" ||
       this.state.nickName === "" ||
-      this.state.nickName === "" ||
       this.state.userID === "" ||
       this.state.userPass === ""
     ) {
@@ -124,7 +128,11 @@ class AuthSignUp extends Component {
       return false;
     }
 
-    console.log(this.props.statusID);
+    if (this.props.statusNickname !== "ABLE") {
+      this.toastCheckNickname_NotCheck();
+      return false;
+    }
+
     if (this.props.statusID !== "ABLE") {
       this.toastCheckID_NotCheckID();
       return false;
@@ -141,10 +149,7 @@ class AuthSignUp extends Component {
       userPass: this.state.userPass,
     };
 
-    console.log(body);
-
     this.props.onRegister(body).then((success) => {
-      console.log("Auth Sign Up");
       if (!success) {
         //실패하면 아이디 재입력 받음
         this.toastRegister_Failure();
@@ -179,6 +184,25 @@ class AuthSignUp extends Component {
     });
   };
 
+  handleCheckNickname = (e) => {
+    e.preventDefault();
+
+    let body = {
+      nickName: this.state.nickName,
+    };
+    console.log(body);
+
+    this.props.onCheckNickname(body).then((success) => {
+      if (!success) {
+        //실패하면 닉네임 사용불가능 띄워줌.
+        this.toastCheckNickname_Unable();
+      } else {
+        // 성공하면 닉네임 사용가능 메시지 출력
+        this.toastCheckNickname_Able();
+      }
+    });
+  };
+
   render() {
     return (
       <div>
@@ -196,7 +220,7 @@ class AuthSignUp extends Component {
             </Typography>
             <form className={useStyles.form} noValidate>
               <Grid container spacing={2}>
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={12}>
                   <TextField
                     autoComplete="userName"
                     name="userName"
@@ -210,7 +234,7 @@ class AuthSignUp extends Component {
                     value={this.state.userName}
                   />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={8}>
                   <TextField
                     autoComplete="nickName"
                     name="nickName"
@@ -223,6 +247,18 @@ class AuthSignUp extends Component {
                     onChange={this.onChange}
                     value={this.state.nickName}
                   />
+                </Grid>
+                <Grid item xs={4}>
+                  <Button
+                    type="nickNameCheck"
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    className={useStyles.submit}
+                    onClick={this.handleCheckNickname}
+                  >
+                    NickName Check
+                  </Button>
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <FormControl component="fieldset">
@@ -247,6 +283,7 @@ class AuthSignUp extends Component {
                     </RadioGroup>
                   </FormControl>
                 </Grid>
+
                 <Grid item xs={12} sm={6}>
                   <TextField
                     autoComplete="age"
@@ -302,7 +339,7 @@ class AuthSignUp extends Component {
                     </Select>
                   </FormControl>
                 </Grid>
-                <Grid item xs={9}>
+                <Grid item xs={8}>
                   <TextField
                     variant="outlined"
                     required
@@ -316,7 +353,7 @@ class AuthSignUp extends Component {
                     value={this.state.userID}
                   />
                 </Grid>
-                <Grid item xs={3}>
+                <Grid item xs={4}>
                   <Button
                     type="check"
                     fullWidth
@@ -325,7 +362,7 @@ class AuthSignUp extends Component {
                     className={useStyles.submit}
                     onClick={this.handleCheckID}
                   >
-                    Check
+                    ID Check
                   </Button>
                 </Grid>
                 <Grid item xs={12}>
@@ -388,6 +425,7 @@ class AuthSignUp extends Component {
 AuthSignUp.propTypes = {
   onRegister: PropTypes.func,
   onCheckID: PropTypes.func,
+  onCheckNickname: PropTypes.func,
 };
 
 AuthSignUp.defaultProps = {

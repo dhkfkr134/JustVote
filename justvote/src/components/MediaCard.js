@@ -24,6 +24,7 @@ import image6 from "../img/content/6stage.PNG";
 import image7 from "../img/content/7dog.png";
 
 import PropTypes from "prop-types";
+import { deleteComment } from "../redux";
 
 console.log(image1.type);
 const useStyles = makeStyles({
@@ -47,8 +48,14 @@ function MediaCard({
   isLikeContent,
   handlePushLikeBt,
   handlePushDislikeBt,
+  deleteVote
 }) {
+
   const classes = useStyles();
+  let canDeleteVote = false;
+  if (makerID == userID) {
+    canDeleteVote = true;
+  }
 
   console.log(voteID);
   console.log(userID);
@@ -88,6 +95,10 @@ function MediaCard({
 
     handlePushDislikeBt(body);
   };
+
+  const deleteV = () => {
+    deleteVote(voteID)
+  }
 
   let checkCurrentUser = 0;
 
@@ -165,6 +176,9 @@ function MediaCard({
           ) : (
             <div>{likeBT}</div>
           )}
+          {canDeleteVote?(
+                     <Button size="small" variant="outlined" onClick={deleteV} index={voteID}>x</Button>
+                ): null}
         </div>
         <IconButton aria-label="share">
           <ShareIcon />

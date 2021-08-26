@@ -12,7 +12,12 @@ import {
   PUSH_DISLIKE_BT_FAILURE,
   PUSH_DISLIKE_BT_SUCCESS,
   PUSH_DISLIKE_BT,
-  GET_MAIN_SEARCH_FAILURE, GET_MAIN_SEARCH_REQUEST, GET_MAIN_SEARCH_SUCCESS
+  GET_MAIN_SEARCH_FAILURE,
+  GET_MAIN_SEARCH_REQUEST,
+  GET_MAIN_SEARCH_SUCCESS,
+  GET_VOTE_DELETED,
+  GET_VOTE_DELETED_SUCCESS,
+  GET_VOTE_DELETED_FAILURE
 } from "./types";
 
 // 화면 구성요소 GET
@@ -211,5 +216,46 @@ export function getMainSearchSuccess(contents) {
 export function getMainSearchFailure() {
   return {
     type: GET_MAIN_SEARCH_FAILURE,
+  };
+}
+
+export function getVoteDeleted(nam) {
+  return (dispatch) => {
+    // inform Get Status API is starting
+    dispatch(getVoteDeleteRequest());
+    console.log(nam)
+
+    return axios
+      .get("http://localhost:8080/deleteVote", {
+        params: {
+          voteID: nam
+        },
+      })
+      .then((response) => {
+        dispatch(getVoteDeleteSuccess(response.data));
+        console.log(response.data);
+      })
+      .catch((error) => {
+        dispatch(getVoteDeleteFailure());
+      });
+  };
+}
+
+export function getVoteDeleteRequest() {
+  return {
+    type: GET_VOTE_DELETED,
+  };
+}
+
+export function getVoteDeleteSuccess(contents) {
+  return {
+    type: GET_VOTE_DELETED_SUCCESS,
+    contents,
+  };
+}
+
+export function getVoteDeleteFailure() {
+  return {
+    type: GET_VOTE_DELETED_FAILURE,
   };
 }

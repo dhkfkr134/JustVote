@@ -112,6 +112,7 @@ function VotePage({
   let commentID = [];
   let commentUserID = [];
   //console test
+  let commentexam = "";
   console.log(items)
   /////// Data loading /////////////////////////////////////
   //items을 변수에 담는 과정
@@ -192,8 +193,9 @@ function VotePage({
     contName = target.value;
   };
   //comment 입력
-  const handleChange = (e) => {
-    setComment(e.target.value);
+  const handleChange = ({target}) => {
+    target.name = target.value;
+    setComment(commentexam);
   };
   //comment 버튼 클릭
   const handleRegister = (e) => {
@@ -202,7 +204,6 @@ function VotePage({
   // 댓글 삭제 
   const handleDeleteComment = (data) => {
     deleteComment(nam, data);
-    
     };
 
   /////// 화면 구성 /////////////////////////////////////////////////////////////////////////
@@ -330,6 +331,7 @@ function VotePage({
         <form className={useStyles.root}>
           <TextField
             id="standard-full-width"
+            name="commentexam"
             label="userId"
             style={{ margin: 8 }}
             placeholder="댓글을 입력하세요."
@@ -338,7 +340,9 @@ function VotePage({
             InputLabelProps={{
               shrink: true,
             }}
-            onChange={handleChange}
+            autofocus
+            value={comment}
+            onChange={(e) => handleChange(e)}
           />
           <Button
             variant="contained"

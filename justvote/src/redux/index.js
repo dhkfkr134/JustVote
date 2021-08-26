@@ -11,6 +11,7 @@ export {
 export {
   getMainSearch,
   getMainRequest,
+  getVoteDeleted,
   getLikeRequest,
   pushLikeBtRequest,
   pushDislikeBtRequest,

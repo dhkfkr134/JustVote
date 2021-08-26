@@ -151,6 +151,35 @@ export default function getMain(state = initialState, action) {
           loading: true,
         },
       };
+    case types.GET_VOTE_DELETED:
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          loading: true,
+        },
+      };
+    case types.GET_VOTE_DELETED_SUCCESS:
+      console.log("울지마 바보야");
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          valid: true,
+          loading: false,
+          voteContents: action.contents,
+        },
+      };
+    case types.GET_VOTE_DELETED_FAILURE:
+      console.log("울어 시발아");
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          loading: false,
+          valid: false,
+        },
+      };
     default:
       return state;
   }
