@@ -25,4 +25,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from comment where voteID = #{_voteID}
 	</select>
 
+	<delete id="delete">
+		delete from comment where voteID = #{_voteID}
+	</delete>
 </mapper>

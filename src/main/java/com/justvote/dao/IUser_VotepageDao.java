@@ -14,4 +14,8 @@ public interface IUser_VotepageDao {
 	
 	// voteCount로 투표 했을 때 0 -> 1
 	public void voteVoted(@Param("_userID") String userID, @Param("_voteID") int voteID);
+
+	// votepage 삭제시에 먼제 실행될 삭제쿼리
+	public void delete(@Param("_voteID") int voteID);
+
 }

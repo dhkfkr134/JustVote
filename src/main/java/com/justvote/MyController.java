@@ -93,14 +93,6 @@ public class MyController {
 
 	@GetMapping("/getInfo")
 	public Object getInfo() {
-		/*
-		 * //dao.check(checkDto.getUserId()); String userId =
-		 * req.getParameter("userId"); HttpSession session =req.getSession();
-		 * session.setAttribute("userId",userId); System.out.println(userId); session =
-		 * dao.check(checkDto.getUserId());
-		 * 
-		 * System.out.println(dao.check(checkDto.getUserId()));
-		 */
 		System.out.println("postman 받기 /getInfo");
 		Object a = loginId.getAttribute("userId");
 
@@ -174,11 +166,21 @@ public class MyController {
 		return list;
 	}
 	
-	@PostMapping("/deleteVote") // delete
-	public String deleteVote(@RequestBody VotePageDto votePageDto) {
-		dao2.deleteVoteDao(votePageDto.getVoteID());
+	@GetMapping("/deleteVote") // delete
+	public List<VotePageDto> deleteVote(@RequestParam int voteID) {
+		
+		List<VotePageDto> list = new ArrayList<>();
 
-		return votePageDto.toString();
+			dao3.delete(voteID);
+			dao1.delete(voteID);
+			dao2.deleteSelection(voteID);
+			dao2.deleteVoteDao(voteID);
+		
+		
+		list = dao2.voteGetListDao();
+		return list;
+			
+
 	}
 
 	@PostMapping("/registeSelecDao") // 문항 추가
@@ -195,32 +197,6 @@ public class MyController {
 		return votePageDto.toString();
 	}
 
-	// Main페이지 Get요청 보내주기
-
-	/*
-	 * @GetMapping("/main") public List<VotePageDto> mainPageGet(HttpServletRequest
-	 * request) {
-	 * 
-	 * // return 해줄 List List<VotePageDto> list = new ArrayList<>();
-	 * 
-	 * // votePage와 selecList를 list에 넣어줄 것임 list = dao2.voteGetListDao();
-	 * System.out.println("Get) Main");
-	 * 
-	 * return list; }
-	 */
-	/*
-	 * // 카테고리 Get요청 보내주기
-	 * 
-	 * @GetMapping("/상의 후 설정") public List<VotePageDto>
-	 * categoryPageGet(@RequestParam String category) {
-	 * 
-	 * System.out.println("Get) Category"); List<VotePageDto> list = new
-	 * ArrayList<>();
-	 * 
-	 * list = dao2.voteGetCategoryDao(category);
-	 * 
-	 * return list; }
-	 */
 
 	// 동우 투표만들기
 	@PostMapping("/makeVote") // votepage(테이블) 만들기
@@ -237,7 +213,7 @@ public class MyController {
 		List<String> list = new ArrayList<>();
 		list = votePageDto.getSelecContentList();
 
-		String voteID = dao2.regestVotePageIDReturnDao();
+		int voteID = dao2.regestVotePageIDReturnDao();
 
 		dao2.registVoteContentDao(voteID, list);
 		System.out.println("makeVote");
@@ -281,10 +257,15 @@ public class MyController {
 		System.out.println("voteID : " + voteID + ", selecID : " + selecID + " voteCount 테스트 성공");
 		return list;
 	}
-
+	
 	// 투표 중복확인
 	@GetMapping("/contentVoted")
-	public int votepageGetVoted(@RequestParam int voteID, @RequestParam String userID) {
+	public int votepageGetVoted(@RequestParam int voteID) {
+		Object id = loginId.getAttribute("userId");
+		String userID = String.valueOf(id);
+		
+		System.out.println("testetsetsetestset : "+userID);
+		System.out.println(id + " id");
 		System.out.println("contentVoted 호출");
 		try {
 			int voted = dao3.checkVoted(userID, voteID); 
@@ -309,9 +290,8 @@ public class MyController {
 		
 		// return 해줄 List
 		List<Object> list = new ArrayList<>();
-		// int index = dao2.selecGetDao("3");
-		
-		// votePage와 selecList를 list에 넣어줄 것임
+	
+
 		VotePageDto votePage = dao2.voteGetDao(voteID);
 		List<VotePageDto> selecList = dao2.selecGetDao(voteID);
 		List<CommentDto> commentList = dao1.listDao2(voteID);
@@ -355,35 +335,5 @@ public class MyController {
 	//	System.out.println(list);
 		return list;
 	}
-
-//	@PostMapping("/test")
-//	public String uploadOk(HttpServletRequest request) {
-//		int size = 1024*1024*10;//10m	
-//		String file = "";
-//		String oriFile="";
-//		
-//		JSONObject obj = new JSONObject();
-//				try {
-//					String path = ResourceUtils.getFile("classpath:static/upload/").toPath().toString();
-//					
-//					MultipartRequest multi = new MultipartRequest(request, path,size,"UTF-8",new DefaultFileRenamePolicy());
-//					System.out.println("11111111");
-//					Enumeration files =multi.getFileNames();
-//					String str = (String)files.nextElement();
-//					
-//					file=multi.getFilesystemName(str);
-//				oriFile=multi.getOriginalFileName(str);
-//				obj.put("success", new Integer(1));
-//				obj.put("desc", "업로드 성공");
-//				
-//				}
-//				catch(Exception e)
-//				{
-//					e.printStackTrace();
-//					obj.put("success", new Integer(0));
-//					obj.put("desc", "업로드 실패");
-//				}
-//				return obj.toJSONString();
-//	}
 
 }

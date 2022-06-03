@@ -31,23 +31,25 @@ public interface IVotePageDao {
 	
 	// makevote위한 DAO
 	public void registVotePageDao(@Param("_voteTitle")String voteTitle, @Param("_userID")String userID, @Param("_category")String category);
-	public String regestVotePageIDReturnDao(); //등록 PAGEid받아오는 문
-	public void registVoteContentDao(@Param("_voteID")String voteID ,@Param("list")List<String> list);
+	public int regestVotePageIDReturnDao(); //등록 PAGEid받아오는 문
+	public void registVoteContentDao(@Param("_voteID")int voteID ,@Param("list")List<String> list);
 	
 	
 	// 나중에 끝나는 날짜를 추가해서 받아줘야 한다, 일단 DB에서 테이블을 바꿔서 ENDDATE를 DEFAULT 값으로 넣어야 할 수도 
-	public void registeVoteDao(String userID, String voteTitle, String voteContent, Date voteEndDate);
+//	public void registeVoteDao(String userID, String voteTitle, String voteContent, Date voteEndDate);
+	
+	// 투표 삭제하는 쿼리
+	public String deleteVoteIdCheck(@Param("_voteID")int voteID);
+	public int deleteSelection(@Param("_voteID") int voteID);
 	public int deleteVoteDao(@Param("_voteID")int voteID); // 투표를 삭제
+	
 	//여기는 다른 테이블인데 안된다면 다른 DAO에 두고 할 것
 	public void registeSelecDao(@Param("_voteID_FK")int voteID, @Param("_selecContent")String selecContent); // 항목 추가하는 쿼리
 	
 	
 	
-	// TEST
 	public void testDao(@Param("_voteID")int voteID); // 테스트 
-	public List<VotePageDto> listDao();
-	public List<Map<String, String>> test2Dao();
-
+	
 
 	
 

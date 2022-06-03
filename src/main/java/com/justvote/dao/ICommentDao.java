@@ -20,5 +20,7 @@ public interface ICommentDao {
 	
 	public List<CommentDto> listDao2(@Param("_voteID")int voteID);
 
+	// 투표 삭제위해서 실행될 쿼리
+	public void delete(@Param("_voteID") int voteID);
 
 }

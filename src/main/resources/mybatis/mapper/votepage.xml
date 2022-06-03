@@ -55,7 +55,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		insert into votepage(voteTitle, userID, category) values(#{_voteTitle}, #{_userID}, #{_category});
 	</insert>
 	
-	<select id="regestVotePageIDReturnDao" resultType="String">
+	<select id="regestVotePageIDReturnDao" resultType="Integer">
 		select voteID from votepage ORDER BY voteRegDate DESC limit 1;
 	</select>
 	
@@ -68,4 +68,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			
 			</foreach>
 	</insert>
+	
+	<!-- 투표 삭제하기 위한 쿼리문 3개 -->
+	<select id="deleteVoteIdCheck" resultType="String">
+		select userID from votepage where voteID= #{_voteID}
+	</select>
+	
+	<delete id="deleteSelection">
+		delete from voteselection where voteID = #{_voteID}
+	</delete>
+	
+	<delete id="deleteVoteDao">
+		delete from votepage where voteID = #{_voteID}
+	</delete>
 </mapper>
