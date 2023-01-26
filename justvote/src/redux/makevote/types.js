@@ -1,0 +1,3 @@
+export const VOTE_POST = "VOTE_POST";
+export const VOTE_POST_SUCCESS = "VOTE_POST_SUCCESS";
+export const VOTE_POST_FAILURE = "VOTE_POST_FAILURE";
